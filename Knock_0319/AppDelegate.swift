@@ -9,17 +9,130 @@
 import UIKit
 import CoreData
 
+
+
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, NSStreamDelegate{
 
     var window: UIWindow?
+    
+    var readStream: NSInputStream?
+    var writeStream: NSOutputStream?
+    let serverAdress = "192.168.1.108"
+    let serverPort = 8880
+    var flag: String = "inputMessage"
 
+   
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Open a new thread on background for socket
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+           
+            self.openSocketStream()
+        }
+        
         return true
     }
+    
+    
+    
+    //open socket
+    func openSocketStream() {
+        
+        
+        
+        
+        //put ip here
+        NSStream.getStreamsToHostWithName(serverAdress, port: serverPort, inputStream: &readStream, outputStream: &writeStream)
+        
+        //Set read/write delegates
+        readStream?.delegate = self
+        writeStream?.delegate = self
+        
+        //Set SSL
+        //readStream?.setProperty(NSStreamSocketSecurityLevelNegotiatedSSL, forKey: NSStreamSocketSecurityLevelKey)
+        //writeStream?.setProperty(NSStreamSocketSecurityLevelNegotiatedSSL, forKey: NSStreamSocketSecurityLevelKey)
+        
+        //Set streams into run loops
+        self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        
+        //Open Streams
+        self.readStream?.open()
+        self.writeStream?.open()
+        
+        
+    }
+    
+    //close socket
+    func closeSocketStream() {
+        readStream?.close()
+        readStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        readStream?.delegate = nil
+        
+        writeStream?.close()
+        writeStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        writeStream?.delegate = nil
+        
+        
+    }
+    
+    //set socket event
+    func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
+        
+        switch eventCode {
+        case NSStreamEvent.OpenCompleted:
+            NSLog("open complete")
+            
+        case NSStreamEvent.HasBytesAvailable:
+            //input stream
+            if aStream == readStream {
+                var buffer = [UInt8](count: 4096, repeatedValue: 0)
+                
+                    while readStream!.hasBytesAvailable {
+                        var len = readStream!.read(&buffer, maxLength: buffer.count)
+                        if(len > 0){
+                            var output = NSString(bytes: &buffer, length: buffer.count, encoding: NSUTF8StringEncoding)
+                            if (output != ""){
+                                NSLog("server said: %@", output!)
+                            }
+                        }
+                    } 
+                
+            }
+            
+        case NSStreamEvent.HasSpaceAvailable:
+            //output stream
+            if flag == "outputMessage" && aStream == writeStream {
+                
+                
+                
+            }
+            
+            
+        case NSStreamEvent.ErrorOccurred:
+            
+            NSLog("ERROR: %", aStream.streamError!.code)
+            
+            
+        case NSStreamEvent.EndEncountered:
+            NSLog("open complete")
+            
+        default:
+            NSLog("open complete")
+            
+            
+            
+        }
+    }
 
+    
+    
+    
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -28,6 +141,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+
+        
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -40,7 +156,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
     }
+    
+    
+        
+
+   
     
     // MARK: - Core Data stack
     

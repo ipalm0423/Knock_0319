@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreData
+import CoreFoundation
 
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, NSStreamDelegate {
     @IBOutlet weak var buttonCreate: UIButton!
     
     @IBOutlet weak var editRoomName: UITextField!
@@ -18,6 +19,10 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var addImage: UIImageView!
     
     var roominformation: Roominfo!
+    
+    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    
+    
 
     @IBAction func textFieldRetur(sender: AnyObject) {
         sender.resignFirstResponder()
@@ -30,6 +35,7 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,8 +45,9 @@ class SecondViewController: UIViewController {
     
     @IBAction func save() {
         
-        // Form validation
+        // Form violation reminder
         var errorField = ""
+        var roomNametemp = editRoomName.text
         
         if editRoomName.text == "" {
             errorField = "name"
@@ -57,17 +64,21 @@ class SecondViewController: UIViewController {
             return
         }
         
-        // If all fields are correctly filled in, extract the field value
-        // Create Restaurant Object and save to data store
+        self.sendNewRoom()
+        
+        editRoomName.text = ""
+        
+        //input coreData
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
             
             roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo",
                 inManagedObjectContext: managedObjectContext) as Roominfo
-            roominformation.roomName = editRoomName.text
+            roominformation.roomName = roomNametemp
             roominformation.image = UIImagePNGRepresentation(addImage.image)
             //roominformation.isTimeup = 0
             //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-            self.editRoomName.text = ""
+            
+            
             
             var e: NSError?
             if managedObjectContext.save(&e) != true {
@@ -75,9 +86,56 @@ class SecondViewController: UIViewController {
                 return
             }
         }
+            
+            
+        }
+    
+    
+    func send(message:JSON){
+        
+        
+        if  appDelegate.writeStream!.hasSpaceAvailable { //stream ready for input
+            //println("true hasSpaceAvailable")
+            var data:NSData
+            
+            var thisMessage = message.stringValue
+
+            data = thisMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+ 
+            
+            let bytesWritten = appDelegate.writeStream!.write(UnsafePointer<UInt8>(data.bytes), maxLength: data.length)
+            
+        }
         
         
     }
+        
+    func sendNewRoom() {
+
+        if  appDelegate.writeStream!.hasSpaceAvailable {
+
+            let message = "{\"method\": \"new\"}"
+            var data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            
+            
+            let bytesWritten = appDelegate.writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
+            
+        }
+
+        
+        }
+        
+    
+        // If all fields are correctly filled in, extract the field value
+        // Create Restaurant Object and save to data store
+        
+        
+        
+    
+    
+    
+    
+    
 
 
 }

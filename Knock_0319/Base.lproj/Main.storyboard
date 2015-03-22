@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="kQF-2f-AIF" customClass="RoomListTableViewCell" customModule="Knock_0319" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="kQF-2f-AIF" customClass="RoomListTableViewCell" customModule="Knock_0319" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kQF-2f-AIF" id="heR-9K-yjJ">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -43,6 +43,7 @@
                                 <connections>
                                     <outlet property="roomImage" destination="csq-sE-PAx" id="BFX-iu-QX0"/>
                                     <outlet property="roomName" destination="1yz-vL-aUU" id="9Ne-sc-3jw"/>
+                                    <segue destination="UAf-IV-hwB" kind="show" identifier="showChatRoom" id="Dgy-F0-2av"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -56,6 +57,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1K-NR-8I6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1522" y="-326"/>
+        </scene>
+        <!--Chat Room View Controller-->
+        <scene sceneID="3uk-7x-XBa">
+            <objects>
+                <viewController id="UAf-IV-hwB" customClass="ChatRoomViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HKu-da-aIc"/>
+                        <viewControllerLayoutGuide type="bottom" id="6iC-et-NHB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GIU-ZQ-eri">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C6R-5z-OSB">
+                                <rect key="frame" x="219" y="167" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhb-2o-Fud">
+                                <rect key="frame" x="244" y="255" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="irz-BM-Naw">
+                                <rect key="frame" x="244" y="106" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jve-CR-nLP"/>
+                    <connections>
+                        <outlet property="chattextLabel" destination="irz-BM-Naw" id="978-EI-vQA"/>
+                        <outlet property="sendButton" destination="uhb-2o-Fud" id="WEi-Ze-bjs"/>
+                        <outlet property="textEditBox" destination="C6R-5z-OSB" id="E9z-QC-wqX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mv1-S2-sJ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2366" y="-322"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">
