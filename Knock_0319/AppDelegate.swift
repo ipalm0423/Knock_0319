@@ -13,15 +13,11 @@ import CoreData
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, NSStreamDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
     var window: UIWindow?
     
-    var readStream: NSInputStream?
-    var writeStream: NSOutputStream?
-    let serverAdress = "192.168.1.108"
-    let serverPort = 8880
-    var flag: String = "inputMessage"
+    
 
    
 
@@ -29,107 +25,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NSStreamDelegate{
         // Override point for customization after application launch.
         
         //Open a new thread on background for socket
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-           
-            self.openSocketStream()
-        }
-        
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        SingletonC.sharedInstance.openSocketStreamSINGLE()
+        //})
+    
         return true
     }
     
     
     
-    //open socket
-    func openSocketStream() {
-        
-        
-        
-        
-        //put ip here
-        NSStream.getStreamsToHostWithName(serverAdress, port: serverPort, inputStream: &readStream, outputStream: &writeStream)
-        
-        //Set read/write delegates
-        readStream?.delegate = self
-        writeStream?.delegate = self
-        
-        //Set SSL
-        //readStream?.setProperty(NSStreamSocketSecurityLevelNegotiatedSSL, forKey: NSStreamSocketSecurityLevelKey)
-        //writeStream?.setProperty(NSStreamSocketSecurityLevelNegotiatedSSL, forKey: NSStreamSocketSecurityLevelKey)
-        
-        //Set streams into run loops
-        self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        
-        //Open Streams
-        self.readStream?.open()
-        self.writeStream?.open()
-        
-        
-    }
     
-    //close socket
-    func closeSocketStream() {
-        readStream?.close()
-        readStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        readStream?.delegate = nil
-        
-        writeStream?.close()
-        writeStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        writeStream?.delegate = nil
-        
-        
-    }
     
-    //set socket event
-    func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
-        
-        switch eventCode {
-        case NSStreamEvent.OpenCompleted:
-            NSLog("open complete")
-            
-        case NSStreamEvent.HasBytesAvailable:
-            //input stream
-            if aStream == readStream {
-                var buffer = [UInt8](count: 4096, repeatedValue: 0)
-                
-                    while readStream!.hasBytesAvailable {
-                        var len = readStream!.read(&buffer, maxLength: buffer.count)
-                        if(len > 0){
-                            var output = NSString(bytes: &buffer, length: buffer.count, encoding: NSUTF8StringEncoding)
-                            if (output != ""){
-                                NSLog("server said: %@", output!)
-                            }
-                        }
-                    } 
-                
-            }
-            
-        case NSStreamEvent.HasSpaceAvailable:
-            //output stream
-            if flag == "outputMessage" && aStream == writeStream {
-                
-                
-                
-            }
-            
-            
-        case NSStreamEvent.ErrorOccurred:
-            
-            NSLog("ERROR: %", aStream.streamError!.code)
-            
-            
-        case NSStreamEvent.EndEncountered:
-            NSLog("open complete")
-            
-        default:
-            NSLog("open complete")
-            
-            
-            
-        }
-    }
+    
 
-    
     
     
     

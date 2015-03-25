@@ -63,8 +63,8 @@
 		AC6A35201ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC6A351F1ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m */; };
 		AC6A35221ABC929C00AD1CC7 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A35211ABC929C00AD1CC7 /* ChatRoomViewController.swift */; };
 		AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A35231ABC955200AD1CC7 /* Network.swift */; };
-		AC6A352C1ABDFC8300AD1CC7 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A352B1ABDFC8300AD1CC7 /* Singleton.swift */; };
 		AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */; };
+		ACDF194D1AC30B4A00853851 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = ACDF194C1AC30B4A00853851 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,8 +183,9 @@
 		AC6A351F1ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
 		AC6A35211ABC929C00AD1CC7 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		AC6A35231ABC955200AD1CC7 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		AC6A352B1ABDFC8300AD1CC7 /* Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		ACDF194B1AC30B4500853851 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		ACDF194C1AC30B4A00853851 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,7 +249,6 @@
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
-				AC6A352B1ABDFC8300AD1CC7 /* Singleton.swift */,
 				AC6A34801ABC42E500AD1CC7 /* Roominfo.swift */,
 			);
 			name = "Supporting Files";
@@ -274,6 +274,7 @@
 		AC6A34891ABC7FA800AD1CC7 /* pod */ = {
 			isa = PBXGroup;
 			children = (
+				ACDF194A1AC30B1D00853851 /* HUD */,
 				AC6A351C1ABC89D000AD1CC7 /* JSQSystemSoundPlayer */,
 				AC6A34921ABC87DD00AD1CC7 /* JSQMessagesViewController */,
 			);
@@ -446,6 +447,15 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		ACDF194A1AC30B1D00853851 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				ACDF194C1AC30B4A00853851 /* MBProgressHUD.m */,
+				ACDF194B1AC30B4500853851 /* MBProgressHUD.h */,
+			);
+			name = HUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -560,6 +570,7 @@
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
 				AC6A350B1ABC87DD00AD1CC7 /* JSQMessagesCollectionView.m in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
+				ACDF194D1AC30B4A00853851 /* MBProgressHUD.m in Sources */,
 				AC6A35011ABC87DD00AD1CC7 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				AC6A34FD1ABC87DD00AD1CC7 /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
 				AC6A35111ABC87DD00AD1CC7 /* JSQMessagesComposerTextView.m in Sources */,
@@ -591,7 +602,6 @@
 				AC6A34FE1ABC87DD00AD1CC7 /* JSQMessagesTimestampFormatter.m in Sources */,
 				AC6A34F41ABC87DD00AD1CC7 /* UIColor+JSQMessages.m in Sources */,
 				AC6A350C1ABC87DD00AD1CC7 /* JSQMessagesCollectionViewCell.m in Sources */,
-				AC6A352C1ABDFC8300AD1CC7 /* Singleton.swift in Sources */,
 				AC6A350D1ABC87DD00AD1CC7 /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				AC6A35081ABC87DD00AD1CC7 /* JSQPhotoMediaItem.m in Sources */,
 				AC6A34F21ABC87DD00AD1CC7 /* NSBundle+JSQMessages.m in Sources */,
