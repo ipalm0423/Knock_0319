@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -113,40 +114,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="name" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="255" y="279" width="91" height="42"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D7Q-e0-auR">
+                                <rect key="frame" x="252" y="217" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="slW-BU-Dmb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldRetur:" destination="8rJ-Kc-sve" eventType="editingDidEndOnExit" id="R5H-ga-xhd"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-mW-BZF">
+                                <rect key="frame" x="268" y="157" width="65" height="30"/>
+                                <state key="normal" title="Create ID">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createID:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="nhx-j9-6H1"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera-50" translatesAutoresizingMaskIntoConstraints="NO" id="tqM-yz-2y9">
+                                <rect key="frame" x="253" y="92" width="94" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="tqM-yz-2y9" secondAttribute="height" multiplier="15:8" id="dHh-1R-nCZ"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Create room" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
+                                <rect key="frame" x="200" y="35" width="201" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VbQ-QW-6KS">
-                                <rect key="frame" x="252" y="174" width="97" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="textFieldRetur:" destination="8rJ-Kc-sve" eventType="editingDidEndOnExit" id="ujf-sj-ozE"/>
-                                </connections>
-                            </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Camera-50" translatesAutoresizingMaskIntoConstraints="NO" id="tqM-yz-2y9">
-                                <rect key="frame" x="180" y="12" width="240" height="128"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-mW-BZF">
-                                <rect key="frame" x="277" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-eQ-A7g">
+                                <rect key="frame" x="191" y="265" width="86" height="30"/>
+                                <state key="normal" title="Create room">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="send2:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="3qQ-YL-WlO"/>
+                                    <action selector="createRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="tcq-AZ-8KD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHw-L6-aXw">
+                                <rect key="frame" x="314" y="265" width="69" height="30"/>
+                                <state key="normal" title="Join room">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="joinRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="1AZ-zu-mIb"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="oLA-mW-BZF" secondAttribute="centerX" id="Adl-7I-P0F"/>
-                            <constraint firstAttribute="centerY" secondItem="oLA-mW-BZF" secondAttribute="centerY" id="lES-bg-8Lr"/>
-                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
+                            <constraint firstItem="tqM-yz-2y9" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="15" id="1rZ-T1-2oT"/>
+                            <constraint firstAttribute="centerX" secondItem="D7Q-e0-auR" secondAttribute="centerX" id="53h-M0-98i"/>
+                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="69s-dJ-xVt"/>
+                            <constraint firstItem="6HE-eQ-A7g" firstAttribute="top" secondItem="D7Q-e0-auR" secondAttribute="bottom" constant="18" id="6qC-6L-NMg"/>
+                            <constraint firstItem="oLA-mW-BZF" firstAttribute="top" secondItem="tqM-yz-2y9" secondAttribute="bottom" constant="15" id="Eqt-a8-QpM"/>
+                            <constraint firstItem="zEq-FU-wV5" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="15" id="WtP-hh-bTB"/>
+                            <constraint firstAttribute="centerX" secondItem="oLA-mW-BZF" secondAttribute="centerX" id="XsD-Az-vSd"/>
+                            <constraint firstAttribute="centerX" secondItem="VHw-L6-aXw" secondAttribute="centerX" constant="-48" id="Y6E-hv-jmh"/>
+                            <constraint firstItem="VHw-L6-aXw" firstAttribute="top" secondItem="D7Q-e0-auR" secondAttribute="bottom" constant="18" id="aY8-w6-cQs"/>
+                            <constraint firstAttribute="centerX" secondItem="tqM-yz-2y9" secondAttribute="centerX" id="cQD-KJ-Ghn"/>
+                            <constraint firstAttribute="centerX" secondItem="6HE-eQ-A7g" secondAttribute="centerX" constant="66" id="nyA-Av-4iT"/>
+                            <constraint firstItem="D7Q-e0-auR" firstAttribute="top" secondItem="oLA-mW-BZF" secondAttribute="bottom" constant="30" id="xXT-Td-3vR"/>
                         </constraints>
                         <connections>
                             <action selector="closeKeyboard:" destination="8rJ-Kc-sve" eventType="touchDown" id="HSI-ip-Pcp"/>
@@ -154,9 +187,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
                     <connections>
-                        <outlet property="addImage" destination="tqM-yz-2y9" id="GTd-Vb-TzL"/>
-                        <outlet property="buttonCreateRoom" destination="oLA-mW-BZF" id="DkQ-tH-HuF"/>
-                        <outlet property="editRoomName" destination="VbQ-QW-6KS" id="QQ6-lj-ZDM"/>
+                        <outlet property="addImage" destination="tqM-yz-2y9" id="uJv-42-GvV"/>
+                        <outlet property="buttonCreateRoom" destination="6HE-eQ-A7g" id="oCo-Tx-U5n"/>
+                        <outlet property="editRoomName" destination="D7Q-e0-auR" id="nTc-D0-H6Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>

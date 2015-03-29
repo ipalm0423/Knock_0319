@@ -11,7 +11,7 @@ import CoreFoundation
 import CoreData
 
 
-class SingletonC: NSObject, NSStreamDelegate {
+class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate {
     
     class var sharedInstance: SingletonC {
         struct Static {
@@ -24,12 +24,20 @@ class SingletonC: NSObject, NSStreamDelegate {
         return Static.instance!
     }
     
+    //socket parameter
     var readStream: NSInputStream?
     var writeStream: NSOutputStream?
     let serverAdress = "192.168.1.108"
-    let serverPort = 8880
+    let serverPort = 8887
     var flag: String = "inputMessage"
     var networkQueue: dispatch_queue_t?
+    
+    //user parameter
+    var uid: String = "1"
+    var fetchResultController:NSFetchedResultsController!
+    var user:[Userinfo] = []
+    
+    var chattext: String = ""
     
     //open socket
     func openSocketStreamSINGLE() {
@@ -60,6 +68,7 @@ class SingletonC: NSObject, NSStreamDelegate {
         //Open Streams
         self.readStream?.open()
         self.writeStream?.open()
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 15))
         
         })
         
@@ -106,39 +115,61 @@ class SingletonC: NSObject, NSStreamDelegate {
             
             
         case NSStreamEvent.EndEncountered:
-            self.closeSocketStreamSINGLE()
+            flag = "inputMessage"
             
         default:
-            self.closeSocketStreamSINGLE()
+            flag = "inputMessage"
             
             
             
         }
     }
     
-    func send(message:JSON){
+    func send(message:NSString) -> Bool {
         
-        
-        if  let write = writeStream?.hasSpaceAvailable { //stream ready for input
-            //println("true hasSpaceAvailable")
-            var data:NSData
-            
-            var thisMessage = message.stringValue
-            
-            
-            data = thisMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-            
-            
-            
-            let bytesWritten = writeStream?.write(UnsafePointer<UInt8>(data.bytes), maxLength: data.length)
-            return
+        var bool = false
+
+        while !writeStream!.hasSpaceAvailable {
             
         }
         
+        if writeStream!.hasSpaceAvailable {
+            
+            var data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            var len1 = data!.length
+            var len2: [UInt8] = intUsingEncodetoByte(len1)
+            let headwrite = writeStream!.write(UnsafePointer<UInt8>(len2), maxLength: 2)
+            let bytesWritten = writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
+            bool = true
+        }
+        return bool
         
     }
     
-    func sendNewRoom() -> Bool {
+    func createNewRoom(roomName: String) -> Bool {
+        //待修改房間名稱
+        var message = "{\"method\": \"newroom\", \"id\": \(uid), \"roomname\": \"myFirstRoom\", \"alivetime\": 1000}"
+        
+        return send(message)
+        
+    }
+    
+    func joinRoom(roomNumber: String) -> Bool {
+        
+        let message = "{\"method\": \"join\", \"id\": \(uid), \"roomid\": \(roomNumber)}"
+        
+        
+        return send(message)
+        
+    }
+    
+    func createID() -> Bool {
+        
+        var bool = false
+        
+        while !writeStream!.hasSpaceAvailable {
+            
+        }
         
         if writeStream!.hasSpaceAvailable {
             var message = "{\"method\": \"new\"}"
@@ -147,39 +178,55 @@ class SingletonC: NSObject, NSStreamDelegate {
             var len2: [UInt8] = intUsingEncodetoByte(len1)
             let headwrite = writeStream!.write(UnsafePointer<UInt8>(len2), maxLength: 2)
             let bytesWritten = writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
-            return true
+            bool = true
             
-            
-            
-        }else{
-            return false
         }
         
-        
+        return bool
         
     }
     
-    
-    func getServerData() -> NSString? {
-        if readStream!.hasBytesAvailable {
+    //get data from inputstream and cut the data
+    func getServerData() -> NSData? {
+        while !readStream!.hasBytesAvailable{
             
-            var buffer = [UInt8](count: 4096, repeatedValue: 0)
+        }
+ 
+            var buffer = [UInt8](count: 65536, repeatedValue: 0)
             
             while readStream!.hasBytesAvailable {
                 var len = readStream!.read(&buffer, maxLength: buffer.count)
                 if(len > 0){
-                    var output = NSString(bytes: &buffer, length: buffer.count, encoding: NSUTF8StringEncoding)
-                    if (output != ""){
-                        return output!
+                    let data = NSData(bytes: &buffer, length: buffer.count)
+                    
+                    if (data != ""){
+
+                        //head number
+                        var headbyte: [UInt8] = [0x00, 0x00]
+                        data.getBytes(&headbyte, range: NSMakeRange(0, 2))
+                        
+                        //head.getBytes(&headbyte)
+                        var length: Int = 0
+                        var p0 = Int(headbyte[0]), p1 = Int(headbyte[1])
+                        if p0 != 0 {
+                            length = p0 * p1
+                        }else{
+                            length = p1
+                        }
+
+                        //cut byte
+                        let cutdata = data.subdataWithRange(NSMakeRange(2, length))
+
+                        return cutdata
                     }
                 }
             }
             
-        }
+        
         return nil
     }
     
-    
+    //socket protocol
     func intUsingEncodetoByte(number: Int) -> [UInt8] {
         let byte1 = UInt8((number / 256))
         let byte2 = UInt8(number)
@@ -189,6 +236,27 @@ class SingletonC: NSObject, NSStreamDelegate {
         return byte
     }
     
+    
+    //load user information from CoreData to Singleton
+    func loadUserInfo() {
+        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+        let sortDescription = NSSortDescriptor(key: "uid", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescription]
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            var e:NSError?
+            var result = fetchResultController.performFetch(&e)
+            user = fetchResultController.fetchedObjects as [Userinfo]
+            let count = user.count - 1
+            self.uid = user[count].uid
+            if result != true {
+                println(e?.localizedDescription)
+            }
+            
+        }
+    }
+
     
     
 }

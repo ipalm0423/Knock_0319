@@ -4,7 +4,12 @@
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="roomName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Userinformation" representedClassName="Knock_0319.Userinfo" syncable="YES">
+        <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="73"/>
     </elements>
 </model>

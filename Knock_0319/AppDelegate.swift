@@ -25,15 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Override point for customization after application launch.
         
         //Open a new thread on background for socket
-        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        
         SingletonC.sharedInstance.openSocketStreamSINGLE()
-        //})
+    
     
         return true
     }
     
-    
-    
+        
     
     
     

@@ -54,6 +54,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     
+    //建立表格
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         println(rooms.count)
