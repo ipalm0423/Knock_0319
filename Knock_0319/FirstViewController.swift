@@ -24,6 +24,9 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         var fetchRequest = NSFetchRequest(entityName: "Roominfo")
@@ -46,6 +49,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     //cancel status bar
     override func viewWillAppear(animated: Bool) {
         navigationController?.hidesBarsOnSwipe = true
+        self.tabBarController?.tabBar.hidden = false
     }
 
     override func didReceiveMemoryWarning() {

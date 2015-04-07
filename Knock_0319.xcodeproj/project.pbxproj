@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC2327A11AD3B84500B06354 /* Buble.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2327A01AD3B84500B06354 /* Buble.swift */; };
+		AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC623B891ACBDDF200221DB7 /* Messageinfo.swift */; };
 		AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */; };
 		AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */; };
 		AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */; };
@@ -61,9 +63,9 @@
 		AC6A35191ABC87DD00AD1CC7 /* JSQMessagesTypingIndicatorFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC6A34EE1ABC87DD00AD1CC7 /* JSQMessagesTypingIndicatorFooterView.m */; };
 		AC6A351A1ABC87DD00AD1CC7 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC6A34EF1ABC87DD00AD1CC7 /* JSQMessagesTypingIndicatorFooterView.xib */; };
 		AC6A35201ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC6A351F1ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m */; };
-		AC6A35221ABC929C00AD1CC7 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A35211ABC929C00AD1CC7 /* ChatRoomViewController.swift */; };
 		AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A35231ABC955200AD1CC7 /* Network.swift */; };
 		AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */; };
+		AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */; };
 		ACDF194D1AC30B4A00853851 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = ACDF194C1AC30B4A00853851 /* MBProgressHUD.m */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +81,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC2327A01AD3B84500B06354 /* Buble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buble.swift; sourceTree = "<group>"; };
+		AC623B891ACBDDF200221DB7 /* Messageinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageinfo.swift; sourceTree = "<group>"; };
 		AC6A34591ABC3BDA00AD1CC7 /* Knock_0319.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knock_0319.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -182,9 +186,9 @@
 		AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridge-Knock.h"; sourceTree = "<group>"; };
 		AC6A351E1ABC89D000AD1CC7 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		AC6A351F1ABC89D000AD1CC7 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
-		AC6A35211ABC929C00AD1CC7 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		AC6A35231ABC955200AD1CC7 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		ACDF194B1AC30B4500853851 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		ACDF194C1AC30B4A00853851 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
@@ -233,7 +237,7 @@
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
-				AC6A35211ABC929C00AD1CC7 /* ChatRoomViewController.swift */,
+				AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
 				AC6A34691ABC3BDA00AD1CC7 /* LaunchScreen.xib */,
@@ -247,7 +251,9 @@
 			children = (
 				AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */,
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
+				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
+				AC2327A01AD3B84500B06354 /* Buble.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
@@ -601,19 +607,21 @@
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,
 				AC6A35031ABC87DD00AD1CC7 /* JSQLocationMediaItem.m in Sources */,
 				AC6A34FB1ABC87DD00AD1CC7 /* JSQMessagesAvatarImageFactory.m in Sources */,
+				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				AC6A34F81ABC87DD00AD1CC7 /* JSQMessagesKeyboardController.m in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
 				AC6A34FE1ABC87DD00AD1CC7 /* JSQMessagesTimestampFormatter.m in Sources */,
 				AC6A34F41ABC87DD00AD1CC7 /* UIColor+JSQMessages.m in Sources */,
+				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A350C1ABC87DD00AD1CC7 /* JSQMessagesCollectionViewCell.m in Sources */,
 				AC6A350D1ABC87DD00AD1CC7 /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				AC6A35081ABC87DD00AD1CC7 /* JSQPhotoMediaItem.m in Sources */,
 				AC6A34F21ABC87DD00AD1CC7 /* NSBundle+JSQMessages.m in Sources */,
 				AC6A35001ABC87DD00AD1CC7 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
+				AC2327A11AD3B84500B06354 /* Buble.swift in Sources */,
 				AC6A35061ABC87DD00AD1CC7 /* JSQMessagesAvatarImage.m in Sources */,
 				AC6A34F11ABC87DD00AD1CC7 /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
-				AC6A35221ABC929C00AD1CC7 /* ChatRoomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

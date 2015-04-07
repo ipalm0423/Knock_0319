@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C2055" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -44,7 +44,7 @@
                                 <connections>
                                     <outlet property="roomImage" destination="csq-sE-PAx" id="BFX-iu-QX0"/>
                                     <outlet property="roomName" destination="1yz-vL-aUU" id="9Ne-sc-3jw"/>
-                                    <segue destination="UAf-IV-hwB" kind="show" identifier="showChatRoom" id="Dgy-F0-2av"/>
+                                    <segue destination="Bo2-bN-Sfj" kind="show" identifier="MessagePushSegue" id="GsV-P2-N2V"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -60,47 +60,23 @@
             <point key="canvasLocation" x="1522" y="-326"/>
         </scene>
         <!--Chat Room View Controller-->
-        <scene sceneID="3uk-7x-XBa">
+        <scene sceneID="BKU-R0-YVC">
             <objects>
-                <viewController id="UAf-IV-hwB" customClass="ChatRoomViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Bo2-bN-Sfj" customClass="ChatRoomViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HKu-da-aIc"/>
-                        <viewControllerLayoutGuide type="bottom" id="6iC-et-NHB"/>
+                        <viewControllerLayoutGuide type="top" id="cPG-aH-4aY"/>
+                        <viewControllerLayoutGuide type="bottom" id="NA0-zC-EjX"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GIU-ZQ-eri">
+                    <view key="view" contentMode="scaleToFill" id="3tt-nq-vfX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C6R-5z-OSB">
-                                <rect key="frame" x="219" y="167" width="97" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhb-2o-Fud">
-                                <rect key="frame" x="244" y="255" width="46" height="30"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="irz-BM-Naw">
-                                <rect key="frame" x="244" y="106" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="jve-CR-nLP"/>
-                    <connections>
-                        <outlet property="chattextLabel" destination="irz-BM-Naw" id="978-EI-vQA"/>
-                        <outlet property="sendButton" destination="uhb-2o-Fud" id="WEi-Ze-bjs"/>
-                        <outlet property="textEditBox" destination="C6R-5z-OSB" id="E9z-QC-wqX"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="qrZ-8C-9KB"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mv1-S2-sJ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hsg-vQ-CBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2366" y="-322"/>
+            <point key="canvasLocation" x="2208" y="-326"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">

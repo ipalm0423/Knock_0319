@@ -24,11 +24,12 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         return Static.instance!
     }
     
+    
     //socket parameter
     var readStream: NSInputStream?
     var writeStream: NSOutputStream?
-    let serverAdress = "192.168.1.108"
-    let serverPort = 8887
+    let serverAdress = "172.20.10.11"
+    let serverPort = 8880
     var flag: String = "inputMessage"
     var networkQueue: dispatch_queue_t?
     
@@ -38,6 +39,9 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var user:[Userinfo] = []
     
     var chattext: String = ""
+    
+    
+    
     
     //open socket
     func openSocketStreamSINGLE() {
