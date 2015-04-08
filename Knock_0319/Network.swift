@@ -28,8 +28,8 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     //socket parameter
     var readStream: NSInputStream?
     var writeStream: NSOutputStream?
-    let serverAdress = "172.20.10.11"
-    let serverPort = 8880
+    let serverAdress = "172.20.10.4"
+    let serverPort = 8888
     var flag: String = "inputMessage"
     var networkQueue: dispatch_queue_t?
     
@@ -40,6 +40,29 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     var chattext: String = ""
     
+    
+    func checkSocketConnection(viewcontroller: UIViewController) {
+        if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
+            if let erro = readStream?.streamError?.localizedDescription {
+                let alertController = UIAlertController(title: "Oops", message: "Please check your network." + erro, preferredStyle: .Alert)
+                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(doneAction)
+                
+                viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+                return
+
+            }
+            let alertController = UIAlertController(title: "Oops", message: "Please check your network.", preferredStyle: .Alert)
+            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(doneAction)
+            
+            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+            return
+        }
+        
+       
+
+    }
     
     
     

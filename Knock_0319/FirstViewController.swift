@@ -51,6 +51,10 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         navigationController?.hidesBarsOnSwipe = true
         self.tabBarController?.tabBar.hidden = false
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        SingletonC.sharedInstance.checkSocketConnection(self)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

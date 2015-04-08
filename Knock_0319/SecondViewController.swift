@@ -41,10 +41,14 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        //SingletonC.sharedInstance.checkSocketConnection(self)
 
 
 
         
+    }
+    override func viewDidAppear(animated: Bool) {
+        SingletonC.sharedInstance.checkSocketConnection(self)
     }
     
     

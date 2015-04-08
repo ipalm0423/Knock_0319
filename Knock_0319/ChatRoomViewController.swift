@@ -66,8 +66,9 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(animated)   
         collectionView.collectionViewLayout.springinessEnabled = false
+        SingletonC.sharedInstance.checkSocketConnection(self)
     }
     
     override func viewWillDisappear(animated: Bool) {
