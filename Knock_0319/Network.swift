@@ -29,7 +29,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var readStream: NSInputStream?
     var writeStream: NSOutputStream?
     let serverAdress = "172.20.10.4"
-    let serverPort = 8888
+    let serverPort = 8880
     var flag: String = "inputMessage"
     var networkQueue: dispatch_queue_t?
     
@@ -41,7 +41,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var chattext: String = ""
     
     
-    func checkSocketConnection(viewcontroller: UIViewController) {
+    func checkSocketConnection(viewcontroller: UIViewController) -> Bool {
         if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
             if let erro = readStream?.streamError?.localizedDescription {
                 let alertController = UIAlertController(title: "Oops", message: "Please check your network." + erro, preferredStyle: .Alert)
@@ -49,7 +49,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                 alertController.addAction(doneAction)
                 
                 viewcontroller.presentViewController(alertController, animated: true, completion: nil)
-                return
+                return false
 
             }
             let alertController = UIAlertController(title: "Oops", message: "Please check your network.", preferredStyle: .Alert)
@@ -57,10 +57,10 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             alertController.addAction(doneAction)
             
             viewcontroller.presentViewController(alertController, animated: true, completion: nil)
-            return
+            return false
         }
         
-       
+       return true
 
     }
     
@@ -192,24 +192,16 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     func createID() -> Bool {
         
-        var bool = false
         
-        while !writeStream!.hasSpaceAvailable {
-            
-        }
+        let message = "{\"method\": \"new\"}"
+        return send(message)
         
-        if writeStream!.hasSpaceAvailable {
-            var message = "{\"method\": \"new\"}"
-            var data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            var len1 = data!.length
-            var len2: [UInt8] = intUsingEncodetoByte(len1)
-            let headwrite = writeStream!.write(UnsafePointer<UInt8>(len2), maxLength: 2)
-            let bytesWritten = writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
-            bool = true
-            
-        }
+    }
+    
+    func sendText(roomID:String, userID:String, text: String) -> Bool {
+        let message = "{\"method\": \"chat\", \"roomid\": \(roomID), \"uid\": \(userID), \"mtype\": \"text\", \"content\": \(text)}"
         
-        return bool
+        return send(message)
         
     }
     

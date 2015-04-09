@@ -25,7 +25,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     let bublefactory: JSQMessagesBubbleImageFactory = JSQMessagesBubbleImageFactory()
     var outputbuble: JSQMessagesBubbleImage!
     var inputbuble: JSQMessagesBubbleImage!
-    //var outbuble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
+    
     var fetchResultController:NSFetchedResultsController!
     
     var testmessage: Messageinfo!
@@ -44,7 +44,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         self.senderId = "no1"
         self.outputbuble = bublefactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         self.inputbuble = bublefactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleGreenColor())
-        self.dateFormatter.dateFormat = "MM-dd 'at' h:mm a"
+        self.dateFormatter.dateFormat = "YYYY-MM-dd 'at' h:mm a"
         
         //self.senderDisplayName = (senderDisplayName != nil) ? senderDisplayName : "Anonymous"
         
@@ -60,7 +60,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         */
         
         //setup server load text
-        setupFirebase()
+        
         self.finishReceivingMessage()
 
     }
@@ -89,12 +89,18 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }*/
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        JSQSystemSoundPlayer.jsq_playMessageSentSound()
-        let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-        //setupFirebase()
-        self.messages.append(temp)
+        if SingletonC.sharedInstance.checkSocketConnection(self) {
+            JSQSystemSoundPlayer.jsq_playMessageSentSound()
+            
+            let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+            //setupFirebase()
+            self.showTypingIndicator = false
+            self.messages.append(temp)
+            
+            finishSendingMessage()
+        }
         
-        finishSendingMessage()
+        
     }
     
  
@@ -110,7 +116,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }
     
     
-    //data
+    //cell input include text color
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count

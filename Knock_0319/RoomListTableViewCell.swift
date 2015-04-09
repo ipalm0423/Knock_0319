@@ -9,6 +9,7 @@
 import UIKit
 
 class RoomListTableViewCell: UITableViewCell {
+    @IBOutlet weak var unReadLabel: UILabel!
     
     @IBOutlet weak var roomName: UILabel!
 

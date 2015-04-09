@@ -13,7 +13,7 @@ class Roominfo: NSManagedObject{
     @NSManaged var roomName:String!
     //@NSManaged var roomID:String?
     //@NSManaged var time:NSDate?
-    //@NSManaged var isTimeup:NSNumber?
+    @NSManaged var unRead:NSNumber!
     @NSManaged var image:NSData!
     //@NSManaged var userID:String?
     

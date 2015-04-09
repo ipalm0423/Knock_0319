@@ -12,6 +12,7 @@ import CoreFoundation
 
 
 class SecondViewController: UIViewController, NSStreamDelegate {
+    @IBOutlet weak var buttonJoinRoom: UIButton!
 
     @IBOutlet weak var buttonCreateRoom: UIButton!
     
@@ -28,7 +29,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     var errorField = ""
     
     
-
+    //edit Box return keyboard
     @IBAction func textFieldRetur(sender: AnyObject) {
         sender.resignFirstResponder()
     }
@@ -41,114 +42,108 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //SingletonC.sharedInstance.checkSocketConnection(self)
-
-
+        //disable button
+        self.buttonJoinRoom.enabled = false
+        self.buttonCreateRoom.enabled = false
+        self.editRoomName.clearButtonMode = UITextFieldViewMode.WhileEditing
 
         
     }
+    
     override func viewDidAppear(animated: Bool) {
         SingletonC.sharedInstance.checkSocketConnection(self)
     }
     
+    //button enable by edit Box not empty
+    @IBAction func editTextChanged(sender: AnyObject) {
+        if editRoomName.text != "" {
+            self.buttonCreateRoom.enabled = true
+            self.buttonJoinRoom.enabled = true
+        }else {
+            self.buttonCreateRoom.enabled = false
+            self.buttonJoinRoom.enabled = false
+        }
+
+    }
     
     @IBAction func createRoom(sender: UIButton) {
         // Form violation reminder
         
         let roomNametemp = editRoomName.text
         
-        if editRoomName.text == "" {
-            errorField = "name"
-        }
-        
-        if errorField != "" {
-            
-            let alertController = UIAlertController(title: "Oops", message: "We can't proceed as you forget to fill in the " + errorField + ". All fields are mandatory.", preferredStyle: .Alert)
-            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(doneAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-            errorField = ""
-            
+        //check network
+        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
         
-        
-
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = MBProgressHUDMode.AnnularDeterminate
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
-            if SingletonC.sharedInstance.createNewRoom(roomNametemp) {
-                //get input stream
-                if let inputdata = SingletonC.sharedInstance.getServerData() {
-                    
-                    
-                    
-                    let json = JSON(data: inputdata)
-                    let roomID = json["roomid"].stringValue
-                    
-                    //input coreData
-                    if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            //chage HUD display
+            //hud.mode = MBProgressHUDMode.AnnularDeterminate
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
+                if SingletonC.sharedInstance.createNewRoom(roomNametemp) {
+                    //get input stream
+                    if let inputdata = SingletonC.sharedInstance.getServerData() {
                         
-                        self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo",
-                            inManagedObjectContext: managedObjectContext) as Roominfo
-                        self.roominformation.roomName = roomNametemp + ", ID:" + roomID
-                        self.roominformation.image = UIImagePNGRepresentation(self.addImage.image)
-                        //roominformation.isTimeup = 0
-                        //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-                        var e: NSError?
-                        if managedObjectContext.save(&e) != true {
-                            println("insert error: \(e!.localizedDescription)")
+                        
+                        
+                        let json = JSON(data: inputdata)
+                        let roomID = json["roomid"].stringValue
+                        
+                        //input coreData
+                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+                            
+                            self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo",
+                                inManagedObjectContext: managedObjectContext) as Roominfo
+                            self.roominformation.roomName = roomNametemp + ", ID:" + roomID
+                            self.roominformation.image = UIImagePNGRepresentation(self.addImage.image)
+                            self.roominformation.unRead = 0
+                            //roominformation.isTimeup = 0
+                            //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
+                            var e: NSError?
+                            if managedObjectContext.save(&e) != true {
+                                println("insert error: \(e!.localizedDescription)")
+                                
+                            }
+         
+                            //end HUDProcess + UI appear
+                            dispatch_async(dispatch_get_main_queue(), {
+                                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                                self.editRoomName.text = ""
+                                self.buttonCreateRoom.enabled = false
+                                self.buttonJoinRoom.enabled = false
+                                let alertController = UIAlertController(title: "Success", message: "new room is " + roomNametemp + ", roomid:" + roomID , preferredStyle: .Alert)
+                                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                alertController.addAction(doneAction)
+                                
+                                self.presentViewController(alertController, animated: true, completion: nil)
+                                
+                                return
+                            })
                             
                         }
-                        
-                        
-                        
-                        //end HUDProcess
+                    }else{
                         dispatch_async(dispatch_get_main_queue(), {
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            //self.editRoomName.text = ""
-                            let alertController = UIAlertController(title: "Success", message: "new room is " + roomNametemp + ", roomid:" + roomID , preferredStyle: .Alert)
-                            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                            alertController.addAction(doneAction)
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                            
+                            SingletonC.sharedInstance.checkSocketConnection(self)
                             return
                         })
                         
                     }
-                }else{
+
+                }else {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        let alertController = UIAlertController(title: "Oops", message: "Can't get feedback server.", preferredStyle: .Alert)
-                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                        alertController.addAction(doneAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        SingletonC.sharedInstance.checkSocketConnection(self)
                         return
                     })
                     
                 }
                 
-                
-                
-            }else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    let alertController = UIAlertController(title: "Oops", message: "Please check your connection and try again.", preferredStyle: .Alert)
-                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    alertController.addAction(doneAction)
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
-                    return
-                })
-                
-            }
- 
-        })
- 
+            })
         
+        
+  
     }
 
     @IBAction func joinRoom(sender: UIButton) {
@@ -156,26 +151,12 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         
         let roomNametemp = editRoomName.text
         
-        if editRoomName.text == "" {
-            errorField = "room"
-        }
-        
-        if errorField != "" {
-            
-            let alertController = UIAlertController(title: "Oops", message: "We can't proceed as you forget to fill in the " + errorField + ". All fields are mandatory.", preferredStyle: .Alert)
-            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(doneAction)
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
-            errorField = ""
-            
+        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
         
-        
-        
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = MBProgressHUDMode.AnnularDeterminate
+        //hud.mode = MBProgressHUDMode.AnnularDeterminate
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
             if SingletonC.sharedInstance.joinRoom(roomNametemp) {
                 //get input stream
@@ -193,6 +174,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                             inManagedObjectContext: managedObjectContext) as Roominfo
                         self.roominformation.roomName = "join room, ID:" + roomID
                         self.roominformation.image = UIImagePNGRepresentation(self.addImage.image)
+                        self.roominformation.unRead = 0
                         //roominformation.isTimeup = 0
                         //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
                         var e: NSError?
@@ -206,7 +188,9 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                         //end HUDProcess
                         dispatch_async(dispatch_get_main_queue(), {
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            //self.editRoomName.text = ""
+                            self.editRoomName.text = ""
+                            self.buttonCreateRoom.enabled = false
+                            self.buttonJoinRoom.enabled = false
                             let alertController = UIAlertController(title: "Success", message: "join to new room, roomid:" + roomID , preferredStyle: .Alert)
                             let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                             alertController.addAction(doneAction)
@@ -220,11 +204,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                 }else{
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        let alertController = UIAlertController(title: "Oops", message: "Can't get feedback server.", preferredStyle: .Alert)
-                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                        alertController.addAction(doneAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        SingletonC.sharedInstance.checkSocketConnection(self)
                         return
                     })
                     
@@ -235,11 +215,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    let alertController = UIAlertController(title: "Oops", message: "Please check your connection and try again.", preferredStyle: .Alert)
-                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    alertController.addAction(doneAction)
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    SingletonC.sharedInstance.checkSocketConnection(self)
                     return
                 })
                 
@@ -251,8 +227,13 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     }
     
     @IBAction func createID(sender: AnyObject) {
+        
+        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+            return
+        }
+        
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = MBProgressHUDMode.AnnularDeterminate
+        //hud.mode = MBProgressHUDMode.AnnularDeterminate
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
             if SingletonC.sharedInstance.createID() {
                 //get input stream
@@ -295,11 +276,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                 }else{
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        let alertController = UIAlertController(title: "Oops", message: "Can't get feedback server.", preferredStyle: .Alert)
-                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                        alertController.addAction(doneAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        SingletonC.sharedInstance.checkSocketConnection(self)
                         return
                     })
                     
@@ -310,11 +287,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    let alertController = UIAlertController(title: "Oops", message: "Please check your connection and try again.", preferredStyle: .Alert)
-                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    alertController.addAction(doneAction)
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    SingletonC.sharedInstance.checkSocketConnection(self)
                     return
                 })
                 

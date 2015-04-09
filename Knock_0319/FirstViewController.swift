@@ -80,8 +80,13 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
        
         cell.roomName.text = room.roomName
         cell.roomImage.image = UIImage(data: room.image)
+        if room.unRead == 0 {
+            
+        cell.unReadLabel.text = nil
         //cell.roomTime.text = "\(room.time)"
-        
+        }else {
+            cell.unReadLabel.text = room.unRead.stringValue
+        }
         
         
         // Circular image

@@ -9,6 +9,7 @@
     <entity name="Roominfo" representedClassName="Knock_0319.Roominfo" syncable="YES">
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="roomName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unRead" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Userinformation" representedClassName="Knock_0319.Userinfo" syncable="YES">
         <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -16,7 +17,7 @@
     </entity>
     <elements>
         <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="105"/>
-        <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="73"/>
+        <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="88"/>
         <element name="Userinformation" positionX="-63" positionY="0" width="128" height="73"/>
     </elements>
 </model>

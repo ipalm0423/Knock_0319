@@ -28,7 +28,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yz-vL-aUU">
-                                            <rect key="frame" x="86" y="9" width="205" height="21"/>
+                                            <rect key="frame" x="86" y="9" width="205" height="20.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="205" id="Nq6-Jx-Pyi"/>
                                             </constraints>
@@ -36,9 +36,17 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iR6-G9-enm">
+                                            <rect key="frame" x="513.5" y="18.5" width="40.5" height="42.5"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="36"/>
+                                            <color key="textColor" red="0.0" green="0.85716540404040398" blue="0.031368452755228274" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="csq-sE-PAx" firstAttribute="leading" secondItem="heR-9K-yjJ" secondAttribute="leadingMargin" constant="7" id="FBl-Gj-Cmb"/>
+                                        <constraint firstAttribute="centerY" secondItem="iR6-G9-enm" secondAttribute="centerY" id="GWS-DZ-9bI"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="iR6-G9-enm" secondAttribute="trailing" constant="5" id="INE-al-XZ9"/>
                                         <constraint firstItem="1yz-vL-aUU" firstAttribute="top" secondItem="heR-9K-yjJ" secondAttribute="topMargin" constant="1" id="cL4-bD-aEw"/>
                                         <constraint firstItem="1yz-vL-aUU" firstAttribute="leading" secondItem="csq-sE-PAx" secondAttribute="trailing" constant="11" id="hns-kc-NAk"/>
                                         <constraint firstItem="csq-sE-PAx" firstAttribute="top" secondItem="heR-9K-yjJ" secondAttribute="topMargin" constant="2" id="n4n-gW-xu1"/>
@@ -47,6 +55,7 @@
                                 <connections>
                                     <outlet property="roomImage" destination="csq-sE-PAx" id="BFX-iu-QX0"/>
                                     <outlet property="roomName" destination="1yz-vL-aUU" id="9Ne-sc-3jw"/>
+                                    <outlet property="unReadLabel" destination="iR6-G9-enm" id="NJZ-zY-Q5I"/>
                                     <segue destination="Bo2-bN-Sfj" kind="show" identifier="MessagePushSegue" id="GsV-P2-N2V"/>
                                 </connections>
                             </tableViewCell>
@@ -101,7 +110,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="textFieldRetur:" destination="8rJ-Kc-sve" eventType="editingDidEndOnExit" id="R5H-ga-xhd"/>
+                                    <action selector="editTextChanged:" destination="8rJ-Kc-sve" eventType="editingChanged" id="xLB-mK-oVD"/>
+                                    <action selector="textFieldRetur:" destination="8rJ-Kc-sve" eventType="editingDidEndOnExit" id="W15-ld-npf"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-mW-BZF">
@@ -126,15 +136,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-eQ-A7g">
-                                <rect key="frame" x="191" y="265" width="86" height="30"/>
-                                <state key="normal" title="Create room">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="tcq-AZ-8KD"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHw-L6-aXw">
                                 <rect key="frame" x="314" y="265" width="69" height="30"/>
                                 <state key="normal" title="Join room">
@@ -142,6 +143,15 @@
                                 </state>
                                 <connections>
                                     <action selector="joinRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="1AZ-zu-mIb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-eQ-A7g">
+                                <rect key="frame" x="191" y="265" width="86" height="30"/>
+                                <state key="normal" title="Create room">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="tcq-AZ-8KD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -168,6 +178,7 @@
                     <connections>
                         <outlet property="addImage" destination="tqM-yz-2y9" id="uJv-42-GvV"/>
                         <outlet property="buttonCreateRoom" destination="6HE-eQ-A7g" id="oCo-Tx-U5n"/>
+                        <outlet property="buttonJoinRoom" destination="VHw-L6-aXw" id="WLM-Uo-OCl"/>
                         <outlet property="editRoomName" destination="D7Q-e0-auR" id="nTc-D0-H6Y"/>
                     </connections>
                 </viewController>
