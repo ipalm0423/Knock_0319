@@ -85,9 +85,9 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }*/
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        if SingletonC.sharedInstance.checkSocketConnection(self) {
+        /*if SingletonC.sharedInstance.checkSocketConnection(self) {
             return
-        }
+        }*/
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
         let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
@@ -102,7 +102,12 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
  
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        self.setupFirebase()
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+
+        let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
+        
+        self.messages.append(mes1)
+        
         self.finishReceivingMessage()
     }
     
@@ -209,10 +214,26 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         return self.messages.count
     }
     
-    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
+        let message = messages[indexPath.item]
+        
+        if message.senderDisplayName == self.senderDisplayName {
+            cell.textView.textColor = UIColor.blackColor()
+        } else {
+            cell.textView.textColor = UIColor.whiteColor()
+        }
+        
+        let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
+        cell.textView.linkTextAttributes = attributes
+        
+        return cell
+    }
+    
+    /*
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let collect = collectionView as! JSQMessagesCollectionView
+        let cell = super.collectionView(collect, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         
         let message = messages[indexPath.item]
         
@@ -228,7 +249,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
         //            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle]
         return cell
-    }
+    }*/
     
   
     
@@ -248,7 +269,8 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         //load fake message
         //self.messages = [JSQMessage(senderId: "no1", senderDisplayName: "Jack", date: NSDate(timeIntervalSince1970: 60), text: "hello"), JSQMessage(senderId: "no2", senderDisplayName: "mary", date: NSDate(), text: "hi jack")]
         
-        let mes1 = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
+        //let me1 = JSQMessage(senderId: "no2", displayName: "Kelly", text: "hi")
+        let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
         
         self.messages.append(mes1)
         

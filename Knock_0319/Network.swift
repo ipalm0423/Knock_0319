@@ -140,6 +140,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                     //base on method
                     if method == "newroom" {
                         let roomID = json["roomid"].stringValue
+                        let roomName = self.roomNewName!
                         //let roomName = json["roomname"].stringValue
                         self.roomNewID = roomID
                         
@@ -148,7 +149,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                         if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
                     
                             self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
-                            self.roominformation.roomName = roomNewName! + ", ID:" + roomID
+                            self.roominformation.roomName = roomName + ", ID:" + roomID
                             self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
                             self.roominformation.unRead = 0
                             //roominformation.isTimeup = 0
