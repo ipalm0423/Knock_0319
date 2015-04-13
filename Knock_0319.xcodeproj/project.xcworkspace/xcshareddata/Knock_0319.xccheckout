@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>BBCAD42C-0963-443A-AA2B-C8948D72D417</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Knock_0319</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>C5F49CD5A7809076AF51A2AAB0A46B492F741729</key>
 		<string>https://github.com/ipalm0423/Knock_0319.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Knock_0319.xcodeproj</string>
+	<string>Knock_0319.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>C5F49CD5A7809076AF51A2AAB0A46B492F741729</key>

@@ -11,5 +11,6 @@
 #import "JSQMessages.h"
 #import "JSQMessageData.h"
 #import "MBProgressHUD.h"
+#import "JSQSystemSoundPlayer.h"
 
 #endif

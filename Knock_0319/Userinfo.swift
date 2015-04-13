@@ -11,6 +11,7 @@ import CoreData
 
 class Userinfo: NSManagedObject{
     @NSManaged var uid:String!
+    @NSManaged var sid:String!
     //@NSManaged var roomID:String?
     //@NSManaged var time:NSDate?
     //@NSManaged var isTimeup:NSNumber?

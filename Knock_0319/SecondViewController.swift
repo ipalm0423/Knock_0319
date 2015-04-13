@@ -24,7 +24,8 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     var roominformation: Roominfo!
     var userInformation: Userinfo!
     
-    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    
+    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     var errorField = ""
     
@@ -46,6 +47,10 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         self.buttonJoinRoom.enabled = false
         self.buttonCreateRoom.enabled = false
         self.editRoomName.clearButtonMode = UITextFieldViewMode.WhileEditing
+        SingletonC.sharedInstance.loadUserInfo()
+        if SingletonC.sharedInstance.user != [] {
+            SingletonC.sharedInstance.onlineID()
+        }
 
         
     }
@@ -70,68 +75,47 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         // Form violation reminder
         
         let roomNametemp = editRoomName.text
-        
+        // setup user picture
+        SingletonC.sharedInstance.roomPicture = addImage.image
+        SingletonC.sharedInstance.roomNewName = roomNametemp
         //check network
         if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
         
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            //chage HUD display
-            //hud.mode = MBProgressHUDMode.AnnularDeterminate
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
-                if SingletonC.sharedInstance.createNewRoom(roomNametemp) {
-                    //get input stream
-                    if let inputdata = SingletonC.sharedInstance.getServerData() {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
+            if SingletonC.sharedInstance.createNewRoom(roomNametemp) {
+                //check feedback
+                while SingletonC.sharedInstance.getedRoomID == false {
+                        //hangs for 1 secs
                         
-                        
-                        
-                        let json = JSON(data: inputdata)
-                        let roomID = json["roomid"].stringValue
-                        
-                        //input coreData
-                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-                            
-                            self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo",
-                                inManagedObjectContext: managedObjectContext) as Roominfo
-                            self.roominformation.roomName = roomNametemp + ", ID:" + roomID
-                            self.roominformation.image = UIImagePNGRepresentation(self.addImage.image)
-                            self.roominformation.unRead = 0
-                            //roominformation.isTimeup = 0
-                            //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-                            var e: NSError?
-                            if managedObjectContext.save(&e) != true {
-                                println("insert error: \(e!.localizedDescription)")
-                                
-                            }
-         
-                            //end HUDProcess + UI appear
-                            dispatch_async(dispatch_get_main_queue(), {
-                                MBProgressHUD.hideHUDForView(self.view, animated: true)
-                                self.editRoomName.text = ""
-                                self.buttonCreateRoom.enabled = false
-                                self.buttonJoinRoom.enabled = false
-                                let alertController = UIAlertController(title: "Success", message: "new room is " + roomNametemp + ", roomid:" + roomID , preferredStyle: .Alert)
-                                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                                alertController.addAction(doneAction)
-                                
-                                self.presentViewController(alertController, animated: true, completion: nil)
-                                
-                                return
-                            })
-                            
-                        }
-                    }else{
+                        //after 10 secs -> return & please try again
+                }
+                    //success and send UI
+                if let roomID = SingletonC.sharedInstance.roomNewID {
                         dispatch_async(dispatch_get_main_queue(), {
                             MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            SingletonC.sharedInstance.checkSocketConnection(self)
+                            self.editRoomName.text = ""
+                            self.buttonCreateRoom.enabled = false
+                            self.buttonJoinRoom.enabled = false
+                            SingletonC.sharedInstance.roomNewID = nil
+                            SingletonC.sharedInstance.roomNewName = nil
+                            SingletonC.sharedInstance.getedRoomID = false
+                            let alertController = UIAlertController(title: "成功建立房間", message: "新房間名稱：" + roomNametemp + ", id:" + roomID, preferredStyle: .Alert)
+                            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                            alertController.addAction(doneAction)
+                            
+                            self.presentViewController(alertController, animated: true, completion: nil)
+                            
                             return
                         })
-                        
                     }
+                    
 
-                }else {
+            }else {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
                         SingletonC.sharedInstance.checkSocketConnection(self)
@@ -140,7 +124,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                     
                 }
                 
-            })
+        })
         
         
   
@@ -149,65 +133,43 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     @IBAction func joinRoom(sender: UIButton) {
         // Form violation reminder
         
-        let roomNametemp = editRoomName.text
+        let roomID = editRoomName.text
+        SingletonC.sharedInstance.roomPicture = addImage.image
         
+        //check network
         if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        //hud.mode = MBProgressHUDMode.AnnularDeterminate
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
-            if SingletonC.sharedInstance.joinRoom(roomNametemp) {
-                //get input stream
-                if let inputdata = SingletonC.sharedInstance.getServerData() {
+            if SingletonC.sharedInstance.joinRoom(roomID) {
+                //check feedback
+                while SingletonC.sharedInstance.getedRoomID == false {
+                    //hangs for 1 secs
                     
+                    //after 10 secs -> return & please try again
+                }
+                //success and send UI
+                if let roomName = SingletonC.sharedInstance.roomNewName {
                     
-                    
-                    let json = JSON(data: inputdata)
-                    let roomID = json["roomid"].stringValue
-                    
-                    //input coreData
-                    if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-                        
-                        self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo",
-                            inManagedObjectContext: managedObjectContext) as Roominfo
-                        self.roominformation.roomName = "join room, ID:" + roomID
-                        self.roominformation.image = UIImagePNGRepresentation(self.addImage.image)
-                        self.roominformation.unRead = 0
-                        //roominformation.isTimeup = 0
-                        //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-                        var e: NSError?
-                        if managedObjectContext.save(&e) != true {
-                            println("insert error: \(e!.localizedDescription)")
-                            
-                        }
-                        
-                        
-                        
-                        //end HUDProcess
-                        dispatch_async(dispatch_get_main_queue(), {
-                            MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            self.editRoomName.text = ""
-                            self.buttonCreateRoom.enabled = false
-                            self.buttonJoinRoom.enabled = false
-                            let alertController = UIAlertController(title: "Success", message: "join to new room, roomid:" + roomID , preferredStyle: .Alert)
-                            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                            alertController.addAction(doneAction)
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                            
-                            return
-                        })
-                        
-                    }
-                }else{
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        SingletonC.sharedInstance.checkSocketConnection(self)
+                        self.editRoomName.text = ""
+                        self.buttonCreateRoom.enabled = false
+                        self.buttonJoinRoom.enabled = false
+                        SingletonC.sharedInstance.roomNewID = nil
+                        SingletonC.sharedInstance.roomNewName = nil
+                        SingletonC.sharedInstance.getedRoomID = false
+                        let alertController = UIAlertController(title: "成功建立房間", message: "新房間名稱：" + roomName + ", ID:" + roomID, preferredStyle: .Alert)
+                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        alertController.addAction(doneAction)
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
                         return
                     })
-                    
                 }
                 
                 
@@ -227,61 +189,50 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     }
     
     @IBAction func createID(sender: AnyObject) {
+        //check uid is already have
+        SingletonC.sharedInstance.loadUserInfo()
+        if SingletonC.sharedInstance.user != [] {
+            let userid = SingletonC.sharedInstance.user[0].uid
+            let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid, preferredStyle: .Alert)
+            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(doneAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+            return
+        }
         
+        //no user, and create a new one
+        //set user picture
+        SingletonC.sharedInstance.userPicture = addImage.image
+        //check internet
         if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        //hud.mode = MBProgressHUDMode.AnnularDeterminate
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
             if SingletonC.sharedInstance.createID() {
-                //get input stream
-                if let inputData = SingletonC.sharedInstance.getServerData() {
+                
+                //check feedback
+                while SingletonC.sharedInstance.getedUserID == false {
+                    //hangs for 1 secs
                     
-                    let json = JSON(data: inputData)
-                    let userid = json["id"].stringValue
-                    
-                    //input coreData
-                    if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-                        
-                        self.userInformation = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
-                            inManagedObjectContext: managedObjectContext) as Userinfo
-                        self.userInformation.uid = userid
-                        self.userInformation.picture = UIImagePNGRepresentation(self.addImage.image)
-                        //roominformation.isTimeup = 0
-                        //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-                        var e: NSError?
-                        if managedObjectContext.save(&e) != true {
-                            println("insert error: \(e!.localizedDescription)")
-                            
-                        }
-                        
-                        SingletonC.sharedInstance.loadUserInfo()
-                        
-                        //end HUDProcess
-                        dispatch_async(dispatch_get_main_queue(), {
-                            MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            
-                            let alertController = UIAlertController(title: "Success", message: "Create New ID: " + userid, preferredStyle: .Alert)
-                            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                            alertController.addAction(doneAction)
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                            
-                            return
-                        })
-                        
-                    }
-                }else{
+                    //after 10 secs -> return & please try again
+                }
+                //success and send UI
+                if let userID = SingletonC.sharedInstance.user[0].uid {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        SingletonC.sharedInstance.checkSocketConnection(self)
+                        SingletonC.sharedInstance.getedUserID = false
+                        let alertController = UIAlertController(title: "註冊成功", message: "你的帳號名稱：" + userID, preferredStyle: .Alert)
+                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        alertController.addAction(doneAction)
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
                         return
                     })
-                    
                 }
-                
                 
                 
             }else {
@@ -290,16 +241,9 @@ class SecondViewController: UIViewController, NSStreamDelegate {
                     SingletonC.sharedInstance.checkSocketConnection(self)
                     return
                 })
-                
             }
-            
-        })
-        
-        
 
-        
-        
-        
+        })
     }
 
     

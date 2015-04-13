@@ -21,7 +21,6 @@
 
 #import "JSQMessagesViewController.h"
 
-
 //  Views
 #import "JSQMessagesCollectionView.h"
 #import "JSQMessagesCollectionViewCellIncoming.h"

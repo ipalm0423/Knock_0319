@@ -32,12 +32,12 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         var fetchRequest = NSFetchRequest(entityName: "Roominfo")
         let sortDescription = NSSortDescriptor(key: "roomName", ascending: true)
         fetchRequest.sortDescriptors = [sortDescription]
-        if let manageObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
             var e:NSError?
             var result = fetchResultController.performFetch(&e)
-            rooms = fetchResultController.fetchedObjects as [Roominfo]
+            rooms = fetchResultController.fetchedObjects as! [Roominfo]
             if result != true {
                 println(e?.localizedDescription)
             }
@@ -72,14 +72,22 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as RoomListTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RoomListTableViewCell
         
         // Configure the cell...
         let room = rooms[indexPath.row]
      
        
         cell.roomName.text = room.roomName
-        cell.roomImage.image = UIImage(data: room.image)
+        if let image = room.image {
+            cell.roomImage.image = UIImage(data: image)
+            // Circular image
+            cell.roomImage.layer.cornerRadius = cell.roomImage.frame.size.width / 2
+            cell.roomImage.clipsToBounds = true
+        }else {
+            cell.roomImage = nil
+        }
+        
         if room.unRead == 0 {
             
         cell.unReadLabel.text = nil
@@ -89,9 +97,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         
         
-        // Circular image
-        cell.roomImage.layer.cornerRadius = cell.roomImage.frame.size.width / 2
-        cell.roomImage.clipsToBounds = true
+        
         
         return cell
     }
@@ -128,9 +134,9 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
             (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
             
             // Delete the row from the data source
-            if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+            if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
                 
-                let roomToDelete = self.fetchResultController.objectAtIndexPath(indexPath) as Roominfo
+                let roomToDelete = self.fetchResultController.objectAtIndexPath(indexPath) as! Roominfo
                 managedObjectContext.deleteObject(roomToDelete)
                 
                 var e: NSError?
@@ -148,29 +154,29 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController!) {
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
         tableView.beginUpdates()
     }
     
     
-    func controller(controller: NSFetchedResultsController!, didChangeObject anObject: AnyObject!, atIndexPath indexPath: NSIndexPath!, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath!) {
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         switch type {
         case .Insert:
-            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
         case .Delete:
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
         case .Update:
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             
         default:
             tableView.reloadData()
         }
         
-        rooms = controller.fetchedObjects as [Roominfo]
+        rooms = controller.fetchedObjects as! [Roominfo]
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         
         tableView.endUpdates()
     }
@@ -179,7 +185,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showChatRoom" {
             if let indexpath = self.tableView.indexPathForSelectedRow(){
-                let chatRoomController = segue.destinationViewController as ChatRoomViewController
+                let chatRoomController = segue.destinationViewController as! ChatRoomViewController
                 
                 //hide buttom tab bar
                 chatRoomController.hidesBottomBarWhenPushed = true

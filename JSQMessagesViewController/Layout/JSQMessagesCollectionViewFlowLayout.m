@@ -104,6 +104,7 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     _outgoingAvatarViewSize = defaultAvatarSize;
     
     _springinessEnabled = NO;
+    
     _springResistanceFactor = 1000;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -162,11 +163,13 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
 
 - (void)setSpringinessEnabled:(BOOL)springinessEnabled
 {
+    
     if (_springinessEnabled == springinessEnabled) {
         return;
     }
     
-    _springinessEnabled = springinessEnabled;
+    _springinessEnabled = YES;
+    springinessEnabled = YES;
     
     if (!springinessEnabled) {
         [_dynamicAnimator removeAllBehaviors];

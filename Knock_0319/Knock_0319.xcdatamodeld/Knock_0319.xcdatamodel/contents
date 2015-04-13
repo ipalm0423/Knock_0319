@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C2055" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14C2055" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Messageinfo" representedClassName="Knock_0319.Messageinfo" syncable="YES">
         <attribute name="date_" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="senderDisplayName_" optional="YES" attributeType="String" syncable="YES"/>
@@ -13,11 +13,12 @@
     </entity>
     <entity name="Userinformation" representedClassName="Knock_0319.Userinfo" syncable="YES">
         <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="sid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="105"/>
         <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="73"/>
+        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="90"/>
     </elements>
 </model>

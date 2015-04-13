@@ -83,9 +83,6 @@
     return [self jsq_messagesBubbleImageWithColor:color flippedForIncoming:YES];
 }
 
-
-
-
 #pragma mark - Private
 
 - (UIEdgeInsets)jsq_centerPointEdgeInsetsForImageSize:(CGSize)bubbleImageSize

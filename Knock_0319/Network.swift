@@ -28,19 +28,27 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     //socket parameter
     var readStream: NSInputStream?
     var writeStream: NSOutputStream?
-    let serverAdress = "172.20.10.4"
-    let serverPort = 8880
+    let serverAdress = "122.116.90.83"
+    let serverPort = 30000
     var flag: String = "inputMessage"
     var networkQueue: dispatch_queue_t?
     
     //user parameter
-    var uid: String = "1"
+    var userInformation: Userinfo!
+    var getedUserID: Bool = false
+    var userPicture: UIImage?
     var fetchResultController:NSFetchedResultsController!
     var user:[Userinfo] = []
     
     var chattext: String = ""
     
-    
+    //room parameter
+    var roominformation: Roominfo!
+    var roomPicture: UIImage?
+    var roomNewID: String?
+    var roomNewName: String?
+    var getedRoomID: Bool = false
+    //check internet
     func checkSocketConnection(viewcontroller: UIViewController) -> Bool {
         if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
             if let erro = readStream?.streamError?.localizedDescription {
@@ -64,8 +72,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
 
     }
     
-    
-    
+
     //open socket
     func openSocketStreamSINGLE() {
         
@@ -87,7 +94,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         //open a new thread
         networkQueue = dispatch_queue_create("com.knock.Queue", nil)
         
-        dispatch_async(networkQueue, {
+        dispatch_async(networkQueue!, {
         //Set streams into run loops
         self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
         self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
@@ -95,7 +102,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         //Open Streams
         self.readStream?.open()
         self.writeStream?.open()
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 15))
+            NSRunLoop.currentRunLoop().run()
         
         })
         
@@ -123,7 +130,83 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             
         case NSStreamEvent.HasBytesAvailable:
             //input stream
-            if flag == "inputMessage" && aStream == readStream {
+            if aStream == readStream {
+                // load data
+                if let inputdata = getServerData() {
+                
+                    let json = JSON(data: inputdata)
+                    let method = json["method"].stringValue
+                    
+                    //base on method
+                    if method == "newroom" {
+                        let roomID = json["roomid"].stringValue
+                        //let roomName = json["roomname"].stringValue
+                        self.roomNewID = roomID
+                        
+                    
+                        //input coreData
+                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                    
+                            self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
+                            self.roominformation.roomName = roomNewName! + ", ID:" + roomID
+                            self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
+                            self.roominformation.unRead = 0
+                            //roominformation.isTimeup = 0
+                            //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
+                            var e: NSError?
+                            if managedObjectContext.save(&e) != true {
+                                println("insert error: \(e!.localizedDescription)")
+                            }
+                        }
+                        self.getedRoomID = true
+                        
+                    }else if method == "new" {
+                        let userID = json["uid"].stringValue
+                        let serverID = json["sid"].stringValue
+     
+                        //input core data
+                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                            
+                            self.userInformation = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
+                                inManagedObjectContext: managedObjectContext) as! Userinfo
+                            self.userInformation.uid = userID
+                            self.userInformation.sid = serverID
+                            self.userInformation.picture = UIImagePNGRepresentation(userPicture!)
+                            //roominformation.isTimeup = 0
+                            //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
+                            var e: NSError?
+                            if managedObjectContext.save(&e) != true {
+                                println("insert error: \(e!.localizedDescription)")
+                                
+                            }
+                        }
+                        loadUserInfo()
+                        getedUserID = true
+
+                    }else if method == "join" {
+                        let roomID = json["roomid"].stringValue
+                        let roomName = json["roomname"].stringValue
+                        self.roomNewID = roomID
+                        self.roomNewName = roomName
+                        
+                        
+                        //input coreData
+                        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                            
+                            self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
+                            self.roominformation.roomName = roomNewName! + ", ID:" + roomID
+                            self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
+                            self.roominformation.unRead = 0
+                            //roominformation.isTimeup = 0
+                            //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
+                            var e: NSError?
+                            if managedObjectContext.save(&e) != true {
+                                println("insert error: \(e!.localizedDescription)")
+                            }
+                        }
+                        self.getedRoomID = true
+                    }
+                }
                 
             }
             
@@ -175,16 +258,16 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     func createNewRoom(roomName: String) -> Bool {
         //待修改房間名稱
-        var message = "{\"method\": \"newroom\", \"id\": \(uid), \"roomname\": \"myFirstRoom\", \"alivetime\": 1000}"
+        let uid = user[0].uid
+        var message = "{\"method\": \"newroom\", \"uid\": \(uid), \"roomname\": \"myFirstRoom\", \"alivetime\": 1000}"
         
         return send(message)
         
     }
     
     func joinRoom(roomNumber: String) -> Bool {
-        
-        let message = "{\"method\": \"join\", \"id\": \(uid), \"roomid\": \(roomNumber)}"
-        
+        let uid = user[0].uid
+        let message = "{\"method\": \"join\", \"uid\": \(uid), \"roomid\": \(roomNumber)}"
         
         return send(message)
         
@@ -198,6 +281,12 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         
     }
     
+    func onlineID() -> Bool {
+        let uid = user[0].uid
+        let message = "{\"method\": \"online\", \"uid\": \(uid)}"
+        return send(message)
+    }
+    
     func sendText(roomID:String, userID:String, text: String) -> Bool {
         let message = "{\"method\": \"chat\", \"roomid\": \(roomID), \"uid\": \(userID), \"mtype\": \"text\", \"content\": \(text)}"
         
@@ -207,9 +296,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     //get data from inputstream and cut the data
     func getServerData() -> NSData? {
-        while !readStream!.hasBytesAvailable{
-            
-        }
+        
  
             var buffer = [UInt8](count: 65536, repeatedValue: 0)
             
@@ -261,14 +348,12 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         var fetchRequest = NSFetchRequest(entityName: "Userinformation")
         let sortDescription = NSSortDescriptor(key: "uid", ascending: true)
         fetchRequest.sortDescriptors = [sortDescription]
-        if let manageObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
             var e:NSError?
             var result = fetchResultController.performFetch(&e)
-            user = fetchResultController.fetchedObjects as [Userinfo]
-            let count = user.count - 1
-            self.uid = user[count].uid
+            user = fetchResultController.fetchedObjects as! [Userinfo]
             if result != true {
                 println(e?.localizedDescription)
             }
@@ -280,54 +365,3 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
 }
 
-/*class Network: NSStream, NSStreamDelegate {
-    
-
-    var readStream: NSInputStream?
-    var writeStream: NSOutputStream?
-    let serverAdress = "192.168.1.108"
-    let serverPort = 8880
-    var flag: String = "inputMessage"
-    
-    
-
-    //set socket event
-    func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
-        
-        switch eventCode {
-        case NSStreamEvent.OpenCompleted:
-            NSLog("open complete")
-            
-        case NSStreamEvent.HasBytesAvailable:
-            //input stream
-            if flag == "inputMessage" && aStream == readStream {
-                
-            }
-            
-        case NSStreamEvent.HasSpaceAvailable:
-            //output stream
-            if flag == "outputMessage" && aStream == writeStream {
-                
-                
-                
-            }
-            
-        
-        case NSStreamEvent.ErrorOccurred:
-            
-            NSLog("ERROR: %", aStream.streamError!.code)
-        
-            
-        case NSStreamEvent.EndEncountered:
-            self.closeSocketStream()
-            
-        default:
-            self.closeSocketStream()
-            
-    
-
-        }
-    }
-    
-   
-}*/

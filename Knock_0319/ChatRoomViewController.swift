@@ -22,14 +22,14 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     var senderImageUrl: String!
     var batchMessages = true
     //var ref: Firebase!
-    let bublefactory: JSQMessagesBubbleImageFactory = JSQMessagesBubbleImageFactory()
+    var bublefactory: JSQMessagesBubbleImageFactory = JSQMessagesBubbleImageFactory()
     var outputbuble: JSQMessagesBubbleImage!
     var inputbuble: JSQMessagesBubbleImage!
     
     var fetchResultController:NSFetchedResultsController!
     
     var testmessage: Messageinfo!
-    let dateFormatter = NSDateFormatter()
+    var dateFormatter = NSDateFormatter()
     
     
 
@@ -37,9 +37,11 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     override func viewDidLoad() {
         super.viewDidLoad()
         //inputToolbar.contentView.leftBarButtonItem = nil
-        automaticallyScrollsToMostRecentMessage = true
-        self.navigationController?.navigationBar.topItem?.title = "Kelly"
+        //automaticallyScrollsToMostRecentMessage = true
+        //self.navigationController?.navigationBar.topItem?.title = "Kelly"
+        self.title = "Kelly"
         self.tabBarController?.tabBar.hidden = true
+        
         self.senderDisplayName = "Jack"
         self.senderId = "no1"
         self.outputbuble = bublefactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
@@ -58,27 +60,21 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
             senderImageUrl = ""
         }
         */
-        
+        self.showLoadEarlierMessagesHeader = true
         //setup server load text
-        
-        self.finishReceivingMessage()
+        //setupFirebase()
+        //self.finishReceivingMessage()
 
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)   
-        collectionView.collectionViewLayout.springinessEnabled = false
-        SingletonC.sharedInstance.checkSocketConnection(self)
+        super.viewDidAppear(animated)
+        
+        self.collectionView.collectionViewLayout.springinessEnabled = false
+        //SingletonC.sharedInstance.checkSocketConnection(self)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        //firebase
-        /*if ref != nil {
-            ref.unauth()
-        }*/
-    }
+    
     
     // ACTIONS
     /*
@@ -90,64 +86,36 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         if SingletonC.sharedInstance.checkSocketConnection(self) {
-            JSQSystemSoundPlayer.jsq_playMessageSentSound()
-            
-            let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-            //setupFirebase()
-            self.showTypingIndicator = false
-            self.messages.append(temp)
-            
-            finishSendingMessage()
+            return
         }
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
+        let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        //setupFirebase()
+        
+        self.messages.append(temp)
+        
+        self.finishSendingMessage()
         
     }
     
  
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        setupFirebase()
-        finishReceivingMessage()
+        self.setupFirebase()
+        self.finishReceivingMessage()
     }
     
     //input message
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        return messages[indexPath.item]
-    }
-    
-    
-    //cell input include text color
-    
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
-    }
-    
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
-        
-        let message = messages[indexPath.item]
-        
-        if message.senderDisplayName == self.senderDisplayName {
-            cell.textView.textColor = UIColor.blackColor()
-        } else {
-            cell.textView.textColor = UIColor.whiteColor()
-        }
-        
-        let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
-        cell.textView.linkTextAttributes = attributes
-        
-        //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
-        //            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle]
-        return cell
+        return self.messages[indexPath.item]
     }
     
     //setup buble
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = self.messages[indexPath.item]
-        //let bublefactory = JSQMessagesBubbleImageFactory()
-        //var outgoingbuble = bublefactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
-        //var ingoingbuble = bublefactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleGreenColor())
+        
         if message.senderDisplayName == self.senderDisplayName {
             return self.outputbuble
         }
@@ -172,7 +140,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
         let messageDate = messages[indexPath.item].date
-
+        
         if indexPath.item > 0 {
             let previousmessageDate = messages[indexPath.item - 1].date
             let temp = previousmessageDate.dateByAddingTimeInterval(21600)
@@ -232,6 +200,41 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
+    
+    
+    //data source
+    //cell input include text color
+    
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.messages.count
+    }
+    
+    
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
+        
+        let message = messages[indexPath.item]
+        
+        if message.senderDisplayName == self.senderDisplayName {
+            cell.textView.textColor = UIColor.blackColor()
+        } else {
+            cell.textView.textColor = UIColor.whiteColor()
+        }
+        
+        let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
+        cell.textView.linkTextAttributes = attributes
+        
+        //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
+        //            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle]
+        return cell
+    }
+    
+  
+    
+    
+    
+    
     
     
     
@@ -357,7 +360,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         let b = CGFloat(Float(rgbValue & 0xFF)/255.0)
         let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
         
-        let nameLength = countElements(name)
+        let nameLength = count(name)
         let initials : String? = name.substringToIndex(advance(senderDisplayName.startIndex, min(3, nameLength)))
         let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
         
