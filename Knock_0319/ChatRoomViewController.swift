@@ -31,6 +31,10 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     var testmessage: Messageinfo!
     var dateFormatter = NSDateFormatter()
     
+    //chat information
+    var roomID: String!
+    var roomName: String!
+    var userID = SingletonC.sharedInstance.user[0].uid
     
 
     
@@ -39,11 +43,11 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         //inputToolbar.contentView.leftBarButtonItem = nil
         //automaticallyScrollsToMostRecentMessage = true
         //self.navigationController?.navigationBar.topItem?.title = "Kelly"
-        self.title = "Kelly"
+        self.title = self.roomName
         self.tabBarController?.tabBar.hidden = true
         
         self.senderDisplayName = "Jack"
-        self.senderId = "no1"
+        self.senderId = self.userID
         self.outputbuble = bublefactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         self.inputbuble = bublefactory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleGreenColor())
         self.dateFormatter.dateFormat = "YYYY-MM-dd 'at' h:mm a"
@@ -85,24 +89,31 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }*/
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        /*if SingletonC.sharedInstance.checkSocketConnection(self) {
+        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
-        }*/
-        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+        }
         
-        let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-        //setupFirebase()
+        //add new queue
         
-        self.messages.append(temp)
+        if SingletonC.sharedInstance.sendText(self.roomID, text: text) {
+            JSQSystemSoundPlayer.jsq_playMessageSentSound()
+            
+            let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+            //setupFirebase()
+            
+            self.messages.append(temp)
+            
+            self.finishSendingMessage()
+
+        }
         
-        self.finishSendingMessage()
         
     }
     
  
     
     override func didPressAccessoryButton(sender: UIButton!) {
-        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+        JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
 
         let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
         
@@ -218,6 +229,8 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         let message = messages[indexPath.item]
         
+        
+
         if message.senderDisplayName == self.senderDisplayName {
             cell.textView.textColor = UIColor.blackColor()
         } else {

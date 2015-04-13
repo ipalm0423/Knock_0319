@@ -186,7 +186,9 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         if segue.identifier == "showChatRoom" {
             if let indexpath = self.tableView.indexPathForSelectedRow(){
                 let chatRoomController = segue.destinationViewController as! ChatRoomViewController
-                
+                let room = self.rooms[indexpath.row]
+                chatRoomController.roomID = room.roomID
+                chatRoomController.roomName = room.roomName
                 //hide buttom tab bar
                 chatRoomController.hidesBottomBarWhenPushed = true
                 

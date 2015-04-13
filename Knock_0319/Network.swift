@@ -149,7 +149,8 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                         if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
                     
                             self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
-                            self.roominformation.roomName = roomName + ", ID:" + roomID
+                            self.roominformation.roomName = roomName
+                            self.roominformation.roomID = roomID
                             self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
                             self.roominformation.unRead = 0
                             //roominformation.isTimeup = 0
@@ -195,7 +196,8 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                         if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
                             
                             self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
-                            self.roominformation.roomName = roomNewName! + ", ID:" + roomID
+                            self.roominformation.roomName = roomName
+                            self.roominformation.roomID = roomID
                             self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
                             self.roominformation.unRead = 0
                             //roominformation.isTimeup = 0
@@ -288,8 +290,9 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         return send(message)
     }
     
-    func sendText(roomID:String, userID:String, text: String) -> Bool {
-        let message = "{\"method\": \"chat\", \"roomid\": \(roomID), \"uid\": \(userID), \"mtype\": \"text\", \"content\": \(text)}"
+    func sendText(roomID:String, text: String) -> Bool {
+        let uid = user[0].uid
+        let message = "{\"method\": \"chat\", \"roomid\": \(roomID), \"uid\": \(uid), \"mtype\": \"text\", \"content\": \"\(text)\"}"
         
         return send(message)
         

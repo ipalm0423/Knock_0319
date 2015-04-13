@@ -11,7 +11,7 @@ import CoreData
 
 class Roominfo: NSManagedObject{
     @NSManaged var roomName:String!
-    //@NSManaged var roomID:String?
+    @NSManaged var roomID:String!
     //@NSManaged var time:NSDate?
     @NSManaged var unRead:NSNumber!
     @NSManaged var image:NSData?
