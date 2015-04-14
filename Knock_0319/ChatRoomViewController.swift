@@ -35,8 +35,8 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     var roomID: String!
     var roomName: String!
     var userID = SingletonC.sharedInstance.user[0].uid
-    
-
+    var messageinformation: Messageinfo!
+    //var unRead: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +66,8 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         */
         self.showLoadEarlierMessagesHeader = true
         //setup server load text
-        //setupFirebase()
-        //self.finishReceivingMessage()
+        self.setupPreviousMessage(10)
+        
 
     }
     
@@ -93,9 +93,13 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
             return
         }
         
-        //add new queue
+        let roomid = self.roomID
         
-        if SingletonC.sharedInstance.sendText(self.roomID, text: text) {
+        if SingletonC.sharedInstance.sendText(roomid, text: text) {
+            
+            //wait build =>check server feeback
+            
+            //check ok, println
             JSQSystemSoundPlayer.jsq_playMessageSentSound()
             
             let temp = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
@@ -104,6 +108,26 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
             self.messages.append(temp)
             
             self.finishSendingMessage()
+            
+            //add new queue
+            //add observer & input sql
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
+                if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                    
+                    self.messageinformation = NSEntityDescription.insertNewObjectForEntityForName("Messageinfo", inManagedObjectContext: managedObjectContext) as! Messageinfo
+                    self.messageinformation.senderId = senderId
+                    self.messageinformation.senderDisplayName = senderDisplayName
+                    self.messageinformation.roomID = roomid
+                    self.messageinformation.date = date
+                    self.messageinformation.text = text
+                    
+                    var e: NSError?
+                    if managedObjectContext.save(&e) != true {
+                        println("insert error: \(e!.localizedDescription)")
+                    }
+                }
+            })
+            
 
         }
         
@@ -120,6 +144,44 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         self.messages.append(mes1)
         
         self.finishReceivingMessage()
+        
+        
+    }
+    
+    func setupPreviousMessage(number:Int) {
+        //load SQL into messagetemp
+        var messagesTemp: [Messageinfo] = []
+        var fetchRequest = NSFetchRequest(entityName: "Messageinfo")
+        let roomIDpredicate = NSPredicate(format: "roomID == %@", self.roomID)
+        let timeSort = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.predicate = roomIDpredicate
+        fetchRequest.sortDescriptors = [timeSort]
+        fetchRequest.fetchBatchSize = number
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            var e:NSError?
+            var result = fetchResultController.performFetch(&e)
+            messagesTemp = fetchResultController.fetchedObjects as! [Messageinfo]
+            if result != true {
+                println(e?.localizedDescription)
+            }
+            
+        }
+        
+        //input from temp to JSQMessage array & reload
+        for row in messagesTemp {
+            if let text = row.text {
+                let message = JSQMessage(senderId: row.senderId, senderDisplayName: row.senderDisplayName, date: row.date, text: text)
+                self.messages.append(message)
+                self.finishReceivingMessage()
+                
+            }else {
+                //media data
+            }
+            
+        }
+        
     }
     
     //input message

@@ -143,12 +143,12 @@
 			children = (
 				AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */,
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
-				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
+				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
 				AC6A34801ABC42E500AD1CC7 /* Roominfo.swift */,
 				ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */,
 			);

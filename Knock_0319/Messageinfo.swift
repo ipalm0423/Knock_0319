@@ -9,54 +9,23 @@ import UIKit
 //  Copyright (c) 2014 Firebase. All rights reserved.
 //
 
-import Foundation
 
-class Messageinfo : NSObject {
-    var text_: String
-    var senderId_: String
-    var senderDisplayName_: String
-    var date_: NSDate
-    //var isMediaMessage_: Bool
-    //var messageHash_: Int
+import Foundation
+import CoreData
+
+class Messageinfo: NSManagedObject{
+    @NSManaged var text:String?
+    @NSManaged var senderId:String!
+    @NSManaged var senderDisplayName:String!
+    @NSManaged var roomID:String!
+    //@NSManaged var media:String?
+    @NSManaged var date:NSDate!
+    //@NSManaged var image:NSData?
+    //@NSManaged var userID:String?
     
-    /*
-    convenience init(text: String?, sender: String?, senderDisplayName: String?) {
-        self.init(text: text, sender: sender, senderDisplayName: senderDisplayName)
-    }*/
-    
-    init(text: String?, sender: String?, senderDisplayName: String?) {
-        self.text_ = text!
-        self.senderDisplayName_ = senderDisplayName!
-        self.senderId_ = sender!
-        self.date_ = NSDate()
-        //self.isMediaMessage_ = false
-        //self.messageHash_ = 1
-        
-    }
-    
-    func text() -> String! {
-        return text_
-    }
-    
-    func senderId() -> String! {
-        return senderId_
-    }
-    
-    func senderDisplayName() -> String! {
-        return senderDisplayName_
-    }
-    
-    func date() -> NSDate! {
-        return date_
-    }
-    
-    /*func isMediaMessage() -> Bool! {
-        return isMediaMessage_
-    }
-    
-    func messageHash() -> Int! {
-        return messageHash_
-    }*/
     
     
 }
+
+
+

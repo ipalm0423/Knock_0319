@@ -90,54 +90,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Knock_0319/Messageinfo.swift"
-            timestampString = "449936584.78941"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "Messageinfo"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Knock_0319.Messageinfo.__deallocating_deinit"
-                  moduleName = "Knock_0319"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/Messageinfo.swift"
-                  timestampString = "450637752.135223"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Knock_0319.Messageinfo.init (Knock_0319.Messageinfo.Type)() -&gt; Knock_0319.Messageinfo"
-                  moduleName = "Knock_0319"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/Messageinfo.swift"
-                  timestampString = "450637752.135439"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "14"
-                  endingLineNumber = "14"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Knock_0319/JSQBuble.swift"
             timestampString = "450031893.624396"
             startingColumnNumber = "9223372036854775807"
@@ -272,7 +224,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "237"
             endingLineNumber = "237"
-            landmarkName = "collectionView(_:cellForItemAtIndexPath:)"
+            landmarkName = "collectionView(_:attributedTextForCellTopLabelAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

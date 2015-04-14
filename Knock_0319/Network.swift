@@ -48,6 +48,9 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var roomNewID: String?
     var roomNewName: String?
     var getedRoomID: Bool = false
+    
+    //message parameter
+    var messageinformation: Messageinfo!
     //check internet
     func checkSocketConnection(viewcontroller: UIViewController) -> Bool {
         if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
@@ -136,9 +139,47 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                 
                     let json = JSON(data: inputdata)
                     let method = json["method"].stringValue
+                    let status = json["status"].stringValue
                     
                     //base on method
-                    if method == "newroom" {
+                    if method == "chat" {
+                        if status == "getok" {
+                            //讀取未讀訊息
+                            let roomid = json["roomid"].stringValue
+                            let uid = json["uid"].stringValue
+                            let content = json["content"].stringValue
+                            let type = json["mtype"].stringValue
+                            //let date = json["time"].stringValue
+
+                            //放入sql
+                            if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                                
+                                self.messageinformation = NSEntityDescription.insertNewObjectForEntityForName("Messageinfo", inManagedObjectContext: managedObjectContext) as! Messageinfo
+                                self.messageinformation.senderId = uid
+                                self.messageinformation.senderDisplayName = "Anonymours"
+                                self.messageinformation.roomID = roomid
+                                self.messageinformation.date = NSDate()
+                                if type == "text" {
+                                    self.messageinformation.text = content
+                                }
+                                
+                                //self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
+                                //restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
+                                var e: NSError?
+                                if managedObjectContext.save(&e) != true {
+                                    println("insert error: \(e!.localizedDescription)")
+                                }
+                            }
+                            
+                            // post observer
+                            
+                        }else if status == "sendok" {
+                            //傳送訊息ok
+                            
+                            //post observer
+                            
+                        }
+                    }else if method == "newroom" {
                         let roomID = json["roomid"].stringValue
                         let roomName = self.roomNewName!
                         //let roomName = json["roomname"].stringValue
