@@ -75,7 +75,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         super.viewDidAppear(animated)
         
         self.collectionView.collectionViewLayout.springinessEnabled = false
-        //SingletonC.sharedInstance.checkSocketConnection(self)
+        
     }
     
     
@@ -137,6 +137,11 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
  
     
     override func didPressAccessoryButton(sender: UIButton!) {
+        
+        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+            return
+        }
+        
         JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
 
         let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
@@ -147,6 +152,13 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         
         
     }
+
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
+        let messageCount = messages.count + 10
+        setupPreviousMessage(messageCount)
+    }
+    
     
     func setupPreviousMessage(number:Int) {
         //load SQL into messagetemp
@@ -174,7 +186,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
             if let text = row.text {
                 let message = JSQMessage(senderId: row.senderId, senderDisplayName: row.senderDisplayName, date: row.date, text: text)
                 self.messages.append(message)
-                self.finishReceivingMessage()
+                self.finishReceivingMessageAnimated(false)
                 
             }else {
                 //media data

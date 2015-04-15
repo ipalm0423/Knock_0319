@@ -47,17 +47,13 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         self.buttonJoinRoom.enabled = false
         self.buttonCreateRoom.enabled = false
         self.editRoomName.clearButtonMode = UITextFieldViewMode.WhileEditing
-        SingletonC.sharedInstance.loadUserInfo()
-        if SingletonC.sharedInstance.user != [] {
-            SingletonC.sharedInstance.onlineID()
-        }
+        
 
         
     }
     
     override func viewDidAppear(animated: Bool) {
-        SingletonC.sharedInstance.checkSocketConnection(self)
-    }
+            }
     
     //button enable by edit Box not empty
     @IBAction func editTextChanged(sender: AnyObject) {
@@ -74,14 +70,20 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     @IBAction func createRoom(sender: UIButton) {
         // Form violation reminder
         
-        let roomNametemp = editRoomName.text
-        // setup user picture
-        SingletonC.sharedInstance.roomPicture = addImage.image
-        SingletonC.sharedInstance.roomNewName = roomNametemp
         //check network
         if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
+        //check account
+        if !SingletonC.sharedInstance.loadUserInfoWithAlert(self) {
+            return
+        }
+        
+        let roomNametemp = editRoomName.text
+        // setup user picture
+        SingletonC.sharedInstance.roomPicture = addImage.image
+        SingletonC.sharedInstance.roomNewName = roomNametemp
+        
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         
@@ -133,13 +135,18 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     @IBAction func joinRoom(sender: UIButton) {
         // Form violation reminder
         
-        let roomID = editRoomName.text
-        SingletonC.sharedInstance.roomPicture = addImage.image
-        
         //check network
         if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
+        if !SingletonC.sharedInstance.loadUserInfoWithAlert(self) {
+            return
+        }
+        
+        let roomID = editRoomName.text
+        SingletonC.sharedInstance.roomPicture = addImage.image
+        
+        
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         
@@ -190,8 +197,8 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     
     @IBAction func createID(sender: AnyObject) {
         //check uid is already have
-        SingletonC.sharedInstance.loadUserInfo()
-        if SingletonC.sharedInstance.user != [] {
+        
+        if SingletonC.sharedInstance.loadUserInfo() {
             let userid = SingletonC.sharedInstance.user[0].uid
             let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid, preferredStyle: .Alert)
             let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)

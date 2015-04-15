@@ -53,7 +53,12 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     override func viewDidAppear(animated: Bool) {
-        SingletonC.sharedInstance.checkSocketConnection(self)
+        
+        if SingletonC.sharedInstance.checkSocketConnection(self) {
+            
+        }
+        
+        //reload new message
     }
 
     override func didReceiveMemoryWarning() {

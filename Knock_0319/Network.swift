@@ -68,12 +68,53 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             alertController.addAction(doneAction)
             
             viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+            closeSocketStreamSINGLE()
+            openSocketStreamSINGLE()
             return false
         }
         
        return true
 
     }
+    
+    //check internet without UI appear
+    func checkSocketConnectionWithOutUI() -> Bool {
+        if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
+            closeSocketStreamSINGLE()
+            openSocketStreamSINGLE()
+            return false
+        }
+        
+        return true
+        
+    }
+    func checkUserIDandOnlineWithNetwork(viewcontroller: UIViewController) -> Bool {
+        if checkUserIDandOnlineWithNetworkWOUI() == false {
+            let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
+            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(doneAction)
+            
+            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+            return false
+        }
+        return true
+    }
+    func checkUserIDandOnlineWithNetworkWOUI() -> Bool {
+        if SingletonC.sharedInstance.user != [] {
+            SingletonC.sharedInstance.onlineID()
+            return true
+        }else {
+            loadUserInfo()
+            if user != [] {
+                onlineID()
+                return true
+            }else {
+                //無帳號
+                return false
+            }
+        }
+    }
+    
     
 
     //open socket
@@ -389,7 +430,10 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     
     //load user information from CoreData to Singleton
-    func loadUserInfo() {
+    func loadUserInfo() -> Bool {
+        if user != [] {
+            return true
+        }
         var fetchRequest = NSFetchRequest(entityName: "Userinformation")
         let sortDescription = NSSortDescriptor(key: "uid", ascending: true)
         fetchRequest.sortDescriptors = [sortDescription]
@@ -404,6 +448,23 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             }
             
         }
+        if user != [] {
+            return true
+        }else {
+            return false
+        }
+        
+    }
+    func loadUserInfoWithAlert(viewcontroller: UIViewController) -> Bool {
+        if loadUserInfo() == false {
+            let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
+            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(doneAction)
+            
+            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+            return false
+        }
+        return true
     }
 
     
