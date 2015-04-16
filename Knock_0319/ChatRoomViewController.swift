@@ -18,10 +18,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     var messages = [JSQMessage]()
     var avatars = Dictionary<String, JSQMessagesAvatarImage>()
-    
-    var senderImageUrl: String!
-    var batchMessages = true
-    //var ref: Firebase!
+
     var bublefactory: JSQMessagesBubbleImageFactory = JSQMessagesBubbleImageFactory()
     var outputbuble: JSQMessagesBubbleImage!
     var inputbuble: JSQMessagesBubbleImage!
@@ -66,8 +63,8 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         */
         self.showLoadEarlierMessagesHeader = true
         //setup server load text
-        self.setupPreviousMessage(10)
-        
+        //self.setupPreviousMessage(10)
+        self.setupMessageArray(10)
 
     }
     
@@ -137,18 +134,21 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
  
     
     override func didPressAccessoryButton(sender: UIButton!) {
+        var newMessage = JSQMessage(senderId: "no2", displayName: "kely", text: "text");
+        messages += [newMessage]
+        self.finishSendingMessage()
         
-        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+        /*if SingletonC.sharedInstance.checkSocketConnection(self) == false {
             return
         }
-        
+        //self.messages = []
         JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
 
-        let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
+        var mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
         
         self.messages.append(mes1)
         
-        self.finishReceivingMessage()
+        self.finishReceivingMessage()*/
         
         
     }
@@ -159,6 +159,27 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         setupPreviousMessage(messageCount)
     }
     
+    func setupMessageArray(number: Int) {
+        //load SQL into messagetemp
+        var messagesTemp: [Messageinfo] = []
+        var fetchRequest = NSFetchRequest(entityName: "Messageinfo")
+        let roomIDpredicate = NSPredicate(format: "roomID == %@", self.roomID)
+        let timeSort = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.predicate = roomIDpredicate
+        fetchRequest.sortDescriptors = [timeSort]
+        fetchRequest.fetchBatchSize = number
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            var e:NSError?
+            var result = fetchResultController.performFetch(&e)
+            messagesTemp = fetchResultController.fetchedObjects as! [Messageinfo]
+            if result != true {
+                println(e?.localizedDescription)
+            }
+            
+        }
+    }
     
     func setupPreviousMessage(number:Int) {
         //load SQL into messagetemp
@@ -184,7 +205,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         //input from temp to JSQMessage array & reload
         for row in messagesTemp {
             if let text = row.text {
-                let message = JSQMessage(senderId: row.senderId, senderDisplayName: row.senderDisplayName, date: row.date, text: text)
+                var message = JSQMessage(senderId: row.senderId, senderDisplayName: row.senderDisplayName, date: row.date, text: text)
                 self.messages.append(message)
                 self.finishReceivingMessageAnimated(false)
                 
@@ -198,13 +219,14 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     //input message
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
-        return self.messages[indexPath.item]
+        var data = self.messages[indexPath.item]
+        return data
     }
     
     //setup buble
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let message = self.messages[indexPath.item]
+        var message = self.messages[indexPath.item]
         
         if message.senderDisplayName == self.senderDisplayName {
             return self.outputbuble
@@ -215,10 +237,10 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     //setup avatar image
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
-        let message = messages[indexPath.item]
+        var message = messages[indexPath.item]
         if let avatar = avatars[message.senderDisplayName] {
             return avatar
-        } else {
+        }else {
             //setupAvatarImage(message.senderDisplayName, imageUrl: nil, incoming: true)
             setupAvatarColor(message.senderDisplayName, incoming: true)
             return avatars[message.senderDisplayName]
@@ -227,13 +249,13 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     
     
     // add time string above cell
-    
+    /*
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        let messageDate = messages[indexPath.item].date
+        var messageDate = messages[indexPath.item].date
         
         if indexPath.item > 0 {
-            let previousmessageDate = messages[indexPath.item - 1].date
-            let temp = previousmessageDate.dateByAddingTimeInterval(21600)
+            var previousmessageDate = messages[indexPath.item - 1].date
+            var temp = previousmessageDate.dateByAddingTimeInterval(21600)
             if previousmessageDate.compare(messageDate) == NSComparisonResult.OrderedAscending {
                 return CGFloat(0.0)
             }
@@ -243,18 +265,19 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        let message = messages[indexPath.item]
-        let str = dateFormatter.stringFromDate(message.date)
-        return NSAttributedString(string: str)
+        var message = messages[indexPath.item]
+        var str = self.dateFormatter.stringFromDate(message.date)
+        var ATTRString = NSAttributedString(string: str)
+        return ATTRString
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
         return CGFloat(0.0)
     }
-    
+    */
     // add sender name above buble
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        let message = messages[indexPath.item];
+        var message = messages[indexPath.item];
         
         // Sent by me, skip
         
@@ -273,7 +296,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         return NSAttributedString(string:message.senderDisplayName)
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        let message = messages[indexPath.item]
+        var message = messages[indexPath.item]
         
         // Sent by me, skip
         if message.senderDisplayName == self.senderDisplayName {
@@ -298,10 +321,10 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
-    
+    /*
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
-        let message = messages[indexPath.item]
+        var cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
+        var message = messages[indexPath.item]
         
         
 
@@ -314,131 +337,12 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
         let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
         cell.textView.linkTextAttributes = attributes
         
-        return cell
-    }
-    
-    /*
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let collect = collectionView as! JSQMessagesCollectionView
-        let cell = super.collectionView(collect, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
-        
-        let message = messages[indexPath.item]
-        
-        if message.senderDisplayName == self.senderDisplayName {
-            cell.textView.textColor = UIColor.blackColor()
-        } else {
-            cell.textView.textColor = UIColor.whiteColor()
-        }
-        
-        let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
-        cell.textView.linkTextAttributes = attributes
-        
-        //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
-        //            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle]
         return cell
     }*/
     
+    
+    
   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // *** STEP 1: STORE FIREBASE REFERENCES
-    //var messagesRef: Firebase!
-    
-    func setupFirebase() {
-        
-        //load fake message
-        //self.messages = [JSQMessage(senderId: "no1", senderDisplayName: "Jack", date: NSDate(timeIntervalSince1970: 60), text: "hello"), JSQMessage(senderId: "no2", senderDisplayName: "mary", date: NSDate(), text: "hi jack")]
-        
-        //let me1 = JSQMessage(senderId: "no2", displayName: "Kelly", text: "hi")
-        let mes1: JSQMessage = JSQMessage(senderId: "no2", senderDisplayName: "Kelly", date: NSDate(), text: "how are you?")
-        
-        self.messages.append(mes1)
-        
-
-        /*
-        // *** STEP 2: SETUP FIREBASE
-        messagesRef = Firebase(url: "https://swift-chat.firebaseio.com/messages")
-        
-        // *** STEP 4: RECEIVE MESSAGES FROM FIREBASE (limited to latest 25 messages)
-        messagesRef.queryLimitedToNumberOfChildren(25).observeEventType(FEventType.ChildAdded, withBlock: { (snapshot) in
-            let text = snapshot.value["text"] as? String
-            let sender = snapshot.value["sender"] as? String
-            let imageUrl = snapshot.value["imageUrl"] as? String
-        
-            let message = Message(text: text, sender: sender, imageUrl: imageUrl)
-            self.messages.append(message)
-            self.finishReceivingMessage()
-        })*/
-        
-        //pull from coredata for 5 datas:
-        /*
-        var fetchRequest = NSFetchRequest(entityName: "Messageinfo")
-        let sortDescription = NSSortDescriptor(key: "senderDisplayName_", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescription]
-        if let manageObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            var e:NSError?
-            var result = fetchResultController.performFetch(&e)
-            messages = fetchResultController.fetchedObjects as [Messageinfo]
-            if result != true {
-                println(e?.localizedDescription)
-            }
-            
-            //input message
-            /*for ... {
-                let temp = messages[num]
-                let text: String? = messages.text_
-                let sender: String? = messages.sender_
-                let imageUrl: String? = messages.imageUrl_
-                let messagelist = Messageinfo(text: text, sender: sender, imageUrl: imageUrl)
-                self.messages.append(messagelist)
-                self.finishReceivingMessage()
-                
-            }*/
-        }*/
-
-    }
-    
-    
-    
-    func sendMessage(text: String!, sender: String!) {
-        // *** STEP 3: ADD A MESSAGE TO FIREBASE
-        /*
-        messagesRef.childByAutoId().setValue([
-            "text":text,
-            "sender":sender,
-            "imageUrl":senderImageUrl
-            ])*/
-        
-        //wait setup for singlton
-        /*
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext {
-            
-            self.testmessage = NSEntityDescription.insertNewObjectForEntityForName("Messageinfo",
-                inManagedObjectContext: managedObjectContext) as Messageinfo
-            self.testmessage.senderDisplayName_ = "me"
-            self.testmessage.senderId_ = "no1"
-            self.testmessage.date_ = NSDate()
-            self.testmessage.text_ = "hello world"
-            var e: NSError?
-            if managedObjectContext.save(&e) != true {
-                println("insert error: \(e!.localizedDescription)")
-                
-            }
-        }*/
-        
-        
-
-    }
-   
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         //load picture for avator

@@ -190,12 +190,11 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showChatRoom" {
             if let indexpath = self.tableView.indexPathForSelectedRow(){
-                let chatRoomController = segue.destinationViewController as! ChatRoomViewController
+                let chatRoomController = segue.destinationViewController as! textViewController
                 let room = self.rooms[indexpath.row]
                 chatRoomController.roomID = room.roomID
-                chatRoomController.roomName = room.roomName
-                //hide buttom tab bar
-                chatRoomController.hidesBottomBarWhenPushed = true
+                chatRoomController.title = room.roomName
+                
                 
             }
         

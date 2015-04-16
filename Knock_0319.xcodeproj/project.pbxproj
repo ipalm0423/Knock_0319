@@ -10,6 +10,7 @@
 		6A11C2A7408010423E3DA09F /* libPods-Knock_0319.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 628AB42E7261A4341496886C /* libPods-Knock_0319.a */; };
 		AC086F831ADAC7700057E104 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC086F821ADAC7700057E104 /* AudioToolbox.framework */; };
 		AC2327A11AD3B84500B06354 /* Buble.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2327A01AD3B84500B06354 /* Buble.swift */; };
+		AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5018F71ADF7B7500CBAF14 /* textViewController.swift */; };
 		AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC623B891ACBDDF200221DB7 /* Messageinfo.swift */; };
 		AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */; };
 		AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */; };
@@ -43,6 +44,7 @@
 		A4CB16A76A8E69F34D1DF629 /* Pods-Knock_0319.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knock_0319.release.xcconfig"; path = "Pods/Target Support Files/Pods-Knock_0319/Pods-Knock_0319.release.xcconfig"; sourceTree = "<group>"; };
 		AC086F821ADAC7700057E104 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		AC2327A01AD3B84500B06354 /* Buble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buble.swift; sourceTree = "<group>"; };
+		AC5018F71ADF7B7500CBAF14 /* textViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textViewController.swift; sourceTree = "<group>"; };
 		AC623B891ACBDDF200221DB7 /* Messageinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageinfo.swift; sourceTree = "<group>"; };
 		AC6A34591ABC3BDA00AD1CC7 /* Knock_0319.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knock_0319.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
+				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
 				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
+				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,

@@ -71,10 +71,10 @@
             </objects>
             <point key="canvasLocation" x="1522" y="-326"/>
         </scene>
-        <!--Chat Room View Controller-->
+        <!--Text View Controller-->
         <scene sceneID="BKU-R0-YVC">
             <objects>
-                <viewController id="Bo2-bN-Sfj" customClass="ChatRoomViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Bo2-bN-Sfj" customClass="textViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cPG-aH-4aY"/>
                         <viewControllerLayoutGuide type="bottom" id="NA0-zC-EjX"/>
@@ -154,6 +154,15 @@
                                     <action selector="createRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="tcq-AZ-8KD"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fM9-0K-6CO">
+                                <rect key="frame" x="332" y="392" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="JoM-Yg-WUZ" kind="show" identifier="test" id="zer-40-H83"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -185,6 +194,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="750" y="360"/>
+        </scene>
+        <!--Text View Controller-->
+        <scene sceneID="cg4-XT-Jsa">
+            <objects>
+                <viewController id="JoM-Yg-WUZ" customClass="textViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4dn-0j-Cgx"/>
+                        <viewControllerLayoutGuide type="bottom" id="d7j-eb-tXy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="11W-KP-qAK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qce-P4-vOG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1428" y="360"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

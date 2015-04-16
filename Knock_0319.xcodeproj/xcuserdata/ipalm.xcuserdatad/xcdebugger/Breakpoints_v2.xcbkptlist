@@ -219,13 +219,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Knock_0319/ChatRoomViewController.swift"
-            timestampString = "450811436.391774"
+            timestampString = "450860482.258036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "collectionView(_:attributedTextForCellTopLabelAtIndexPath:)"
-            landmarkType = "5">
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "ChatRoomViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
