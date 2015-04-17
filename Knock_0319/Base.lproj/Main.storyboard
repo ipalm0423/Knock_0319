@@ -56,7 +56,7 @@
                                     <outlet property="roomImage" destination="csq-sE-PAx" id="BFX-iu-QX0"/>
                                     <outlet property="roomName" destination="1yz-vL-aUU" id="9Ne-sc-3jw"/>
                                     <outlet property="unReadLabel" destination="iR6-G9-enm" id="NJZ-zY-Q5I"/>
-                                    <segue destination="Bo2-bN-Sfj" kind="show" identifier="showChatRoom" id="GsV-P2-N2V"/>
+                                    <segue destination="Bo2-bN-Sfj" kind="show" identifier="showChatRoom" id="zeU-zd-re7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -79,10 +79,13 @@
                         <viewControllerLayoutGuide type="top" id="cPG-aH-4aY"/>
                         <viewControllerLayoutGuide type="bottom" id="NA0-zC-EjX"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3tt-nq-vfX">
+                    <view key="view" contentMode="scaleToFill" id="3tt-nq-vfX" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <action selector="closeKeyboard:" destination="Bo2-bN-Sfj" eventType="touchUpInside" id="hFd-y2-1dW"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="qrZ-8C-9KB"/>
                 </viewController>
@@ -103,7 +106,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D7Q-e0-auR">
-                                <rect key="frame" x="252" y="217" width="97" height="30"/>
+                                <rect key="frame" x="252" y="267" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="slW-BU-Dmb"/>
                                 </constraints>
@@ -115,7 +118,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-mW-BZF">
-                                <rect key="frame" x="268" y="157" width="65" height="30"/>
+                                <rect key="frame" x="268" y="207" width="65" height="30"/>
                                 <state key="normal" title="Create ID">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -124,10 +127,17 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera-50" translatesAutoresizingMaskIntoConstraints="NO" id="tqM-yz-2y9">
-                                <rect key="frame" x="253" y="92" width="94" height="50"/>
+                                <rect key="frame" x="250" y="92" width="100" height="100"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="5kc-JS-52N"/>
                                     <constraint firstAttribute="width" secondItem="tqM-yz-2y9" secondAttribute="height" multiplier="15:8" id="dHh-1R-nCZ"/>
+                                    <constraint firstAttribute="width" constant="100" id="kYP-qP-iZ5"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dHh-1R-nCZ"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Create room" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
                                 <rect key="frame" x="200" y="35" width="201" height="42"/>
@@ -137,7 +147,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VHw-L6-aXw">
-                                <rect key="frame" x="314" y="265" width="69" height="30"/>
+                                <rect key="frame" x="314" y="315" width="69" height="30"/>
                                 <state key="normal" title="Join room">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -146,7 +156,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HE-eQ-A7g">
-                                <rect key="frame" x="191" y="265" width="86" height="30"/>
+                                <rect key="frame" x="191" y="315" width="86" height="30"/>
                                 <state key="normal" title="Create room">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -154,13 +164,13 @@
                                     <action selector="createRoom:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="tcq-AZ-8KD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fM9-0K-6CO">
-                                <rect key="frame" x="332" y="392" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fM9-0K-6CO">
+                                <rect key="frame" x="393" y="122" width="81" height="30"/>
+                                <state key="normal" title="Add Picture">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="JoM-Yg-WUZ" kind="show" identifier="test" id="zer-40-H83"/>
+                                    <action selector="addPicture:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="oHv-32-4yJ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -171,9 +181,11 @@
                             <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="69s-dJ-xVt"/>
                             <constraint firstItem="6HE-eQ-A7g" firstAttribute="top" secondItem="D7Q-e0-auR" secondAttribute="bottom" constant="18" id="6qC-6L-NMg"/>
                             <constraint firstItem="oLA-mW-BZF" firstAttribute="top" secondItem="tqM-yz-2y9" secondAttribute="bottom" constant="15" id="Eqt-a8-QpM"/>
+                            <constraint firstItem="fM9-0K-6CO" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="45" id="Nas-Bv-gNA"/>
                             <constraint firstItem="zEq-FU-wV5" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="15" id="WtP-hh-bTB"/>
                             <constraint firstAttribute="centerX" secondItem="oLA-mW-BZF" secondAttribute="centerX" id="XsD-Az-vSd"/>
                             <constraint firstAttribute="centerX" secondItem="VHw-L6-aXw" secondAttribute="centerX" constant="-48" id="Y6E-hv-jmh"/>
+                            <constraint firstItem="fM9-0K-6CO" firstAttribute="leading" secondItem="oLA-mW-BZF" secondAttribute="trailing" constant="60" id="ZDc-MG-3hq"/>
                             <constraint firstItem="VHw-L6-aXw" firstAttribute="top" secondItem="D7Q-e0-auR" secondAttribute="bottom" constant="18" id="aY8-w6-cQs"/>
                             <constraint firstAttribute="centerX" secondItem="tqM-yz-2y9" secondAttribute="centerX" id="cQD-KJ-Ghn"/>
                             <constraint firstAttribute="centerX" secondItem="6HE-eQ-A7g" secondAttribute="centerX" constant="66" id="nyA-Av-4iT"/>
@@ -194,24 +206,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="750" y="360"/>
-        </scene>
-        <!--Text View Controller-->
-        <scene sceneID="cg4-XT-Jsa">
-            <objects>
-                <viewController id="JoM-Yg-WUZ" customClass="textViewController" customModule="Knock_0319" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4dn-0j-Cgx"/>
-                        <viewControllerLayoutGuide type="bottom" id="d7j-eb-tXy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="11W-KP-qAK">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qce-P4-vOG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1428" y="360"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

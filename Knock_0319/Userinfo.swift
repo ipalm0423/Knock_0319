@@ -15,7 +15,7 @@ class Userinfo: NSManagedObject{
     //@NSManaged var roomID:String?
     //@NSManaged var time:NSDate?
     //@NSManaged var isTimeup:NSNumber?
-    @NSManaged var picture:NSData!
+    @NSManaged var picture:NSData?
     //@NSManaged var userID:String?
     
     

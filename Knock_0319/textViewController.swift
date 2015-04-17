@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class textViewController: JSQMessagesViewController, NSFetchedResultsControllerDelegate {
+class textViewController: JSQMessagesViewController, NSFetchedResultsControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     
     var messages = [JSQMessage]()
@@ -19,30 +19,53 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     var fetchResultController:NSFetchedResultsController!
     var testmessage: Messageinfo!
     var dateFormatter = NSDateFormatter()
+    var mediaPicture: UIImage?
     
+
     //chat information
     var roomID: String!
-    var userID = SingletonC.sharedInstance.user[0].uid
+    var roomName: String!
+    //var roomPicture: UIImage?
     var messageinformation: Messageinfo!
     //var unRead: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.senderId = self.userID
+        self.senderId = SingletonC.sharedInstance.user[0].uid
         self.senderDisplayName = "Jack"
         self.tabBarController?.tabBar.hidden = true
         self.dateFormatter.dateFormat = "YYYY-MM-dd 'at' h:mm a"
         self.showLoadEarlierMessagesHeader = true
+        self.title = self.roomName
         // Do any additional setup after loading the view, typically from a nib.
+        SingletonC.sharedInstance.openedRoomID = self.roomID
         
         //Load Message
         self.setupPreviousMessage(0, number: 5, limit: 20)
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "NotificationGetedMessage", object: nil)
+        SingletonC.sharedInstance.openedRoomID = nil
+    }
+    /*
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
+    }
+    */
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        self.messages = []
+    }
+
+    
+    //setup keyboard
+    @IBAction func closeKeyboard(sender: AnyObject) {
+        self.inputToolbar.resignFirstResponder()
     }
     
     
@@ -69,10 +92,16 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     //setup avatar image
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         var message = messages[indexPath.item]
-        if let avatar = avatars[message.senderDisplayName] {
+        if message.senderId == self.senderId {
+            return nil
+        }
+        if let avatar = avatars[message.senderId] {
             return avatar
         }else {
+            //load picture from internet
             //setupAvatarImage(message.senderDisplayName, imageUrl: nil, incoming: true)
+            
+            //setup with colors
             setupAvatarColor(message.senderDisplayName, incoming: true)
             return avatars[message.senderDisplayName]
         }
@@ -89,7 +118,7 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         
         let nameLength = count(name)
         let initials : String? = name.substringToIndex(advance(senderDisplayName.startIndex, min(3, nameLength)))
-        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
+        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(12)), diameter: diameter)
         
         avatars[name] = userImage
         return
@@ -168,17 +197,19 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         
         var message = messages[indexPath.item]
-        
-        if message.senderId == self.senderId {
-            cell.textView.textColor = UIColor.blackColor()
-        } else {
-            cell.textView.textColor = UIColor.whiteColor()
+        if message.media == nil {
+            if message.senderId == self.senderId {
+                cell.textView.textColor = UIColor.blackColor()
+            } else {
+                cell.textView.textColor = UIColor.whiteColor()
+            }
+            var attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
+            cell.textView.linkTextAttributes = attributes
+            
+
         }
-        
-        var attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
-        cell.textView.linkTextAttributes = attributes
-        
-        //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
+
+                //        cell.textView.linkTextAttributes = [NSForegroundColorAttributeName: cell.textView.textColor,
         //            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle]
         return cell
     }
@@ -194,9 +225,9 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     }
     */
     
-    //setup function
+    //setup message function
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self)  {
             return
         }
         var roomid = self.roomID
@@ -230,11 +261,47 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         
         
     }
-    override func didPressAccessoryButton(sender: UIButton!) {
-        var newMessage = JSQMessage(senderId: "no2", displayName: "kely", text: "text")
-        var message = JSQMessage(senderId: "no2", senderDisplayName: "kely", date: NSDate(), text: "test")
-        messages += [message]
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        mediaPicture = info[UIImagePickerControllerOriginalImage] as? UIImage
+        mediaPicture?.resizingMode
+        var jsqpicture = JSQPhotoMediaItem(image: self.mediaPicture)
+        var message = JSQMessage(senderId: self.senderId, displayName: self.senderDisplayName, media: jsqpicture)
+        self.messages += [message]
         self.finishReceivingMessage()
+        dismissViewControllerAnimated(true, completion: nil)
+        
+    }
+    override func didPressAccessoryButton(sender: UIButton!) {
+        let sendMedia = UIAlertController(title: nil, message: "傳送照片", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let usePhoto = UIAlertAction(title: "相片集", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .PhotoLibrary
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+                imagePicker.delegate = self
+                
+            }
+        }
+        let useCamera = UIAlertAction(title: "照相", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .Camera
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+                imagePicker.delegate = self
+            }
+        }
+        let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        sendMedia.addAction(usePhoto)
+        sendMedia.addAction(useCamera)
+        sendMedia.addAction(cancel)
+        self.presentViewController(sendMedia, animated: true, completion: nil)
+        
+    }
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        
         
     }
     override func collectionView(collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
@@ -243,10 +310,37 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         setupPreviousMessage(messageCount, number: 5, limit: 20)
     }
     
-    
-    
-    
-    
+    func GetedNewMessage(notify: NSNotification) {
+        
+        if let userinfo = notify.userInfo as? Dictionary<String,AnyObject> {
+            //check roomid
+            if userinfo["roomid"] as! String == self.roomID {
+                //check media
+                if userinfo["type"] as! String == "text" {
+                    let uid = userinfo["uid"] as! String
+                    let displayName = userinfo["displayName"] as! String
+                    let text = userinfo["text"] as! String
+                    let date = userinfo["date"] as! NSDate
+                    var message = JSQMessage(senderId: uid, senderDisplayName: displayName, date: date, text: text)
+                    self.messages += [message]
+                    self.finishReceivingMessage()
+                    return
+                }else {
+                    //media data
+                    
+                    
+                    
+                    
+                    
+                    return
+                }
+            }
+            return
+            
+        }
+        return
+
+    }
     
     func setupPreviousMessage(offset:Int, number:Int, limit: Int) {
         //load SQL into messagetemp

@@ -48,28 +48,39 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var roomNewID: String?
     var roomNewName: String?
     var getedRoomID: Bool = false
+    var openedRoomID: String?
+    
+    
     
     //message parameter
     var messageinformation: Messageinfo!
     //check internet
-    func checkSocketConnection(viewcontroller: UIViewController) -> Bool {
+    func checkSocketConnectionToOpen(viewcontroller: UIViewController?) -> Bool {
         if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
-            if let erro = readStream?.streamError?.localizedDescription {
-                let alertController = UIAlertController(title: "Oops", message: "Please check your network." + erro, preferredStyle: .Alert)
+            //try reconnection
+            /*if readStream != nil {
+                closeSocketStreamSINGLE()
+            }*/
+            openSocketStreamSINGLE()
+            
+            //Have view
+            if let view = viewcontroller {
+                if let erro = readStream?.streamError?.localizedDescription {
+                    let alertController = UIAlertController(title: "Oops", message: "無法連線網路，問題：" + erro, preferredStyle: .Alert)
+                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    alertController.addAction(doneAction)
+                    
+                    view.presentViewController(alertController, animated: true, completion: nil)
+                    return false
+                    
+                }
+                let alertController = UIAlertController(title: "Oops", message: "無法連線網路！", preferredStyle: .Alert)
                 let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alertController.addAction(doneAction)
                 
-                viewcontroller.presentViewController(alertController, animated: true, completion: nil)
+                view.presentViewController(alertController, animated: true, completion: nil)
                 return false
-
             }
-            let alertController = UIAlertController(title: "Oops", message: "Please check your network.", preferredStyle: .Alert)
-            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(doneAction)
-            
-            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
-            closeSocketStreamSINGLE()
-            openSocketStreamSINGLE()
             return false
         }
         
@@ -77,58 +88,57 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
 
     }
     
-    //check internet without UI appear
-    func checkSocketConnectionWithOutUI() -> Bool {
-        if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
-            closeSocketStreamSINGLE()
-            openSocketStreamSINGLE()
-            return false
-        }
+    //load user info and send "online" to server
+    func checkUserIDandOnline(viewcontroller: UIViewController?) -> Bool {
         
-        return true
-        
-    }
-    func checkUserIDandOnlineWithNetwork(viewcontroller: UIViewController) -> Bool {
-        if checkUserIDandOnlineWithNetworkWOUI() == false {
-            let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
-            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(doneAction)
-            
-            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
-            return false
-        }
-        return true
-    }
-    func checkUserIDandOnlineWithNetworkWOUI() -> Bool {
-        if SingletonC.sharedInstance.user != [] {
-            SingletonC.sharedInstance.onlineID()
-            return true
-        }else {
-            loadUserInfo()
-            if user != [] {
-                onlineID()
+        if loadUserInfoWithAlert(nil) {
+            //有帳號
+            if onlineID() {
                 return true
             }else {
-                //無帳號
+                //無法登入
+                //有view就顯示ui
+                if let view = viewcontroller {
+                    let alertController = UIAlertController(title: "Oops", message: "無法登入帳戶", preferredStyle: .Alert)
+                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    alertController.addAction(doneAction)
+                    
+                    view.presentViewController(alertController, animated: true, completion: nil)
+                    return false
+                }
+                //沒view
                 return false
             }
+        }else {
+            //無帳號, 有view就顯示ui
+            if let view = viewcontroller {
+                let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
+                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(doneAction)
+                
+                view.presentViewController(alertController, animated: true, completion: nil)
+            }
+            //無view
+            return false
         }
     }
     
     
 
     //open socket
-    func openSocketStreamSINGLE() {
+    func openSocketStreamSINGLE() -> Bool{
         
         
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
         
         
         //put ip here
-        NSStream.getStreamsToHostWithName(serverAdress, port: serverPort, inputStream: &readStream, outputStream: &writeStream)
+        NSStream.getStreamsToHostWithName(self.serverAdress, port: self.serverPort, inputStream: &self.readStream, outputStream: &self.writeStream)
         
         //Set read/write delegates
-        readStream?.delegate = self
-        writeStream?.delegate = self
+        self.readStream?.delegate = self
+        self.writeStream?.delegate = self
         
         //Set SSL
         //readStream?.setProperty(NSStreamSocketSecurityLevelNegotiatedSSL, forKey: NSStreamSocketSecurityLevelKey)
@@ -136,9 +146,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         
  
         //open a new thread
-        networkQueue = dispatch_queue_create("com.knock.Queue", nil)
         
-        dispatch_async(networkQueue!, {
         //Set streams into run loops
         self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
         self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
@@ -146,22 +154,24 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         //Open Streams
         self.readStream?.open()
         self.writeStream?.open()
-            NSRunLoop.currentRunLoop().run()
+        NSRunLoop.currentRunLoop().run()
         
         })
+        return true
         
     }
     
     //close socket
     func closeSocketStreamSINGLE() {
+        
         readStream?.close()
         readStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
         readStream?.delegate = nil
-        
+        readStream = nil
         writeStream?.close()
         writeStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
         writeStream?.delegate = nil
-        
+        writeStream = nil
         
     }
     
@@ -188,32 +198,53 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                             //讀取未讀訊息
                             let roomid = json["roomid"].stringValue
                             let uid = json["uid"].stringValue
-                            let content = json["content"].stringValue
                             let type = json["mtype"].stringValue
                             //let date = json["time"].stringValue
-
-                            //放入sql
-                            if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
-                                
-                                self.messageinformation = NSEntityDescription.insertNewObjectForEntityForName("Messageinfo", inManagedObjectContext: managedObjectContext) as! Messageinfo
-                                self.messageinformation.senderId = uid
-                                self.messageinformation.senderDisplayName = "Anonymours"
-                                self.messageinformation.roomID = roomid
-                                self.messageinformation.date = NSDate()
-                                if type == "text" {
+ 
+                            //send
+                            if type == "text" {
+                                //text data
+                                let content = json["content"].stringValue
+                                //input coredata
+                                if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                                    //import message
+                                    self.messageinformation = NSEntityDescription.insertNewObjectForEntityForName("Messageinfo", inManagedObjectContext: managedObjectContext) as! Messageinfo
+                                    self.messageinformation.senderId = uid
+                                    self.messageinformation.senderDisplayName = "Anonymours"
+                                    self.messageinformation.roomID = roomid
+                                    self.messageinformation.date = NSDate()
                                     self.messageinformation.text = content
+
+                                    var e: NSError?
+                                    if managedObjectContext.save(&e) != true {
+                                        println("insert error: \(e!.localizedDescription)")
+                                    }
+                                    //import unRead count
+                                    if roomid != self.openedRoomID {
+                                        var roomFetchRequest = NSFetchRequest(entityName: "Roominfo")
+                                        roomFetchRequest.predicate = NSPredicate(format: "roomID = %@", roomid)
+                                        var roominfo: Array<Roominfo> = []
+                                        roominfo = managedObjectContext.executeFetchRequest(roomFetchRequest, error: nil) as! Array<Roominfo>
+                                        var unread = roominfo[0].unRead
+                                        roominfo[0].unRead = NSNumber(integer: (unread.integerValue + 1))
+                                        if managedObjectContext.save(&e) != true {
+                                            println("insert error: \(e!.localizedDescription)")
+                                        }
+                                    }
+                                    
                                 }
+                                
+                                //notify
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("NotificationGetedMessage", object: nil, userInfo: ["roomid" : roomid, "type" : "text", "uid" : uid,"displayName" : "Anonymour", "text" : content, "date" : NSDate()])
+                                })
+                                
+                            }else {
+                                //media data
                                 
                                 //self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
                                 //restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
-                                var e: NSError?
-                                if managedObjectContext.save(&e) != true {
-                                    println("insert error: \(e!.localizedDescription)")
-                                }
                             }
-                            
-                            // post observer
-                            
                         }else if status == "sendok" {
                             //傳送訊息ok
                             
@@ -264,7 +295,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                 
                             }
                         }
-                        loadUserInfo()
+                        loadUserInfoWithAlert(nil)
                         getedUserID = true
 
                     }else if method == "join" {
@@ -310,7 +341,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             
             
         case NSStreamEvent.EndEncountered:
-            flag = "inputMessage"
+            NSLog("ERROR: %", "NSStreamEndEncounter")
             
         default:
             flag = "inputMessage"
@@ -430,7 +461,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     
     //load user information from CoreData to Singleton
-    func loadUserInfo() -> Bool {
+    func loadUserInfoWithAlert(viewcontroller: UIViewController?) -> Bool {
         if user != [] {
             return true
         }
@@ -451,20 +482,70 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         if user != [] {
             return true
         }else {
+            if let view = viewcontroller {
+                let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
+                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(doneAction)
+                
+                view.presentViewController(alertController, animated: true, completion: nil)
+                return false
+            }
             return false
         }
         
     }
-    func loadUserInfoWithAlert(viewcontroller: UIViewController) -> Bool {
-        if loadUserInfo() == false {
-            let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
-            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alertController.addAction(doneAction)
-            
-            viewcontroller.presentViewController(alertController, animated: true, completion: nil)
-            return false
+    
+    
+    
+    
+    func RBSquareImageTo(image: UIImage, size: CGSize) -> UIImage {
+        return RBResizeImage(RBSquareImage(image), targetSize: size)
+    }
+    
+    func RBSquareImage(image: UIImage) -> UIImage {
+        var originalWidth  = image.size.width
+        var originalHeight = image.size.height
+        
+        var edge: CGFloat
+        if originalWidth > originalHeight {
+            edge = originalHeight
+        } else {
+            edge = originalWidth
         }
-        return true
+        
+        var posX = (originalWidth  - edge) / 2.0
+        var posY = (originalHeight - edge) / 2.0
+        
+        var cropSquare = CGRectMake(posX, posY, edge, edge)
+        
+        var imageRef = CGImageCreateWithImageInRect(image.CGImage, cropSquare);
+        return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: image.imageOrientation)!
+    }
+    
+    func RBResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+        } else {
+            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 
     

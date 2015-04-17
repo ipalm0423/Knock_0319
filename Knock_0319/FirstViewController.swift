@@ -13,8 +13,9 @@ import CoreData
 class FirstViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchResultController:NSFetchedResultsController!
-    var rooms:[Roominfo] = []
-    
+    var rooms: Array<Roominfo> = []
+    var fetchRequest = NSFetchRequest(entityName: "Roominfo")
+    let sortDescription = NSSortDescriptor(key: "unRead", ascending: false)
     
     
     
@@ -29,15 +30,14 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        var fetchRequest = NSFetchRequest(entityName: "Roominfo")
-        let sortDescription = NSSortDescriptor(key: "roomName", ascending: true)
+        
         fetchRequest.sortDescriptors = [sortDescription]
         if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
             var e:NSError?
             var result = fetchResultController.performFetch(&e)
-            rooms = fetchResultController.fetchedObjects as! [Roominfo]
+            rooms = fetchResultController.fetchedObjects as! Array<Roominfo>
             if result != true {
                 println(e?.localizedDescription)
             }
@@ -54,10 +54,10 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func viewDidAppear(animated: Bool) {
         
-        if SingletonC.sharedInstance.checkSocketConnection(self) {
+        if SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
             
         }
-        
+        tableView.reloadData()
         //reload new message
     }
 
@@ -92,8 +92,8 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         }else {
             cell.roomImage = nil
         }
-        
-        if room.unRead == 0 {
+        cell.unReadLabel.text = room.unRead.stringValue
+        if room.unRead.integerValue == 0 {
             
         cell.unReadLabel.text = nil
         //cell.roomTime.text = "\(room.time)"
@@ -193,16 +193,31 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
                 let chatRoomController = segue.destinationViewController as! textViewController
                 let room = self.rooms[indexpath.row]
                 chatRoomController.roomID = room.roomID
-                chatRoomController.title = room.roomName
+                chatRoomController.roomName = room.roomName
                 
+                                
                 
             }
         
         }
     }
-
     
-
-
+    //unread = 0
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            
+            let roomToUpdate = self.fetchResultController.objectAtIndexPath(indexPath) as! Roominfo
+            roomToUpdate.unRead = NSNumber(integer: 0)
+            
+            var e: NSError?
+            if managedObjectContext.save(&e) != true {
+                println("delete error: \(e!.localizedDescription)")
+            }
+        }
+        var room = rooms[indexPath.item]
+        room.unRead = NSNumber(integer: 0)
+        
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+    }
 }
 

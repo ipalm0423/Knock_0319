@@ -11,7 +11,7 @@ import CoreData
 import CoreFoundation
 
 
-class SecondViewController: UIViewController, NSStreamDelegate {
+class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var buttonJoinRoom: UIButton!
 
     @IBOutlet weak var buttonCreateRoom: UIButton!
@@ -66,12 +66,54 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         }
 
     }
+    @IBAction func addPicture(sender: AnyObject) {
+        let takePicture = UIAlertController(title: nil, message: "新增照片", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let usePhoto = UIAlertAction(title: "相片集", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .PhotoLibrary
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+                imagePicker.delegate = self
+            }
+        }
+        let useCamera = UIAlertAction(title: "照相", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .Camera
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+                imagePicker.delegate = self
+            }
+        }
+        let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        takePicture.addAction(usePhoto)
+        takePicture.addAction(useCamera)
+        takePicture.addAction(cancel)
+        self.presentViewController(takePicture, animated: true, completion: nil)
+        
+        
+        
+        //.Photolibrary or .Camera
+        
+    }
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        addImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        addImage.image?.resizingMode
+        addImage.contentMode = UIViewContentMode.ScaleAspectFill
+        addImage.clipsToBounds = true
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        
+    }
     @IBAction func createRoom(sender: UIButton) {
         // Form violation reminder
         
         //check network
-        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
             return
         }
         //check account
@@ -120,7 +162,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
             }else {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        SingletonC.sharedInstance.checkSocketConnection(self)
+                        SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
                         return
                     })
                     
@@ -136,7 +178,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         // Form violation reminder
         
         //check network
-        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
             return
         }
         if !SingletonC.sharedInstance.loadUserInfoWithAlert(self) {
@@ -184,7 +226,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    SingletonC.sharedInstance.checkSocketConnection(self)
+                    SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
                     return
                 })
                 
@@ -198,7 +240,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
     @IBAction func createID(sender: AnyObject) {
         //check uid is already have
         
-        if SingletonC.sharedInstance.loadUserInfo() {
+        if SingletonC.sharedInstance.loadUserInfoWithAlert(nil) {
             let userid = SingletonC.sharedInstance.user[0].uid
             let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid, preferredStyle: .Alert)
             let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -212,7 +254,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
         //set user picture
         SingletonC.sharedInstance.userPicture = addImage.image
         //check internet
-        if SingletonC.sharedInstance.checkSocketConnection(self) == false {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
             return
         }
         
@@ -245,7 +287,7 @@ class SecondViewController: UIViewController, NSStreamDelegate {
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    SingletonC.sharedInstance.checkSocketConnection(self)
+                    SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
                     return
                 })
             }

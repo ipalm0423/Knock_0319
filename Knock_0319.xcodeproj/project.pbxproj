@@ -131,9 +131,9 @@
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
-				AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
+				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
 				AC6A34691ABC3BDA00AD1CC7 /* LaunchScreen.xib */,
 				AC6A345C1ABC3BDA00AD1CC7 /* Supporting Files */,
 			);
@@ -144,11 +144,11 @@
 			isa = PBXGroup;
 			children = (
 				AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */,
+				AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */,
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
-				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
 				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
