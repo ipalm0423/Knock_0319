@@ -51,36 +51,39 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var openedRoomID: String?
     
     
+    //UI notification
+    var localNotification: UILocalNotification = UILocalNotification()
     
     //message parameter
     var messageinformation: Messageinfo!
     //check internet
-    func checkSocketConnectionToOpen(viewcontroller: UIViewController?) -> Bool {
+    func checkSocketConnectionToOpen() -> Bool {
         if (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Open) && (SingletonC.sharedInstance.readStream?.streamStatus != NSStreamStatus.Opening) {
             //try reconnection
             /*if readStream != nil {
                 closeSocketStreamSINGLE()
             }*/
-            openSocketStreamSINGLE()
             
-            //Have view
-            if let view = viewcontroller {
-                if let erro = readStream?.streamError?.localizedDescription {
-                    let alertController = UIAlertController(title: "Oops", message: "無法連線網路，問題：" + erro, preferredStyle: .Alert)
-                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    alertController.addAction(doneAction)
-                    
-                    view.presentViewController(alertController, animated: true, completion: nil)
-                    return false
-                    
-                }
-                let alertController = UIAlertController(title: "Oops", message: "無法連線網路！", preferredStyle: .Alert)
-                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(doneAction)
+            //問題描述
+            if let erro = self.readStream?.streamError?.localizedDescription {
+                dispatch_async(dispatch_get_main_queue(), {
+                    var alert:UIAlertView = UIAlertView(title: "Oops", message: "無法連線網路，問題:", delegate: self, cancelButtonTitle: "OK")
+                    alert.show()
+                })
                 
-                view.presentViewController(alertController, animated: true, completion: nil)
-                return false
             }
+            
+            //重新連線
+            dispatch_async(dispatch_get_main_queue(), {
+                var alert:UIAlertView = UIAlertView(title: "Oops", message: "重新連線？", delegate: self, cancelButtonTitle: "OK")
+                alert.show()
+            })
+            if SingletonC.sharedInstance.openSocketStreamSINGLE() {
+                SingletonC.sharedInstance.checkUserIDandOnline()
+            }
+            
+            
+            
             return false
         }
         
@@ -89,36 +92,26 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     }
     
     //load user info and send "online" to server
-    func checkUserIDandOnline(viewcontroller: UIViewController?) -> Bool {
+    func checkUserIDandOnline() -> Bool {
         
-        if loadUserInfoWithAlert(nil) {
+        if loadUserInfo() {
             //有帳號
             if onlineID() {
                 return true
             }else {
-                //無法登入
-                //有view就顯示ui
-                if let view = viewcontroller {
-                    let alertController = UIAlertController(title: "Oops", message: "無法登入帳戶", preferredStyle: .Alert)
-                    let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    alertController.addAction(doneAction)
-                    
-                    view.presentViewController(alertController, animated: true, completion: nil)
-                    return false
-                }
-                //沒view
+                dispatch_async(dispatch_get_main_queue(), {
+                    var alert:UIAlertView = UIAlertView(title: "Oops", message: "無法登入帳號", delegate: self, cancelButtonTitle: "OK")
+                    alert.show()
+                })
+                
                 return false
             }
         }else {
-            //無帳號, 有view就顯示ui
-            if let view = viewcontroller {
-                let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
-                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(doneAction)
-                
-                view.presentViewController(alertController, animated: true, completion: nil)
-            }
-            //無view
+            dispatch_async(dispatch_get_main_queue(), {
+                var alert:UIAlertView = UIAlertView(title: "Oops", message: "尚未建立帳號", delegate: self, cancelButtonTitle: "OK")
+                alert.show()
+            })
+            
             return false
         }
     }
@@ -127,11 +120,6 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
 
     //open socket
     func openSocketStreamSINGLE() -> Bool{
-        
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-        
         
         //put ip here
         NSStream.getStreamsToHostWithName(self.serverAdress, port: self.serverPort, inputStream: &self.readStream, outputStream: &self.writeStream)
@@ -146,16 +134,15 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         
  
         //open a new thread
-        
-        //Set streams into run loops
-        self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        
-        //Open Streams
-        self.readStream?.open()
-        self.writeStream?.open()
-        NSRunLoop.currentRunLoop().run()
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            //Set streams into run loops
+            self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+            self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+            
+            //Open Streams
+            self.readStream?.open()
+            self.writeStream?.open()
+            NSRunLoop.currentRunLoop().run()
         })
         return true
         
@@ -230,13 +217,22 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                         if managedObjectContext.save(&e) != true {
                                             println("insert error: \(e!.localizedDescription)")
                                         }
+                                        //local notification
+                                        self.localNotification.alertAction = "確定"
+                                        self.localNotification.alertBody = roomid + "：" + content
+                                        self.localNotification.soundName = UILocalNotificationDefaultSoundName
+                                        self.localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
+                                        UIApplication.sharedApplication().scheduleLocalNotification(self.localNotification)
+                                        
                                     }
                                     
                                 }
                                 
+                                
                                 //notify
                                 dispatch_async(dispatch_get_main_queue(), {
-                                    NSNotificationCenter.defaultCenter().postNotificationName("NotificationGetedMessage", object: nil, userInfo: ["roomid" : roomid, "type" : "text", "uid" : uid,"displayName" : "Anonymour", "text" : content, "date" : NSDate()])
+                                    
+                                        NSNotificationCenter.defaultCenter().postNotificationName("NotificationGetedMessage", object: nil, userInfo: ["roomid" : roomid, "type" : "text", "uid" : uid,"displayName" : "Anonymour", "text" : content, "date" : NSDate()])
                                 })
                                 
                             }else {
@@ -295,7 +291,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                 
                             }
                         }
-                        loadUserInfoWithAlert(nil)
+                        loadUserInfoWithAlert()
                         getedUserID = true
 
                     }else if method == "join" {
@@ -311,7 +307,11 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                             self.roominformation = NSEntityDescription.insertNewObjectForEntityForName("Roominfo", inManagedObjectContext: managedObjectContext) as! Roominfo
                             self.roominformation.roomName = roomName
                             self.roominformation.roomID = roomID
-                            self.roominformation.image = UIImagePNGRepresentation(roomPicture!)
+                            if let picture = self.roomPicture {
+                                self.roominformation.image = UIImagePNGRepresentation(picture)
+                            }else {
+                                self.roominformation.image = nil
+                            }
                             self.roominformation.unRead = 0
                             //roominformation.isTimeup = 0
                             //            restaurant.isVisited = NSNumber.convertFromBooleanLiteral(isVisited)
@@ -411,6 +411,13 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         
     }
     
+    func sendToken(token: NSData) -> Bool {
+        let uid = user[0].uid
+        let toke = token
+        let message = "{\"method\": \"newtoken\", \"uid\": \(uid), \"token\": \(toke)}"
+        return send(message)
+    }
+    
     //get data from inputstream and cut the data
     func getServerData() -> NSData? {
         
@@ -452,7 +459,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     //socket protocol
     func intUsingEncodetoByte(number: Int) -> [UInt8] {
         let byte1 = UInt8((number / 256))
-        let byte2 = UInt8(number)
+        let byte2 = UInt8(number % 256)
         
         let byte: [UInt8] = [byte1, byte2]
         
@@ -461,7 +468,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     
     //load user information from CoreData to Singleton
-    func loadUserInfoWithAlert(viewcontroller: UIViewController?) -> Bool {
+    func loadUserInfo() -> Bool {
         if user != [] {
             return true
         }
@@ -482,17 +489,21 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         if user != [] {
             return true
         }else {
-            if let view = viewcontroller {
-                let alertController = UIAlertController(title: "Oops", message: "尚未建立賬戶", preferredStyle: .Alert)
-                let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(doneAction)
-                
-                view.presentViewController(alertController, animated: true, completion: nil)
-                return false
-            }
+            
             return false
         }
         
+    }
+    func loadUserInfoWithAlert() -> Bool{
+        if self.loadUserInfo() {
+            return true
+        }else {
+            dispatch_async(dispatch_get_main_queue(), {
+                var alert:UIAlertView = UIAlertView(title: "Oops", message: "尚未建立帳號", delegate: self, cancelButtonTitle: "OK")
+                alert.show()
+            })
+            return false
+        }
     }
     
     

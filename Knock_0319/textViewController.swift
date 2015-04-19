@@ -92,9 +92,9 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     //setup avatar image
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         var message = messages[indexPath.item]
-        if message.senderId == self.senderId {
+        /*if message.senderId == self.senderId {
             return nil
-        }
+        }*/
         if let avatar = avatars[message.senderId] {
             return avatar
         }else {
@@ -227,7 +227,7 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     
     //setup message function
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self)  {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen()  {
             return
         }
         var roomid = self.roomID

@@ -24,28 +24,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        //Open a new thread on background for socket
         
         
+        
+        //Open for socket
         if SingletonC.sharedInstance.openSocketStreamSINGLE() {
-            //online
-            SingletonC.sharedInstance.checkUserIDandOnline(nil)
-            
-            //do refresh new message
-            
+            SingletonC.sharedInstance.checkUserIDandOnline()
         }
         
         
+        
+        //register for remote notification
+        if application.isRegisteredForRemoteNotifications() == false {
+            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound|UIUserNotificationType.Alert|UIUserNotificationType.Badge, categories: nil))
+            //application.registerForRemoteNotifications()
+            
+        }
     
     
         return true
     }
     
+    
+    //send toke to server
+    /*
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let token = deviceToken
+        SingletonC.sharedInstance.sendToken(token)
         
+    }
     
+    //registed erro
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        NSLog("Error in registration. Error: %@", error)
+    }*/
     
-    
-
     
     
     
@@ -64,16 +77,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if SingletonC.sharedInstance.checkSocketConnectionToOpen(nil) {
-            SingletonC.sharedInstance.checkUserIDandOnline(nil)
-            //do refresh new message
-        }
-        
+        SingletonC.sharedInstance.checkSocketConnectionToOpen()        
     }
 
     func applicationWillTerminate(application: UIApplication) {

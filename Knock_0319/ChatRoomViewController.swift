@@ -86,7 +86,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     }*/
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        if SingletonC.sharedInstance.checkSocketConnectionToOpen(self) == false {
+        if SingletonC.sharedInstance.checkSocketConnectionToOpen() == false {
             return
         }
         

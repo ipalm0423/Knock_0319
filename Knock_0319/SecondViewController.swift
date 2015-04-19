@@ -113,17 +113,17 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         // Form violation reminder
         
         //check network
-        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen() {
             return
         }
         //check account
-        if !SingletonC.sharedInstance.loadUserInfoWithAlert(self) {
+        if !SingletonC.sharedInstance.loadUserInfoWithAlert() {
             return
         }
         
         let roomNametemp = editRoomName.text
         // setup user picture
-        SingletonC.sharedInstance.roomPicture = addImage.image
+        SingletonC.sharedInstance.roomPicture = SingletonC.sharedInstance.RBResizeImage(addImage.image!, targetSize: CGSize(width: 120, height: 120))
         SingletonC.sharedInstance.roomNewName = roomNametemp
         
         
@@ -162,7 +162,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
             }else {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
+                        SingletonC.sharedInstance.checkSocketConnectionToOpen()
                         return
                     })
                     
@@ -178,15 +178,15 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         // Form violation reminder
         
         //check network
-        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen() {
             return
         }
-        if !SingletonC.sharedInstance.loadUserInfoWithAlert(self) {
+        if !SingletonC.sharedInstance.loadUserInfoWithAlert() {
             return
         }
         
         let roomID = editRoomName.text
-        SingletonC.sharedInstance.roomPicture = addImage.image
+        SingletonC.sharedInstance.roomPicture = SingletonC.sharedInstance.RBResizeImage(addImage.image!, targetSize: CGSize(width: 120, height: 120))
         
         
         
@@ -226,7 +226,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
+                    SingletonC.sharedInstance.checkSocketConnectionToOpen()
                     return
                 })
                 
@@ -240,7 +240,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
     @IBAction func createID(sender: AnyObject) {
         //check uid is already have
         
-        if SingletonC.sharedInstance.loadUserInfoWithAlert(nil) {
+        if SingletonC.sharedInstance.loadUserInfo() {
             let userid = SingletonC.sharedInstance.user[0].uid
             let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid, preferredStyle: .Alert)
             let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -252,9 +252,9 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         
         //no user, and create a new one
         //set user picture
-        SingletonC.sharedInstance.userPicture = addImage.image
+        SingletonC.sharedInstance.userPicture = SingletonC.sharedInstance.RBResizeImage(addImage.image!, targetSize: CGSize(width: 240, height: 240))
         //check internet
-        if !SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
+        if !SingletonC.sharedInstance.checkSocketConnectionToOpen() {
             return
         }
         
@@ -287,7 +287,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
-                    SingletonC.sharedInstance.checkSocketConnectionToOpen(self)
+                    SingletonC.sharedInstance.checkSocketConnectionToOpen()
                     return
                 })
             }

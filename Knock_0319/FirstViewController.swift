@@ -54,9 +54,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func viewDidAppear(animated: Bool) {
         
-        if SingletonC.sharedInstance.checkSocketConnectionToOpen(self) {
-            
-        }
+        
         tableView.reloadData()
         //reload new message
     }
