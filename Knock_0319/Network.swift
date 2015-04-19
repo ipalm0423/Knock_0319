@@ -67,17 +67,13 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             //問題描述
             if let erro = self.readStream?.streamError?.localizedDescription {
                 dispatch_async(dispatch_get_main_queue(), {
-                    var alert:UIAlertView = UIAlertView(title: "Oops", message: "無法連線網路，問題:", delegate: self, cancelButtonTitle: "OK")
+                    var alert:UIAlertView = UIAlertView(title: "Oops", message: "無法連線網路，問題:" + erro + ", 重新連線？", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 })
                 
             }
             
-            //重新連線
-            dispatch_async(dispatch_get_main_queue(), {
-                var alert:UIAlertView = UIAlertView(title: "Oops", message: "重新連線？", delegate: self, cancelButtonTitle: "OK")
-                alert.show()
-            })
+            
             if SingletonC.sharedInstance.openSocketStreamSINGLE() {
                 SingletonC.sharedInstance.checkUserIDandOnline()
             }
@@ -218,11 +214,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                             println("insert error: \(e!.localizedDescription)")
                                         }
                                         //local notification
-                                        self.localNotification.alertAction = "確定"
-                                        self.localNotification.alertBody = roomid + "：" + content
-                                        self.localNotification.soundName = UILocalNotificationDefaultSoundName
-                                        self.localNotification.fireDate = NSDate(timeIntervalSinceNow: 5)
-                                        UIApplication.sharedApplication().scheduleLocalNotification(self.localNotification)
+                                        TWMessageBarManager.sharedInstance().showMessageWithTitle(roomid, description: content, type: TWMessageBarMessageType.Info)
                                         
                                     }
                                     
