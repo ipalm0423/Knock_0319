@@ -1,0 +1,20 @@
+PODS:
+  - JSQMessagesViewController (7.0.0):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
+  - MBProgressHUD (0.9.1)
+  - TWMessageBarManager (1.7.2)
+
+DEPENDENCIES:
+  - JSQMessagesViewController
+  - JSQSystemSoundPlayer
+  - MBProgressHUD
+  - TWMessageBarManager
+
+SPEC CHECKSUMS:
+  JSQMessagesViewController: 9fd7e9ac96e9fc91f2deca86928e2cc916aeebaa
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  TWMessageBarManager: e7adc066ee425174f5dee79473fce913b1cd1662
+
+COCOAPODS: 0.36.3

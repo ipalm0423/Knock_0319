@@ -22,7 +22,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
     @IBAction func unwindToHomeScreen(segue:UIStoryboardSegue){
         
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -200,7 +200,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         }
     }
     
-    //unread = 0
+    //when tap row, unread = 0
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             
@@ -217,5 +217,7 @@ class FirstViewController: UITableViewController, NSFetchedResultsControllerDele
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
     }
+    
+    
 }
 

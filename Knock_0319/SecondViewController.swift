@@ -303,8 +303,31 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
     }
     
 
-        
     
+    @IBAction func PUSH(sender: AnyObject) {
+        var notification = UILocalNotification() // create a new reminder notification
+        notification.alertBody = "Reminder: Todo Item  Is Overdue" // text that will be displayed in the notification
+        //notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+        notification.fireDate = NSDate(timeIntervalSinceNow: 5) // 30 minutes from current time
+        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+        notification.userInfo = ["roomid": "102", "roomname": "test1"] // assign a unique identifier to the notification that we can use to retrieve it later
+        notification.category = "TEXT_CATEGORY"
+        notification.alertTitle = "title"
+        notification.applicationIconBadgeNumber = 1
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
+    @IBAction func ACCT(sender: AnyObject) {
+        var notification = UILocalNotification() // create a new reminder notification
+        notification.alertBody = "Reminder: some invite you to talk" // text that will be displayed in the notification
+        //notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+        notification.fireDate = NSDate(timeIntervalSinceNow: 5) // 30 minutes from current time
+        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+        notification.userInfo = ["roomid": "102", "roomname": "test1"] // assign a unique identifier to the notification that we can use to retrieve it later
+        notification.category = "ASK_CATEGORY"
+        notification.applicationIconBadgeNumber = 5
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
     
     
         // If all fields are correctly filled in, extract the field value

@@ -406,7 +406,13 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     func sendToken(token: NSData) -> Bool {
         let uid = user[0].uid
         let toke = token
-        let message = "{\"method\": \"newtoken\", \"uid\": \(uid), \"token\": \(toke)}"
+        var characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        
+        var deviceTokenString: String = ( toke.description as NSString )
+            .stringByTrimmingCharactersInSet( characterSet )
+            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+        
+        let message = "{\"method\": \"newtoken\", \"uid\": \(uid), \"token\": \(deviceTokenString)}"
         return send(message)
     }
     
@@ -549,6 +555,49 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+    
+    func setupNotification() {
+        let notificationSettings: UIUserNotificationSettings! = UIApplication.sharedApplication().currentUserNotificationSettings()
+        
+        if (notificationSettings.types == UIUserNotificationType.None) {
+            //var notifyPush = UIMutableUserNotificationCategory()
+            
+            //set action/accept
+            var notifyAccept = UIMutableUserNotificationAction()
+            notifyAccept.identifier = "accept"
+            notifyAccept.title = "接受"
+            notifyAccept.activationMode = UIUserNotificationActivationMode.Foreground
+            notifyAccept.destructive = false
+            notifyAccept.authenticationRequired = false
+            
+            //set action/decline
+            var notifyDecline = UIMutableUserNotificationAction()
+            notifyDecline.identifier = "decline"
+            notifyDecline.title = "取消"
+            notifyDecline.activationMode = UIUserNotificationActivationMode.Background
+            notifyDecline.destructive = true
+            notifyDecline.authenticationRequired = false
+            
+            //set category-MESSAGE
+            var notifyMessage = UIMutableUserNotificationCategory()
+            notifyMessage.identifier = "TEXT_CATEGORY"
+            //set category-INVITE
+            var notifyInvite = UIMutableUserNotificationCategory()
+            notifyInvite.identifier = "ASK_CATEGORY"
+            notifyInvite.setActions([notifyAccept, notifyDecline], forContext: UIUserNotificationActionContext.Minimal)
+            notifyInvite.setActions([notifyAccept, notifyDecline], forContext: UIUserNotificationActionContext.Default)
+            
+            //registed Notification
+            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound|UIUserNotificationType.Alert|UIUserNotificationType.Badge, categories: [notifyMessage, notifyInvite]))
+            
+            //registed remote Notification
+            //application.registerForRemoteNotifications()
+            
+            
+        }
+        
+            
     }
 
     

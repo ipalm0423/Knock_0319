@@ -36,14 +36,20 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         self.tabBarController?.tabBar.hidden = true
         self.dateFormatter.dateFormat = "YYYY-MM-dd 'at' h:mm a"
         self.showLoadEarlierMessagesHeader = true
-        self.title = self.roomName
         // Do any additional setup after loading the view, typically from a nib.
         SingletonC.sharedInstance.openedRoomID = self.roomID
-        
+        if self.roomName == nil {
+            //load room name
+            self.setupRoomName(self.roomID)
+        }else {
+            self.title = self.roomName
+            
+        }
         //Load Message
         self.setupPreviousMessage(0, number: 5, limit: 20)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteNotificationGotMessage:", name: "NotificationNewMessage", object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -340,6 +346,28 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         }
         return
 
+    }
+    func setupRoomName(roomid: String) {
+        var roomTemp: [Roominfo] = []
+        var fetchRequest = NSFetchRequest(entityName: "Roominfo")
+        let roomIDpredicate = NSPredicate(format: "roomID == %@", roomid)
+        let roomidsort = NSSortDescriptor(key: "roomID", ascending: true)
+        fetchRequest.predicate = roomIDpredicate
+        fetchRequest.sortDescriptors = [roomidsort]
+        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            var e:NSError?
+            var result = fetchResultController.performFetch(&e)
+            roomTemp = fetchResultController.fetchedObjects as! Array<Roominfo>
+            //setup
+            self.roomName = roomTemp[0].roomName
+            self.title = roomTemp[0].roomName
+            if result != true {
+                println(e?.localizedDescription)
+            }
+            
+        }
     }
     
     func setupPreviousMessage(offset:Int, number:Int, limit: Int) {

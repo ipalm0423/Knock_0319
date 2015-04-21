@@ -33,16 +33,101 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         }
         
         
+        SingletonC.sharedInstance.setupNotification()
         
-        //register for remote notification
-        if application.isRegisteredForRemoteNotifications() == false {
-            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound|UIUserNotificationType.Alert|UIUserNotificationType.Badge, categories: nil))
-            //application.registerForRemoteNotifications()
+        //set badge = 0
+        application.applicationIconBadgeNumber = 0
+        
+        
+        if let option = launchOptions {
+            
+            // get payload of 短端 notify
+            var remoteNotifyPayload = option[UIApplicationLaunchOptionsRemoteNotificationKey] as! NSDictionary
+            openViewer(remoteNotifyPayload)
+            //UIApplication.sharedApplication().applicationIconBadgeNumber = remoteNotifyPayload[applicationIconBadgeNumber!] as! Int
+            
+            
+            //get payload of 本地 notify
+            var localNotifyPayload = option[UIApplicationLaunchOptionsLocalNotificationKey] as! NSDictionary
+            
             
         }
+        
+        
     
     
         return true
+    }
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        if identifier == "accept" {
+            if let userInfo = notification.userInfo {
+                
+                //navigate for tab bar = success
+                if let tabbar = self.window?.rootViewController as? UITabBarController {
+                    tabbar.selectedIndex = 1
+                    if let navi = tabbar.selectedViewController as? UINavigationController {
+                        
+                        //TWMessageBarManager.sharedInstance().showMessageWithTitle(navi, description: "2", type: TWMessageBarMessageType.Info)
+                        
+                        var story = UIStoryboard(name: "Main", bundle: nil)
+                        var textControll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
+                        //textControll.roomName = "Notification"
+                        textControll.roomID = userInfo["roomid"] as! String
+                        navi.pushViewController(textControll, animated: true)
+                    }
+                    
+                    
+                    
+                        //navi!.tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
+                    
+                     //NSNotificationCenter.defaultCenter().postNotificationName("NotificationNewMessage", object: self, userInfo: userInfo)
+                }
+                
+                
+                
+                
+                //navigate for view = fail
+                /*
+                var story = UIStoryboard(name: "Main", bundle: nil)
+                var viewcontroll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
+                viewcontroll.roomName = userInfo["roomname"] as! String
+                viewcontroll.roomID = userInfo["roomid"] as! String
+                var listviewcontroll = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("FirstView") as! FirstViewController
+                var test = FirstViewController()
+                let nav = UINavigationController(rootViewController: listviewcontroll)
+                //listviewcontroll.navigationController = UINavigationController()
+                nav.pushViewController(viewcontroll, animated: true)
+                if let win = self.window {
+                    win.rootViewController? = test
+                }*/
+                //self.window?.rootViewController?.navigationController?.pushViewController(listviewcontroll, animated: true)
+                //self.window?.makeKeyAndVisible()
+            }
+        }
+        //end
+        completionHandler()
+    }
+    
+    //action for remote notify
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        if identifier == "accept" {
+            
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("NotificationNewMessage", object: self, userInfo: userInfo)
+        }else if identifier == "decline" {
+            
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("NotificationNewInvite", object: self, userInfo: userInfo)
+            
+        }else {
+            println("erro: can't find identifier")
+        }
+        
+        //end
+        completionHandler()
+    }
+    func openViewer(remotenotify: NSDictionary) {
+        //set up re-action
     }
     
     
@@ -57,10 +142,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     //registed erro
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         NSLog("Error in registration. Error: %@", error)
-    }*/
+    }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        //when an app is already running
+    }
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        //when an app is already running
+    }
     
-    
+    */
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
