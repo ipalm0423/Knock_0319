@@ -48,8 +48,10 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         //Load Message
         self.setupPreviousMessage(0, number: 5, limit: 20)
         
+        //setup message in-room notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteNotificationGotMessage:", name: "NotificationNewMessage", object: nil)
+        
     }
     
     override func viewDidDisappear(animated: Bool) {

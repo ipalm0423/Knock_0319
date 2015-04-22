@@ -30,7 +30,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     var writeStream: NSOutputStream?
     let serverAdress = "122.116.90.83"
     let serverPort = 30000
-    var flag: String = "inputMessage"
+    var flag: String = "offline"
     var networkQueue: dispatch_queue_t?
     
     //user parameter
@@ -65,17 +65,16 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             }*/
             
             //問題描述
+            /*
             if let erro = self.readStream?.streamError?.localizedDescription {
-                dispatch_async(dispatch_get_main_queue(), {
-                    var alert:UIAlertView = UIAlertView(title: "Oops", message: "無法連線網路，問題:" + erro + ", 重新連線？", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
-                })
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("網路斷線" + erro, description: "重新連線中...", type: TWMessageBarMessageType.Error)
                 
-            }
+                
+            }*/
             
             
             if SingletonC.sharedInstance.openSocketStreamSINGLE() {
-                SingletonC.sharedInstance.checkUserIDandOnline()
+               
             }
             
             
@@ -93,6 +92,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         if loadUserInfo() {
             //有帳號
             if onlineID() {
+                
                 return true
             }else {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -130,7 +130,8 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
         
  
         //open a new thread
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        self.networkQueue = dispatch_queue_create("network_queue", nil)
+        dispatch_async(networkQueue!, {
             //Set streams into run loops
             self.readStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
             self.writeStream?.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
@@ -139,22 +140,30 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             self.readStream?.open()
             self.writeStream?.open()
             NSRunLoop.currentRunLoop().run()
+            // program stop here because the .run()
+            
+            
         })
+        
+        
         return true
         
     }
     
     //close socket
     func closeSocketStreamSINGLE() {
+        //close queue
         
-        readStream?.close()
-        readStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        readStream?.delegate = nil
-        readStream = nil
-        writeStream?.close()
-        writeStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        writeStream?.delegate = nil
-        writeStream = nil
+        //close stream
+        
+        self.readStream?.close()
+        self.readStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.readStream?.delegate = nil
+        self.readStream = nil
+        self.writeStream?.close()
+        self.writeStream?.removeFromRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.writeStream?.delegate = nil
+        self.writeStream = nil
         
     }
     
@@ -174,7 +183,13 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                     let json = JSON(data: inputdata)
                     let method = json["method"].stringValue
                     let status = json["status"].stringValue
-                    
+                    if method == "online" {
+                        if status == "ok" {
+                            TWMessageBarManager.sharedInstance().showMessageWithTitle("成功", description: "已連線", type: TWMessageBarMessageType.Success, duration: 2.0)
+                        }else {
+                            TWMessageBarManager.sharedInstance().showMessageWithTitle("失敗", description: "無法連線伺服器", type: TWMessageBarMessageType.Error, duration: 2.0)
+                        }
+                    }
                     //base on method
                     if method == "chat" {
                         if status == "getok" {
@@ -214,7 +229,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                             println("insert error: \(e!.localizedDescription)")
                                         }
                                         //local notification
-                                        TWMessageBarManager.sharedInstance().showMessageWithTitle(roomid, description: content, type: TWMessageBarMessageType.Info)
+                                        TWMessageBarManager.sharedInstance().showMessageWithTitle(roomid, description: content, type: TWMessageBarMessageType.Info, duration: 2.0)
                                         
                                     }
                                     
@@ -320,23 +335,30 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             
         case NSStreamEvent.HasSpaceAvailable:
             //output stream
-            if flag == "outputMessage" && aStream == writeStream {
-                
-                
-                
+            if flag == "offline" && aStream == writeStream {
+                self.checkUserIDandOnline()
+                self.flag = "online"
             }
             
             
         case NSStreamEvent.ErrorOccurred:
-            
+            if let erro = self.readStream?.streamError?.localizedDescription {
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("網路錯誤", description: erro, type: TWMessageBarMessageType.Error)
+            }
+            flag = "offline"
             NSLog("ERROR: %", aStream.streamError!.code)
-            
+            //self.closeSocketStreamSINGLE()
             
         case NSStreamEvent.EndEncountered:
-            NSLog("ERROR: %", "NSStreamEndEncounter")
+            /*if let erro = self.readStream?.streamError?.localizedDescription {
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("網路錯誤", description: erro, type: TWMessageBarMessageType.Error)
+            }*/
+            flag = "offline"
+            //self.closeSocketStreamSINGLE()
+            NSLog("ERROR1: %", "NSStreamEndEncounter")
             
         default:
-            flag = "inputMessage"
+            NSLog("ERROR: %", "un knowed")
             
             
             
@@ -345,22 +367,24 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     func send(message:NSString) -> Bool {
         
-        var bool = false
-
-        while !writeStream!.hasSpaceAvailable {
+        
+        if let write = writeStream {
+            while !write.hasSpaceAvailable {
+                
+            }
             
+            if write.hasSpaceAvailable {
+                
+                var data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+                var len1 = data!.length
+                var len2: [UInt8] = intUsingEncodetoByte(len1)
+                let headwrite = writeStream!.write(UnsafePointer<UInt8>(len2), maxLength: 2)
+                let bytesWritten = writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
+                return true
+            }
         }
         
-        if writeStream!.hasSpaceAvailable {
-            
-            var data = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            var len1 = data!.length
-            var len2: [UInt8] = intUsingEncodetoByte(len1)
-            let headwrite = writeStream!.write(UnsafePointer<UInt8>(len2), maxLength: 2)
-            let bytesWritten = writeStream!.write(UnsafePointer<UInt8>(data!.bytes), maxLength: data!.length)
-            bool = true
-        }
-        return bool
+        return false
         
     }
     

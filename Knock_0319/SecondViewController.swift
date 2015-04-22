@@ -53,7 +53,10 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
     }
     
     override func viewDidAppear(animated: Bool) {
-            }
+        
+
+        }
+    
     
     //button enable by edit Box not empty
     @IBAction func editTextChanged(sender: AnyObject) {

@@ -29,14 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         //Open for socket
         if SingletonC.sharedInstance.openSocketStreamSINGLE() {
-            SingletonC.sharedInstance.checkUserIDandOnline()
+            
         }
-        
         
         SingletonC.sharedInstance.setupNotification()
         
-        //set badge = 0
-        application.applicationIconBadgeNumber = 0
+        
         
         
         if let option = launchOptions {
@@ -58,17 +56,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
         return true
     }
+    
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
         if identifier == "accept" {
             if let userInfo = notification.userInfo {
                 
                 //navigate for tab bar = success
                 if let tabbar = self.window?.rootViewController as? UITabBarController {
+                    //move to tab 2
                     tabbar.selectedIndex = 1
+                    
+                    //move to row
                     if let navi = tabbar.selectedViewController as? UINavigationController {
-                        
-                        //TWMessageBarManager.sharedInstance().showMessageWithTitle(navi, description: "2", type: TWMessageBarMessageType.Info)
-                        
                         var story = UIStoryboard(name: "Main", bundle: nil)
                         var textControll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
                         //textControll.roomName = "Notification"
@@ -76,33 +75,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                         navi.pushViewController(textControll, animated: true)
                     }
                     
-                    
-                    
-                        //navi!.tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
-                    
-                     //NSNotificationCenter.defaultCenter().postNotificationName("NotificationNewMessage", object: self, userInfo: userInfo)
                 }
                 
-                
-                
-                
-                //navigate for view = fail
-                /*
-                var story = UIStoryboard(name: "Main", bundle: nil)
-                var viewcontroll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
-                viewcontroll.roomName = userInfo["roomname"] as! String
-                viewcontroll.roomID = userInfo["roomid"] as! String
-                var listviewcontroll = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("FirstView") as! FirstViewController
-                var test = FirstViewController()
-                let nav = UINavigationController(rootViewController: listviewcontroll)
-                //listviewcontroll.navigationController = UINavigationController()
-                nav.pushViewController(viewcontroll, animated: true)
-                if let win = self.window {
-                    win.rootViewController? = test
-                }*/
-                //self.window?.rootViewController?.navigationController?.pushViewController(listviewcontroll, animated: true)
-                //self.window?.makeKeyAndVisible()
             }
+        }else if identifier == "decline" {
+            //delete room
+            
         }
         //end
         completionHandler()
@@ -127,7 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         completionHandler()
     }
     func openViewer(remotenotify: NSDictionary) {
-        //set up re-action
+        //set up action for remote notification
+        
+        
     }
     
     
