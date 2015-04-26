@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         SingletonC.sharedInstance.setupNotification()
         
         
-        
+        application.registerForRemoteNotifications()
         
         if let option = launchOptions {
             
@@ -112,11 +112,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     
     //send toke to server
-    /*
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let token = deviceToken
-        SingletonC.sharedInstance.sendToken(token)
-        
+        //let token = deviceToken
+        //SingletonC.sharedInstance.sendToken(token)
+        TWMessageBarManager.sharedInstance().showMessageWithTitle("get", description: "token", type: TWMessageBarMessageType.Success)
+        NSLog("receive deviceToken: %@", deviceToken)
     }
     
     //registed erro
@@ -131,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         //when an app is already running
     }
     
-    */
+    
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

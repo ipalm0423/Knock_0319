@@ -217,7 +217,8 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                     if managedObjectContext.save(&e) != true {
                                         println("insert error: \(e!.localizedDescription)")
                                     }
-                                    //import unRead count
+                                    
+                                    //"out" of room, import unRead count and notify local
                                     if roomid != self.openedRoomID {
                                         var roomFetchRequest = NSFetchRequest(entityName: "Roominfo")
                                         roomFetchRequest.predicate = NSPredicate(format: "roomID = %@", roomid)
@@ -229,14 +230,30 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                             println("insert error: \(e!.localizedDescription)")
                                         }
                                         //local notification
-                                        TWMessageBarManager.sharedInstance().showMessageWithTitle(roomid, description: content, type: TWMessageBarMessageType.Info, duration: 2.0)
+                                        TWMessageBarManager.sharedInstance().showMessageWithTitle(roomid, description: content, type: TWMessageBarMessageType.Success, duration: 3.0, callback: {
+                                            
+                                            if let delegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                                                if let tabbar = delegate.window?.rootViewController as? UITabBarController {
+                                                    //move to tab 2
+                                                    tabbar.selectedIndex = 1
+                                                    if let navi = tabbar.selectedViewController as? UINavigationController {
+                                                        var story = UIStoryboard(name: "Main", bundle: nil)
+                                                        var textControll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
+                                                        
+                                                        textControll.roomID = roomid
+                                                        navi.pushViewController(textControll, animated: true)
+                                                    }
+                                                }
+                                                
+                                            }
+                                        })
                                         
                                     }
                                     
                                 }
                                 
                                 
-                                //notify
+                                //"in" chatroom, update new message
                                 dispatch_async(dispatch_get_main_queue(), {
                                     
                                         NSNotificationCenter.defaultCenter().postNotificationName("NotificationGetedMessage", object: nil, userInfo: ["roomid" : roomid, "type" : "text", "uid" : uid,"displayName" : "Anonymour", "text" : content, "date" : NSDate()])
@@ -258,7 +275,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                         let roomID = json["roomid"].stringValue
                         let roomName = self.roomNewName!
                         //let roomName = json["roomname"].stringValue
-                        self.roomNewID = roomID
+                        
                         
                     
                         //input coreData
@@ -276,7 +293,31 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                 println("insert error: \(e!.localizedDescription)")
                             }
                         }
-                        self.getedRoomID = true
+                        
+                        //notify viewcontroller
+                        dispatch_async(dispatch_get_main_queue(), {
+                            NSNotificationCenter.defaultCenter().postNotificationName("CreateRoom", object: nil)
+                        })
+                        
+                        //local notify
+                        TWMessageBarManager.sharedInstance().showMessageWithTitle("建立房間：" + roomName, description: "房間密碼：" + roomID, type: TWMessageBarMessageType.Info, duration: 3.0, callback: {
+                            
+                            if let delegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                                if let tabbar = delegate.window?.rootViewController as? UITabBarController {
+                                    //move to tab 2
+                                    tabbar.selectedIndex = 1
+                                    if let navi = tabbar.selectedViewController as? UINavigationController {
+                                        var story = UIStoryboard(name: "Main", bundle: nil)
+                                        var textControll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
+                                        
+                                        textControll.roomID = roomID
+                                        navi.pushViewController(textControll, animated: true)
+                                    }
+                                }
+                                
+                            }
+                        })
+                        
                         
                     }else if method == "new" {
                         let userID = json["uid"].stringValue
@@ -304,9 +345,6 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                     }else if method == "join" {
                         let roomID = json["roomid"].stringValue
                         let roomName = json["roomname"].stringValue
-                        self.roomNewID = roomID
-                        self.roomNewName = roomName
-                        
                         
                         //input coreData
                         if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
@@ -327,7 +365,30 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                                 println("insert error: \(e!.localizedDescription)")
                             }
                         }
-                        self.getedRoomID = true
+                        //notify viewcontroller
+                        dispatch_async(dispatch_get_main_queue(), {
+                            NSNotificationCenter.defaultCenter().postNotificationName("CreateRoom", object: nil)
+                        })
+                        
+                        //local notify
+                        TWMessageBarManager.sharedInstance().showMessageWithTitle("加入房間：" + roomName, description: "房間密碼：" + roomID, type: TWMessageBarMessageType.Info, duration: 3.0, callback: {
+                            
+                            if let delegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                                if let tabbar = delegate.window?.rootViewController as? UITabBarController {
+                                    //move to tab 2
+                                    tabbar.selectedIndex = 1
+                                    if let navi = tabbar.selectedViewController as? UINavigationController {
+                                        var story = UIStoryboard(name: "Main", bundle: nil)
+                                        var textControll = story.instantiateViewControllerWithIdentifier("TextView") as! textViewController
+                                        
+                                        textControll.roomID = roomID
+                                        navi.pushViewController(textControll, animated: true)
+                                    }
+                                }
+                                
+                            }
+                        })
+                        
                     }
                 }
                 
@@ -343,7 +404,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             
         case NSStreamEvent.ErrorOccurred:
             if let erro = self.readStream?.streamError?.localizedDescription {
-                TWMessageBarManager.sharedInstance().showMessageWithTitle("網路錯誤", description: erro, type: TWMessageBarMessageType.Error)
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("網路錯誤", description: erro, type: TWMessageBarMessageType.Error, duration: 0.5)
             }
             flag = "offline"
             NSLog("ERROR: %", aStream.streamError!.code)
@@ -616,7 +677,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
             UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound|UIUserNotificationType.Alert|UIUserNotificationType.Badge, categories: [notifyMessage, notifyInvite]))
             
             //registed remote Notification
-            //application.registerForRemoteNotifications()
+            //UIApplication.sharedApplication().registerForRemoteNotifications()
             
             
         }

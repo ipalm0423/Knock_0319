@@ -47,7 +47,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         self.buttonJoinRoom.enabled = false
         self.buttonCreateRoom.enabled = false
         self.editRoomName.clearButtonMode = UITextFieldViewMode.WhileEditing
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearButton:", name: "CreateRoom", object: nil)
 
         
     }
@@ -56,7 +56,9 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         
 
         }
-    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "CreateRoom", object: nil)
+    }
     
     //button enable by edit Box not empty
     @IBAction func editTextChanged(sender: AnyObject) {
@@ -135,32 +137,8 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
             
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
             if SingletonC.sharedInstance.createNewRoom(roomNametemp) {
-                //check feedback
-                while SingletonC.sharedInstance.getedRoomID == false {
-                        //hangs for 1 secs
-                        
-                        //after 10 secs -> return & please try again
-                }
-                    //success and send UI
-                if let roomID = SingletonC.sharedInstance.roomNewID {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            MBProgressHUD.hideHUDForView(self.view, animated: true)
-                            self.editRoomName.text = ""
-                            self.buttonCreateRoom.enabled = false
-                            self.buttonJoinRoom.enabled = false
-                            SingletonC.sharedInstance.roomNewID = nil
-                            SingletonC.sharedInstance.roomNewName = nil
-                            SingletonC.sharedInstance.getedRoomID = false
-                            let alertController = UIAlertController(title: "成功建立房間", message: "新房間名稱：" + roomNametemp + ", id:" + roomID, preferredStyle: .Alert)
-                            let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                            alertController.addAction(doneAction)
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                            
-                            return
-                        })
-                    }
-                    
+                //if no feedback for 10 sec, close hud
+                
 
             }else {
                     dispatch_async(dispatch_get_main_queue(), {
@@ -170,6 +148,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
                     })
                     
                 }
+            return
                 
         })
         
@@ -198,32 +177,6 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
             if SingletonC.sharedInstance.joinRoom(roomID) {
                 //check feedback
-                while SingletonC.sharedInstance.getedRoomID == false {
-                    //hangs for 1 secs
-                    
-                    //after 10 secs -> return & please try again
-                }
-                //success and send UI
-                if let roomName = SingletonC.sharedInstance.roomNewName {
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        MBProgressHUD.hideHUDForView(self.view, animated: true)
-                        self.editRoomName.text = ""
-                        self.buttonCreateRoom.enabled = false
-                        self.buttonJoinRoom.enabled = false
-                        SingletonC.sharedInstance.roomNewID = nil
-                        SingletonC.sharedInstance.roomNewName = nil
-                        SingletonC.sharedInstance.getedRoomID = false
-                        let alertController = UIAlertController(title: "成功建立房間", message: "新房間名稱：" + roomName + ", ID:" + roomID, preferredStyle: .Alert)
-                        let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                        alertController.addAction(doneAction)
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                        
-                        return
-                    })
-                }
-                
                 
                 
             }else {
@@ -330,6 +283,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         notification.category = "ASK_CATEGORY"
         notification.applicationIconBadgeNumber = 5
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        self.addImage.image = nil
     }
     
     
@@ -338,7 +292,22 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         
         
         
-    
+    func clearButton(notify: NSNotification) {
+        //create room success and send UI
+        //dispatch_async(dispatch_get_main_queue(), {
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            self.editRoomName.text = ""
+            self.buttonCreateRoom.enabled = false
+            self.buttonJoinRoom.enabled = false
+            self.addImage.image = nil
+            SingletonC.sharedInstance.roomNewName = nil
+        
+            
+            return
+        //})
+        
+        
+    }
 
     
     

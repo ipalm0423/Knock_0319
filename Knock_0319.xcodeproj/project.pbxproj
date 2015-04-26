@@ -64,6 +64,7 @@
 		AC6A35231ABC955200AD1CC7 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +129,7 @@
 		AC6A345B1ABC3BDA00AD1CC7 /* Knock_0319 */ = {
 			isa = PBXGroup;
 			children = (
+				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
@@ -227,6 +229,20 @@
 					AC6A34581ABC3BDA00AD1CC7 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = Z2U36UFBHG;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 					AC6A346F1ABC3BDB00AD1CC7 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -447,12 +463,13 @@
 			baseConfigurationReference = 08027CB4A6221590764672F7 /* Pods-Knock_0319.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Knock_0319/Knock_0319.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Knock_0319/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "531037d5-5805-4dea-b873-1dd4175a4c38";
 				SWIFT_OBJC_BRIDGING_HEADER = "Knock_0319/Bridge-Knock.h";
 			};
 			name = Debug;
@@ -462,12 +479,13 @@
 			baseConfigurationReference = A4CB16A76A8E69F34D1DF629 /* Pods-Knock_0319.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Knock_0319/Knock_0319.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Knock_0319/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "531037d5-5805-4dea-b873-1dd4175a4c38";
 				SWIFT_OBJC_BRIDGING_HEADER = "Knock_0319/Bridge-Knock.h";
 			};
 			name = Release;
