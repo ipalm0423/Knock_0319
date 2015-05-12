@@ -25,6 +25,11 @@
 		AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A35231ABC955200AD1CC7 /* Network.swift */; };
 		AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */; };
 		AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */; };
+		AC86526B1B00F7DD0075C00C /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */; };
+		AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */; };
+		AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526E1B00FA6C0075C00C /* Titleinfo.swift */; };
+		AC8652751B0266030075C00C /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652741B0266030075C00C /* ProfilePageViewController.swift */; };
+		AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652761B0266B30075C00C /* StartPageViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +69,11 @@
 		AC6A35231ABC955200AD1CC7 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
+		AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainFlowTableViewController.swift; sourceTree = "<group>"; };
+		AC86526E1B00FA6C0075C00C /* Titleinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Titleinfo.swift; sourceTree = "<group>"; };
+		AC8652741B0266030075C00C /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		AC8652761B0266B30075C00C /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,9 +139,11 @@
 		AC6A345B1ABC3BDA00AD1CC7 /* Knock_0319 */ = {
 			isa = PBXGroup;
 			children = (
+				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
+				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
@@ -150,11 +162,13 @@
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
+				AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
 				AC623B891ACBDDF200221DB7 /* Messageinfo.swift */,
 				AC6A34801ABC42E500AD1CC7 /* Roominfo.swift */,
+				AC86526E1B00FA6C0075C00C /* Titleinfo.swift */,
 				ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */,
 			);
 			name = "Supporting Files";
@@ -175,6 +189,15 @@
 				AC6A34751ABC3BDB00AD1CC7 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AC8652781B0266F60075C00C /* Profile Page */ = {
+			isa = PBXGroup;
+			children = (
+				AC8652761B0266B30075C00C /* StartPageViewController.swift */,
+				AC8652741B0266030075C00C /* ProfilePageViewController.swift */,
+			);
+			name = "Profile Page";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,18 +351,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
+				AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */,
 				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
+				AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */,
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
+				AC8652751B0266030075C00C /* ProfilePageViewController.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
+				AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */,
 				AC2327A11AD3B84500B06354 /* Buble.swift in Sources */,
+				AC86526B1B00F7DD0075C00C /* TitleTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
