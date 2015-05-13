@@ -1,5 +1,5 @@
 //
-//  ProfilePageViewController.swift
+//  FollowerPageViewController.swift
 //  Knock_0319
 //
 //  Created by 陳冠宇 on 2015/5/13.
@@ -8,15 +8,12 @@
 
 import UIKit
 
-class ProfilePageViewController: UIViewController {
+class FollowerPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.imageview.image = UIImage(named: self.imageFile)
-        self.name.text = self.titleText
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,15 +21,7 @@ class ProfilePageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBOutlet weak var name: UILabel!
 
-    @IBOutlet weak var imageview: UIImageView!
-    
-    var pageIndex: Int?
-    var titleText = ""
-    var imageFile = ""
-    
-    
     /*
     // MARK: - Navigation
 

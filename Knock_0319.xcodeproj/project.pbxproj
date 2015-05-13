@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		6A11C2A7408010423E3DA09F /* libPods-Knock_0319.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 628AB42E7261A4341496886C /* libPods-Knock_0319.a */; };
 		AC086F831ADAC7700057E104 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC086F821ADAC7700057E104 /* AudioToolbox.framework */; };
+		AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */; };
+		AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */; };
+		AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */; };
+		AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */; };
+		AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5921B0316BA0090573D /* ProfileViewController.swift */; };
+		AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5951B03987D0090573D /* IntroViewController.swift */; };
+		AC12C5981B0398A60090573D /* IntroPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5971B0398A60090573D /* IntroPageViewController.swift */; };
 		AC2327A11AD3B84500B06354 /* Buble.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2327A01AD3B84500B06354 /* Buble.swift */; };
 		AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5018F71ADF7B7500CBAF14 /* textViewController.swift */; };
 		AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC623B891ACBDDF200221DB7 /* Messageinfo.swift */; };
@@ -28,7 +35,6 @@
 		AC86526B1B00F7DD0075C00C /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */; };
 		AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */; };
 		AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526E1B00FA6C0075C00C /* Titleinfo.swift */; };
-		AC8652751B0266030075C00C /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652741B0266030075C00C /* ProfilePageViewController.swift */; };
 		AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652761B0266B30075C00C /* StartPageViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +54,13 @@
 		628AB42E7261A4341496886C /* libPods-Knock_0319.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knock_0319.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CB16A76A8E69F34D1DF629 /* Pods-Knock_0319.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knock_0319.release.xcconfig"; path = "Pods/Target Support Files/Pods-Knock_0319/Pods-Knock_0319.release.xcconfig"; sourceTree = "<group>"; };
 		AC086F821ADAC7700057E104 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardPageViewController.swift; sourceTree = "<group>"; };
+		AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavorPageViewController.swift; sourceTree = "<group>"; };
+		AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowerPageViewController.swift; sourceTree = "<group>"; };
+		AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingPageViewController.swift; sourceTree = "<group>"; };
+		AC12C5921B0316BA0090573D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		AC12C5951B03987D0090573D /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
+		AC12C5971B0398A60090573D /* IntroPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageViewController.swift; sourceTree = "<group>"; };
 		AC2327A01AD3B84500B06354 /* Buble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buble.swift; sourceTree = "<group>"; };
 		AC5018F71ADF7B7500CBAF14 /* textViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textViewController.swift; sourceTree = "<group>"; };
 		AC623B891ACBDDF200221DB7 /* Messageinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageinfo.swift; sourceTree = "<group>"; };
@@ -72,7 +85,6 @@
 		AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainFlowTableViewController.swift; sourceTree = "<group>"; };
 		AC86526E1B00FA6C0075C00C /* Titleinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Titleinfo.swift; sourceTree = "<group>"; };
-		AC8652741B0266030075C00C /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
 		AC8652761B0266B30075C00C /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
@@ -115,6 +127,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AC12C5941B03985B0090573D /* Intro Page */ = {
+			isa = PBXGroup;
+			children = (
+				AC12C5951B03987D0090573D /* IntroViewController.swift */,
+				AC12C5971B0398A60090573D /* IntroPageViewController.swift */,
+			);
+			name = "Intro Page";
+			sourceTree = "<group>";
+		};
 		AC6A34501ABC3BDA00AD1CC7 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +160,7 @@
 		AC6A345B1ABC3BDA00AD1CC7 /* Knock_0319 */ = {
 			isa = PBXGroup;
 			children = (
+				AC12C5941B03985B0090573D /* Intro Page */,
 				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
@@ -194,8 +216,12 @@
 		AC8652781B0266F60075C00C /* Profile Page */ = {
 			isa = PBXGroup;
 			children = (
+				AC12C5921B0316BA0090573D /* ProfileViewController.swift */,
 				AC8652761B0266B30075C00C /* StartPageViewController.swift */,
-				AC8652741B0266030075C00C /* ProfilePageViewController.swift */,
+				AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */,
+				AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */,
+				AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */,
+				AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */,
 			);
 			name = "Profile Page";
 			sourceTree = "<group>";
@@ -350,19 +376,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */,
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
 				AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */,
 				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
+				AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
+				AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */,
+				AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
+				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
 				AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */,
+				AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */,
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,
+				AC12C5981B0398A60090573D /* IntroPageViewController.swift in Sources */,
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
-				AC8652751B0266030075C00C /* ProfilePageViewController.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
 				AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */,

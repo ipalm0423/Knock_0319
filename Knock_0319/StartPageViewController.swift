@@ -11,12 +11,12 @@ import UIKit
 class StartPageViewController: UIViewController, UIPageViewControllerDataSource {
     
     var pageViewController: UIPageViewController!
-    var pagetitle = ["page1", "page2", "page3"]
-    var pageimage = ["cloudy.png", "envelope54.png", "favourite24.png"]
+    var identifiers = ["BoardPageViewController", "FavorPageViewController", "FollowingPageViewController", "FollowerPageViewController"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //setup page view controller
         reset()
         // Do any additional setup after loading the view.
     }
@@ -26,48 +26,134 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func start(sender: AnyObject) {
-        let pageContentCiew = self.viewControllerAtIndex(0)
-        self.pageViewController.setViewControllers([pageContentCiew!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+    //bar button setup
+    @IBAction func boardButton(sender: AnyObject) {
+        let pageContentViewController = self.viewControllerAtIndex(0)
+        if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
+            if var index = find(self.identifiers, identifier!) {
+                if (index == 0) {
+                    //stay
+                }else {
+                    //backward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
-    
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! ProfilePageViewController).pageIndex!
-        index += 1
-        //if the index is the end of the array, return nil since we dont want a view controller after the last one
-        if (index == self.pagetitle.count) {
-            
-            return nil
+    @IBAction func favorButton(sender: AnyObject) {
+        let pageContentViewController = self.viewControllerAtIndex(1)
+        if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
+            if var index = find(self.identifiers, identifier!) {
+                if (index == 1) {
+                    //stay
+                }else if index > 1{
+                    //backward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
+                }else {
+                    //forward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                }
+            }
         }
+    }
+    
+    @IBAction func followingButton(sender: AnyObject) {
+        let pageContentViewController = self.viewControllerAtIndex(2)
+        if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
+            if var index = find(self.identifiers, identifier!) {
+                if (index == 2) {
+                    //stay
+                }else if index > 2{
+                    //backward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
+                }else {
+                    //forward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    @IBAction func follower(sender: AnyObject) {
+        let pageContentViewController = self.viewControllerAtIndex(3)
+        if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
+            if var index = find(self.identifiers, identifier!) {
+                if (index == 3) {
+                    //stay
+                }else {
+                    //backward
+                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+
+    //setup page view data source
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         
-        //increment the index to get the viewController after the current index
-        return self.viewControllerAtIndex(index)
+        if let identifier = viewController.restorationIdentifier {
+            if var index = find(self.identifiers, identifier) {
+                index = index + 1
+                //if the index is the end of the array, return nil since we dont want a view controller after the last one
+                if (index == self.identifiers.count) {
+                    
+                    return nil
+                }
+                //increment the index to get the viewController after the current index
+                return self.viewControllerAtIndex(index)
+            }
+        }
+        return nil
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! ProfilePageViewController).pageIndex!
-        if(index == 0){
-            return nil
+        if let identifier = viewController.restorationIdentifier {
+            if var index = find(self.identifiers, identifier) {
+                //if the index is the end of the array, return nil since we dont want a view controller after the last one
+                if (index == 0) {
+                    return nil
+                }
+                index = index - 1
+                //increment the index to get the viewController after the current index
+                return self.viewControllerAtIndex(index)
+            }
         }
-        index -= 1
-        return self.viewControllerAtIndex(index)
+        return nil
     }
     
     func viewControllerAtIndex(index : Int) -> UIViewController? {
-    if((self.pagetitle.count == 0) || (index >= self.pagetitle.count)) {
+        
+        //first
+        if index == 0 {
+            
+            return self.storyboard?.instantiateViewControllerWithIdentifier("BoardPageViewController") as! BoardPageViewController
+            
+        }
+        
+        //second view controller
+        if index == 1 {
+            
+            return self.storyboard?.instantiateViewControllerWithIdentifier("FavorPageViewController") as! FavorPageViewController
+        }
+        //third
+        if index == 2 {
+            
+            return self.storyboard?.instantiateViewControllerWithIdentifier("FollowingPageViewController") as! FollowingPageViewController
+        }
+        
+        //four
+        if index == 3 {
+            
+            return self.storyboard?.instantiateViewControllerWithIdentifier("FollowerPageViewController") as! FollowerPageViewController
+        }
+    //else
     return nil
-    }
-    let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProfilePageViewController") as! ProfilePageViewController
-    
-    pageContentViewController.imageFile = self.pageimage[index]
-    pageContentViewController.titleText = self.pagetitle[index]
-    pageContentViewController.pageIndex = index
-    return pageContentViewController
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return pagetitle.count
+        return self.identifiers.count
     }
     
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
@@ -82,8 +168,8 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
         let pageContentViewController = self.viewControllerAtIndex(0)
         self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
         
-        /* We are substracting 30 because we have a start again button whose height is 30*/
-        self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 30)
+        /* We are substracting 20 because we have a start bar button whose height is 20*/
+        self.pageViewController.view.frame = CGRectMake(0, 30, self.view.frame.width, self.view.frame.height - 30)
         self.addChildViewController(pageViewController)
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMoveToParentViewController(self)
