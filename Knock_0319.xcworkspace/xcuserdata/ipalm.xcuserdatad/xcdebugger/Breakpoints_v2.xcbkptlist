@@ -58,13 +58,91 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Knock_0319/IntroViewController.swift"
-            timestampString = "453228432.222784"
+            timestampString = "453458576.918319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Knock_0319/IntroViewController.swift"
+            timestampString = "453457035.009728"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "IntroViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Knock_0319.IntroViewController.pageViewController.getter : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIPageViewController&gt;"
+                  moduleName = "Knock_0319"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/IntroViewController.swift"
+                  timestampString = "453457106.120285"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Knock_0319.IntroViewController.pageViewController.setter : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIPageViewController&gt;"
+                  moduleName = "Knock_0319"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/IntroViewController.swift"
+                  timestampString = "453457106.120423"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Knock_0319.IntroViewController.init (Knock_0319.IntroViewController.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;ObjectiveC.NSBundle&gt;) -&gt; Knock_0319.IntroViewController"
+                  moduleName = "Knock_0319"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/IntroViewController.swift"
+                  timestampString = "453457106.120696"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "722">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Knock_0319.IntroViewController.init (Knock_0319.IntroViewController.Type)(coder : ObjectiveC.NSCoder) -&gt; Knock_0319.IntroViewController"
+                  moduleName = "Knock_0319"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ipalm/Documents/xcode/Knock_0319/Knock_0319/IntroViewController.swift"
+                  timestampString = "453457106.120899"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "702">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

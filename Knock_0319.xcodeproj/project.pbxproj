@@ -16,6 +16,9 @@
 		AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5921B0316BA0090573D /* ProfileViewController.swift */; };
 		AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5951B03987D0090573D /* IntroViewController.swift */; };
 		AC12C5981B0398A60090573D /* IntroPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5971B0398A60090573D /* IntroPageViewController.swift */; };
+		AC12C59A1B04477B0090573D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5991B04477B0090573D /* LoginViewController.swift */; };
+		AC12C59C1B046C6C0090573D /* TextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C59B1B046C6C0090573D /* TextTableViewCell.swift */; };
+		AC12C59E1B0729520090573D /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C59D1B0729520090573D /* MainTabBarViewController.swift */; };
 		AC2327A11AD3B84500B06354 /* Buble.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2327A01AD3B84500B06354 /* Buble.swift */; };
 		AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5018F71ADF7B7500CBAF14 /* textViewController.swift */; };
 		AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC623B891ACBDDF200221DB7 /* Messageinfo.swift */; };
@@ -61,6 +64,9 @@
 		AC12C5921B0316BA0090573D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AC12C5951B03987D0090573D /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		AC12C5971B0398A60090573D /* IntroPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageViewController.swift; sourceTree = "<group>"; };
+		AC12C5991B04477B0090573D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AC12C59B1B046C6C0090573D /* TextTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTableViewCell.swift; sourceTree = "<group>"; };
+		AC12C59D1B0729520090573D /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		AC2327A01AD3B84500B06354 /* Buble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buble.swift; sourceTree = "<group>"; };
 		AC5018F71ADF7B7500CBAF14 /* textViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textViewController.swift; sourceTree = "<group>"; };
 		AC623B891ACBDDF200221DB7 /* Messageinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messageinfo.swift; sourceTree = "<group>"; };
@@ -132,6 +138,8 @@
 			children = (
 				AC12C5951B03987D0090573D /* IntroViewController.swift */,
 				AC12C5971B0398A60090573D /* IntroPageViewController.swift */,
+				AC12C5991B04477B0090573D /* LoginViewController.swift */,
+				AC12C59B1B046C6C0090573D /* TextTableViewCell.swift */,
 			);
 			name = "Intro Page";
 			sourceTree = "<group>";
@@ -164,6 +172,7 @@
 				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
+				AC12C59D1B0729520090573D /* MainTabBarViewController.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
 				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
@@ -379,6 +388,7 @@
 				AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */,
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
 				AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */,
+				AC12C59E1B0729520090573D /* MainTabBarViewController.swift in Sources */,
 				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
 				AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
@@ -389,6 +399,8 @@
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
 				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
+				AC12C59C1B046C6C0090573D /* TextTableViewCell.swift in Sources */,
+				AC12C59A1B04477B0090573D /* LoginViewController.swift in Sources */,
 				AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */,
 				AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */,
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,

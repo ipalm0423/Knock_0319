@@ -13,6 +13,14 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
     var pageViewController: UIPageViewController!
     var identifiers = ["BoardPageViewController", "FavorPageViewController", "FollowingPageViewController", "FollowerPageViewController"]
     
+    @IBOutlet weak var favorButton: UIBarButtonItem!
+    
+    @IBOutlet weak var starButton: UIBarButtonItem!
+    
+    @IBOutlet weak var goodButton: UIBarButtonItem!
+    
+    @IBOutlet weak var penButton: UIBarButtonItem!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +47,7 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
                 }
             }
         }
+        
     }
     
     @IBAction func favorButton(sender: AnyObject) {
@@ -174,6 +183,8 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMoveToParentViewController(self)
     }
+    
+    
     
     /*
     // MARK: - Navigation
