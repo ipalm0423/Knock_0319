@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var accountField: UITextField!
     
@@ -16,37 +16,136 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
     
-    @IBOutlet weak var pttAccountField: UITextField!
+    @IBOutlet weak var accountIcon: UIImageView!
     
-    @IBOutlet weak var pttPasswdField: UITextField!
+    @IBOutlet weak var passwdIcon: UIImageView!
     
-    @IBOutlet weak var pttImage: UIImageView!
+    @IBOutlet weak var nameIcon: UIImageView!
     
+    
+    @IBOutlet weak var passwdCont: NSLayoutConstraint!
+    
+    @IBOutlet weak var accountCont: NSLayoutConstraint!
+    
+    @IBOutlet weak var accountFieldConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var passwdFieldConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var pttButtonConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var pttLabelConst: NSLayoutConstraint!
     
     @IBOutlet weak var pttLabel: UILabel!
     
     @IBOutlet weak var pttButton: UIButton!
     
-    //constraint
-    @IBOutlet weak var pttLabelConst: NSLayoutConstraint!
+    @IBOutlet weak var pictureViewImage: UIImageView!
     
-    @IBOutlet weak var pttLabel2Const: NSLayoutConstraint!
     
-    //keyboard feekback
+    
+    
+    var imagePicker = UIImagePickerController()
+    var isPTT = false
+    func imageViewTouch(sender: UITapGestureRecognizer) {
+        if sender.state == .Ended {
+            
+            //tap on image
+            let takePicture = UIAlertController(title: nil, message: "新增照片", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let usePhoto = UIAlertAction(title: "相片", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                    //self.imagePicker = UIImagePickerController()
+                    self.imagePicker.allowsEditing = false
+                    self.imagePicker.sourceType = .PhotoLibrary
+                    self.presentViewController(self.imagePicker, animated: true, completion: nil)
+                    
+                }
+            }
+            let useCamera = UIAlertAction(title: "照相", style: UIAlertActionStyle.Default) { (action:UIAlertAction!) -> Void in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                    self.imagePicker.allowsEditing = false
+                    self.imagePicker.sourceType = .Camera
+                    self.presentViewController(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+            let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            takePicture.addAction(usePhoto)
+            takePicture.addAction(useCamera)
+            takePicture.addAction(cancel)
+            self.presentViewController(takePicture, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        
+        self.pictureViewImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.pictureViewImage.image?.resizingMode
+        self.pictureViewImage.contentMode = UIViewContentMode.ScaleAspectFill
+        self.pictureViewImage.layer.cornerRadius = 30.0
+        
+        self.pictureViewImage.clipsToBounds = true
+        dismissViewControllerAnimated(true, completion: { () -> Void in
+            let bounds = self.pictureViewImage.bounds
+            UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10.0, options: nil, animations: { () -> Void in
+                self.pictureViewImage.bounds = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: 70.0, height: 70.0)
+                self.view.layoutIfNeeded()
+                
+            }) { (Bool) -> Void in
+                //self.pictureViewImage.bounds = bounds
+            }
+        })
+        
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        
+    }
     
     @IBAction func pttButtonTouch(sender: AnyObject) {
-        
-        UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.pttLabelConst.constant += self.view.bounds.width
-            self.pttLabel2Const.constant += self.view.bounds.width
-        }, completion: nil)
-        
-        UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.pttAccountField.alpha = 1.0
-            self.pttPasswdField.alpha = 1.0
-            self.view.layoutIfNeeded()
-        }) { (Bool) -> Void in
+        if isPTT {
+            //返回沒有ptt
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10.0, options: nil, animations: { () -> Void in
+                
+                self.accountCont.constant += 10
+                self.passwdCont.constant += 10
+                self.pttButtonConst.constant += 10
+                
+                self.view.layoutIfNeeded()
+                }) { (Bool) -> Void in
+                    self.pttLabel.text = "你可以直接登入PTT帳號，享受所有的服務"
+                    self.pttButton.setTitle("你有PTT帳號嗎？", forState: UIControlState.Normal)
+                    self.pttButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+                    self.accountField.placeholder = "輸入你的帳號"
+                    self.passwdField.placeholder = "輸入你的密碼"
+                    self.isPTT = false
+                    self.accountCont.constant = 20
+                    self.passwdCont.constant = 20
+                    self.pttButtonConst.constant -= 10
+                    
+            }
             
+        }else {
+            //進入有ptt
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10.0, options: nil, animations: { () -> Void in
+                self.accountCont.constant += 10
+                self.passwdCont.constant += 10
+                self.pttButtonConst.constant += 10
+                
+                self.view.layoutIfNeeded()
+                }) {(Bool) -> Void in
+                    self.pttLabel.text = "你可以建立新的Bomb的帳號，享受所有的服務"
+                    self.pttButton.setTitle("沒有PTT帳號嗎?", forState: UIControlState.Normal)
+                    self.pttButton.setTitleColor(UIColor.brownColor(), forState: UIControlState.Normal)
+                    self.accountField.placeholder = "輸入你的PTT帳號"
+                    self.passwdField.placeholder = "輸入你的PTT密碼"
+                    self.isPTT = true
+                    self.accountCont.constant = 20
+                    self.passwdCont.constant = 20
+                    self.pttButtonConst.constant -= 10
+                    
+            }
         }
     }
     
@@ -55,8 +154,6 @@ class LoginViewController: UIViewController {
         self.accountField.resignFirstResponder()
         self.passwdField.resignFirstResponder()
         self.nameField.resignFirstResponder()
-        self.pttAccountField.resignFirstResponder()
-        self.pttPasswdField.resignFirstResponder()
         
     }
     
@@ -68,9 +165,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.pttAccountField.alpha = 0.0
-        self.pttPasswdField.alpha = 0.0
+        //setup camera
+        imagePicker.delegate = self
+        //setup picture gesture
+        let tapPicture = UITapGestureRecognizer(target: self, action: "imageViewTouch:")
+        self.pictureViewImage.addGestureRecognizer(tapPicture)
         // Do any additional setup after loading the view.
     }
 

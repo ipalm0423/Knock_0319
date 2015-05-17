@@ -21,37 +21,38 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     
     
     @IBAction func createButtonTouch(sender: AnyObject) {
-        if self.pageControl.currentPage == 3 {
-            if let currentVC = pageViewController.viewControllers[0] as? LoginViewController {
-                let account = currentVC.accountField.text
-                let passwd = currentVC.passwdField.text
-                let name = currentVC.nameField.text
-                let pttaccount = currentVC.pttAccountField.text
-                let pttpasswd = currentVC.pttPasswdField.text
-                
-                //check information erro
-                var err = ""
-                if account == "" {
-                    err += "帳號不能為空白"
-                }else if passwd == "" {
-                    err += "密碼不能為空白"
-                }else if name == "" {
-                    err += "名稱不能為空白"
-                }
-                if err != "" {
-                    TWMessageBarManager.sharedInstance().showMessageWithTitle("無法登入", description: err, type: TWMessageBarMessageType.Error)
-                }else {
-                    //create new account
-                    
-                    
-                    //wait set up ......
-                    /*
-                    NSNotificationCenter.defaultCenter().postNotificationName("LoginAccount", object: nil)
-                    */
-                }
-                
+        if let currentVC = pageViewController.viewControllers[0] as? LoginViewController {
+            let account = currentVC.accountField.text
+            let passwd = currentVC.passwdField.text
+            let name = currentVC.nameField.text
+            //show name field
+            if currentVC.nameField.alpha == 0 {
+                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    currentVC.nameField.alpha = 1
+                    currentVC.nameIcon.alpha = 1
+                    }, completion: nil)
+                return
             }
-            
+            //check information erro
+            var err = ""
+            if account == "" {
+                err += "帳號不能為空白"
+            }else if passwd == "" {
+                err += "密碼不能為空白"
+            }else if name == "" {
+                err += "匿名名稱不能為空白"
+            }
+            if err != "" {
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法登入", description: err, type: TWMessageBarMessageType.Error)
+            }else {
+                //create new account
+                
+                
+                //wait set up ......
+                /*
+                NSNotificationCenter.defaultCenter().postNotificationName("LoginAccount", object: nil)
+                */
+            }
             
         }else {
             //jump into page 3
@@ -62,13 +63,46 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     }
     
     @IBAction func loginButton(sender: AnyObject) {
-        if self.pageControl.currentPage == 3 {
-            //login account
-            
+        if let currentVC = pageViewController.viewControllers[0] as? LoginViewController {
+            let account = currentVC.accountField.text
+            let passwd = currentVC.passwdField.text
+            if currentVC.nameField.alpha == 1 {
+                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    currentVC.nameField.alpha = 0
+                    currentVC.nameIcon.alpha = 0
+                    }, completion: nil)
+                return
+            }
+            //check information erro
+            var err = ""
+            if account == "" {
+                err += "帳號不能為空白"
+            }else if passwd == "" {
+                err += "密碼不能為空白"
+            }
+            if err != "" {
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法登入", description: err, type: TWMessageBarMessageType.Error)
+            }else {
+                //login old account
+                
+                
+                //wait set up ......
+                /*
+                NSNotificationCenter.defaultCenter().postNotificationName("LoginAccount", object: nil)
+                */
+            }
         }else {
             //jump into page 3
             let pageContentViewController = self.viewControllerAtIndex(3)
             self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+            
+            //hide name field & icon
+            if let currentVC = self.pageViewController.viewControllers[0] as? LoginViewController {
+                currentVC.nameField.alpha = 0
+                currentVC.nameIcon.alpha = 0
+                
+            }
+            //set up page number
             self.pageControl.currentPage = 3
         }
     }
@@ -101,10 +135,12 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
             //if the index is the end, return nil since we dont want a view controller after the last one
             if identifier == "LoginViewController" {
                 self.pageControl.currentPage = 3
+                println("last")
                 return nil
             }else {
                 if var index = (viewController as! IntroPageViewController).pageIndex {
                     self.pageControl.currentPage = index
+                    println(index)
                     //increment the index to get the viewController after the current index
                     
                     index = index + 1
@@ -121,11 +157,13 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
         if let identifier = viewController.restorationIdentifier {
             //if the index is the end, return nil since we dont want a view controller after the last one
             if identifier == "LoginViewController" {
+                println("last")
                 self.pageControl.currentPage = 3
                 return self.viewControllerAtIndex(2)
             }else {
                 if var index = (viewController as! IntroPageViewController).pageIndex {
                     self.pageControl.currentPage = index
+                    println(index)
                     //if the index is the end of the array, return nil since we dont want a view controller after the last one
                     if index == 0 {
                         return nil
