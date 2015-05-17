@@ -169,10 +169,9 @@
 				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
-				AC12C59D1B0729520090573D /* MainTabBarViewController.swift */,
 				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
-				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
+				ACF5AEEA1B08C72C0000EF62 /* Mainflow */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
 				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
@@ -190,7 +189,6 @@
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
-				AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
 				AC6A34841ABC43A100AD1CC7 /* RoomListTableViewCell.swift */,
@@ -230,6 +228,16 @@
 				AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */,
 			);
 			name = "Profile Page";
+			sourceTree = "<group>";
+		};
+		ACF5AEEA1B08C72C0000EF62 /* Mainflow */ = {
+			isa = PBXGroup;
+			children = (
+				AC12C59D1B0729520090573D /* MainTabBarViewController.swift */,
+				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
+				AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */,
+			);
+			name = Mainflow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -31,8 +31,11 @@ class MainFlowTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.reloadData()
         println(self.titles.count)
         
+        //auto height for cell
         tableView.estimatedRowHeight = 330.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -84,10 +87,21 @@ class MainFlowTableViewController: UITableViewController, NSFetchedResultsContro
             //cell.picture.hidden = true
             cell.setPostedImage(nil)
         }
+        
+        //setup tag
+        cell.icon.tag = indexPath.row
+        cell.account.tag = indexPath.row
+        cell.picture.tag = indexPath.row
+        cell.subtitle.tag = indexPath.row
         cell.followButton.tag = indexPath.row
-        cell.shareButton.tag = indexPath.row
-        cell.favorButton.tag = indexPath.row
+        cell.starButton.tag = indexPath.row
+        cell.forwardButton.tag = indexPath.row
+        cell.pushButton.tag = indexPath.row
+        
+        //de selection
         cell.selectionStyle = .None
+        
+        //picture to circle
         cell.icon.layer.cornerRadius = cell.icon.frame.size.width / 2
         cell.icon.clipsToBounds = true
         return cell
@@ -96,16 +110,86 @@ class MainFlowTableViewController: UITableViewController, NSFetchedResultsContro
     
     
     @IBAction func followButtonTouch(sender: AnyObject) {
-        var row = sender.tag.description
-        println("touch follow: " + row)
+        var row = sender.tag
+        println("touch follow: " + row.description)
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? TitleTableViewCell {
+            
+        }
+    }
+    /*
+    @IBAction func favorButtonTouch(sender: AnyObject) {
+        var row = sender.tag
+        println("touch favor: " + row.description)
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? TitleTableViewCell {
+            let snapshot = cell.snapshotViewAfterScreenUpdates(false)
+            let cellFrame = cell.frame
+            snapshot.frame = cell.frame
+            let smallFrame = CGRectInset(cellFrame, cellFrame.size.width / 4, cellFrame.size.height / 4)
+            let finalFrame = CGRectOffset(smallFrame, 0, cell.bounds.size.height)
+            view.addSubview(snapshot)
+            
+            println("add image")
+            //animate...
+            
+            UIView.animateKeyframesWithDuration(2.0, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.5, animations: { () -> Void in
+                    snapshot.frame = smallFrame
+                })
+                UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5, animations: { () -> Void in
+                    snapshot.frame = finalFrame
+                })
+            }, completion: nil)
+        }
+    }*/
+    
+    @IBAction func favorButtonTouch(sender: AnyObject) {
+        var row = sender.tag
+        println("touch star: " + row.description)
+    }
+    // favor button
+    @IBAction func test(sender: AnyObject) {
+        if let row = sender.tag {
+            println(row.description)
+            if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? TitleTableViewCell {
+                cell.starButton.image = UIImage(named: "star-fill-vec")
+                let snapshot = cell.snapshotViewAfterScreenUpdates(true)
+                let cellFrame = cell.frame
+                snapshot.frame = cellFrame
+                let smallFrame = CGRectInset(cellFrame, cellFrame.size.width / 3, cellFrame.size.height / 3)
+                let finalFrame = CGRectOffset(smallFrame, self.view.bounds.size.width / 2, self.view.bounds.size.height)
+                view.addSubview(snapshot)
+                //animate...
+                
+                UIView.animateKeyframesWithDuration(1.0, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
+                    UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.5, animations: { () -> Void in
+                        snapshot.frame = smallFrame
+                    })
+                    UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
+                        snapshot.frame = finalFrame
+                    })
+                    }) { (Bool) -> Void in
+                        snapshot.removeFromSuperview()
+                }
+            }
+        }
     }
     
-    @IBAction func favoriteButtonTouch(sender: AnyObject) {
+    
+    @IBAction func forwardButtonTouch(sender: AnyObject) {
+        var row = sender.tag
+        println("touch forward: " + row.description)
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? TitleTableViewCell {
+            
+        }
     }
     
-    @IBAction func shareButtonTouch(sender: AnyObject) {
+    @IBAction func pushButtonTouch(sender: AnyObject) {
+        var row = sender.tag
+        println("touch push: " + row.description)
+        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? TitleTableViewCell {
+            
+        }
     }
-    
     
     /*
     // Override to support conditional editing of the table view.

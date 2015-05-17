@@ -22,11 +22,11 @@ class TitleTableViewCell: UITableViewCell {
     
     @IBOutlet weak var followButton: UIButton!
     
-    @IBOutlet weak var push: UILabel!
+    @IBOutlet weak var starButton: UIBarButtonItem!
     
-    @IBOutlet weak var favorButton: UIButton!
-
-    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var forwardButton: UIBarButtonItem!
+    
+    @IBOutlet weak var pushButton: UIBarButtonItem!
     
     @IBOutlet weak var titleLabelConstraint: NSLayoutConstraint!
     
