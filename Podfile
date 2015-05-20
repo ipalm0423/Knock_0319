@@ -6,6 +6,7 @@ pod 'JSQMessagesViewController'
 pod 'JSQSystemSoundPlayer'
 pod 'MBProgressHUD'
 pod 'TWMessageBarManager'
+pod 'UITableView+FDTemplateLayoutCell', '~> 1.1-beta'
 end
 
 target 'Knock_0319Tests' do

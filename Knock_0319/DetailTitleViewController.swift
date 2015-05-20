@@ -1,18 +1,18 @@
 //
-//  MainTabBarViewController.swift
+//  DetailTitleViewController.swift
 //  Knock_0319
 //
-//  Created by 陳冠宇 on 2015/5/16.
+//  Created by 陳冠宇 on 2015/5/18.
 //  Copyright (c) 2015年 Morpheus. All rights reserved.
 //
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
+class DetailTitleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.sharedApplication().statusBarHidden = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
         // Do any additional setup after loading the view.
     }
 

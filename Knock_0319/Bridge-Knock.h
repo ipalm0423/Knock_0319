@@ -13,5 +13,6 @@
 #import "MBProgressHUD.h"
 #import "JSQSystemSoundPlayer.h"
 #import "TWMessageBarManager.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 
 #endif

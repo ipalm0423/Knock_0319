@@ -38,6 +38,9 @@
 		AC86526D1B00F95B0075C00C /* MainFlowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */; };
 		AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526E1B00FA6C0075C00C /* Titleinfo.swift */; };
 		AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652761B0266B30075C00C /* StartPageViewController.swift */; };
+		ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */; };
+		ACE363DB1B0B93B00072AA11 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */; };
+		ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +94,9 @@
 		AC86526E1B00FA6C0075C00C /* Titleinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Titleinfo.swift; sourceTree = "<group>"; };
 		AC8652761B0266B30075C00C /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
+		ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTitleViewController.swift; sourceTree = "<group>"; };
+		ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -235,6 +241,9 @@
 			children = (
 				AC12C59D1B0729520090573D /* MainTabBarViewController.swift */,
 				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
+				ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */,
+				ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */,
+				ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */,
 				AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */,
 			);
 			name = Mainflow;
@@ -403,12 +412,15 @@
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
 				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
+				ACE363DB1B0B93B00072AA11 /* MainTableViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
 				AC12C59A1B04477B0090573D /* LoginViewController.swift in Sources */,
 				AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */,
 				AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */,
+				ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */,
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,
 				AC12C5981B0398A60090573D /* IntroPageViewController.swift in Sources */,
+				ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */,
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,

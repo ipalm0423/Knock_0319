@@ -26,6 +26,7 @@ struct titletest {
     var icon: NSData!
     var picture: NSData!
     var board: String!
+    var pushNumber: String!
     var type: String!
     var time: NSDate!
     init() {
@@ -34,6 +35,7 @@ struct titletest {
         self.type = "問卦"
         self.time = NSDate()
         self.board = "八卦版"
+        self.pushNumber = "12"
         //self.icon = UIImagePNGRepresentation(UIImage(named: "head.jpg"))
         self.picture = UIImagePNGRepresentation(UIImage(named: "fish.jpg"))
     }

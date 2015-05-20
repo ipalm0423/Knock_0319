@@ -20,7 +20,9 @@ class TitleTableViewCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
     
-    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var timeLabel: UILabel!
+   
+    @IBOutlet weak var numberLabel: UILabel!
     
     @IBOutlet weak var starButton: UIBarButtonItem!
     
@@ -28,8 +30,10 @@ class TitleTableViewCell: UITableViewCell {
     
     @IBOutlet weak var pushButton: UIBarButtonItem!
     
-    @IBOutlet weak var titleLabelConstraint: NSLayoutConstraint!
     
+    
+    var pictureHeight: CGFloat!
+    var pictureWidth: CGFloat!
     
     internal var aspectConstraint : NSLayoutConstraint? {
         didSet {
@@ -50,14 +54,33 @@ class TitleTableViewCell: UITableViewCell {
     //setup for picture(with or without picture)
     func setPostedImage(image : UIImage?) {
         if let image = image {
-            let aspect = image.size.width / image.size.height
+            //have image
+            var aspect = image.size.width / image.size.height
+            pictureHeight = self.frame.width / aspect
+            pictureWidth = self.frame.width
+            println("picture height " + pictureHeight.description + "picture width " + pictureWidth.description)
             
-            aspectConstraint = NSLayoutConstraint(item: picture, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: picture, attribute: NSLayoutAttribute.Height, multiplier: aspect, constant: 0.0)
+            var aspectConstraint = NSLayoutConstraint(item: picture, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: picture, attribute: NSLayoutAttribute.Height, multiplier: aspect, constant: 0.0)
+            aspectConstraint.priority = 999
             
             picture.image = image
+            
         }else {
+            //no image
+            println("no image, cell width = " + self.frame.width.description)
+            aspectConstraint = nil
+            picture.image = nil
+            /*
             aspectConstraint = NSLayoutConstraint(item: picture, attribute: .Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 0.0)
-            titleLabelConstraint.constant = 0
+            */
+            //titleLabelConstraint.constant = 0
+            //self.picture.hidden = true
+            //self.pictureHeight.constant = 0
+            
+            //self.picture.removeConstraint(self.pictureAspectRatioConst)
+            //self.pictureAspectRatioConst.constant = 1
+            
+            //self.layoutIfNeeded()
         }
         
     }

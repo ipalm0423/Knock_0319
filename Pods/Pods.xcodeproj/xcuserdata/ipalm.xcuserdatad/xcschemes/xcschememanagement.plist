@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Knock_0319-UITableView+FDTemplateLayoutCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Knock_0319.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0E0246183FCB68DBE4A13465</key>
+		<key>42CE44F86B4A396469979E64</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1B6CE44B2BC98EA51631B9E0</key>
+		<key>761CFD79F1F3A6614602D71A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2766BA04ECF7B3FDD9B8D065</key>
+		<key>9D364D906D758491DAA2845A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ACE3F56DDBF057F2C5D1A308</key>
+		<key>A2A63F547F58896D38D4DBBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0402B072320761B60512EA3</key>
+		<key>B360E374850559F0D7AB71E6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F93CCF251C234D8EB7D7561A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
