@@ -26,8 +26,14 @@ class MainTableViewController: UITableViewController {
         titles.append(test2)
         titles.append(test3)
         titles.append(test4)
-        
-        
+        titles.append(test1)
+        titles.append(test2)
+        titles.append(test3)
+        titles.append(test4)
+        titles.append(test1)
+        titles.append(test2)
+        titles.append(test3)
+        titles.append(test4)
         tableView.reloadData()
         
         // Uncomment the following line to preserve selection between presentations
@@ -102,6 +108,8 @@ class MainTableViewController: UITableViewController {
         let tapName = UITapGestureRecognizer(target: self, action: "iconViewTouch:")
         cell.iconImage.addGestureRecognizer(tapIcon)
         cell.nameLabel.addGestureRecognizer(tapName)
+        
+        
         
         return cell
     }
@@ -185,7 +193,9 @@ class MainTableViewController: UITableViewController {
             println("touch star at row: " + row.description)
             
             if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: 0)) as? MainTableViewCell {
+                println("button tag " + cell.starButton.tag.description)
                 //delete from star
+                
                 if cell.starButton.image == UIImage(named: "star-fill-vec") {
                     //remove favor article
                     cell.starButton.image = UIImage(named: "star-vec")
@@ -236,6 +246,10 @@ class MainTableViewController: UITableViewController {
         }
     }
     
+    //select row
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println(indexPath.description)
+    }
     
     
     
