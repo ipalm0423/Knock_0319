@@ -10,10 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var containerView: UIView!
+   
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet var viewself: UIView!
     
     //test
     var titles: Array<titletest> = []
@@ -22,12 +23,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var test3 = titletest()
     var test4 = titletest()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         //setup tableview
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        
+        
+        
         //test
         test2.title = "test for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for string"
         test3.picture = nil
@@ -50,12 +54,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Do any additional setup after loading the view.
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
     // MARK: - Table view data source
     
@@ -242,8 +250,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 //animate
                 
                 let snapshot = cell.snapshotViewAfterScreenUpdates(true)
-                let cellBounds = cell.bounds
+                let cellBounds = cell.convertRect(cell.bounds, toView: self.view)
                 snapshot.frame = cellBounds
+                //println(cellBounds.origin.y)
+                //println(cellBounds.size.height)
+                
                 let smallFrame = CGRectInset(cellBounds, cellBounds.size.width / 3, cellBounds.size.height / 3)
                 let finalFrame = CGRectOffset(smallFrame, self.view.bounds.size.width / 2, self.view.bounds.size.height)
                 view.addSubview(snapshot)
@@ -279,13 +290,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    //segue
-    //segue
     
+    //segue
+    //segue
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
     
     //back from detail
     @IBAction func returnViewController(segue:UIStoryboardSegue) {
-        
+        if let detiailVC = segue.sourceViewController as? DetailTitleViewController {
+            println("return to main view")
+            //data feedback
+        }
     }
 
 }

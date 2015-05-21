@@ -12,15 +12,31 @@ class DetailTitleViewController: UIViewController {
     
     @IBOutlet weak var pushRightConst: NSLayoutConstraint!
     
-    @IBOutlet weak var replyRightConst: NSLayoutConstraint!
+    @IBOutlet weak var pushUpConst: NSLayoutConstraint!
+   
+    @IBOutlet weak var pushDownConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var goUpConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var goDownConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var upButton: UIButton!
+    
+    @IBOutlet weak var downButton: UIButton!
+    
+    @IBOutlet weak var arrowButton: UIButton!
+    
+    @IBOutlet weak var pushDownButton: UIButton!
+    
+    @IBOutlet weak var pushUpButton: UIButton!
+    
+    @IBOutlet weak var bombButton: UIButton!
     
     
-    
-    
-    
-    
-    var bombButtonshow = false
-    
+    var bombButtonShow = false
+    var arrowButtonShow = false
+    var inputFieldShow = false
+    var hasKeyboardShow = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +44,15 @@ class DetailTitleViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         let viewWidth = self.view.bounds.width
-        self.pushRightConst.constant -= viewWidth
-        self.replyRightConst.constant -= viewWidth
-        
+        self.pushUpConst.constant -= 60
+        self.pushDownConst.constant += 60
+        self.goUpConst.constant -= 60
+        self.goDownConst.constant += 60
+        self.upButton.alpha = 0
+        self.downButton.alpha = 0
+        self.pushUpButton.alpha = 0
+        self.pushDownButton.alpha = 0
+        self.navigationController?.hidesBarsOnSwipe = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,43 +76,93 @@ class DetailTitleViewController: UIViewController {
     
     //button action
     
-    @IBAction func backButtonTouch(sender: AnyObject) {
+    @IBAction func touchBackground(sender: AnyObject) {
+        println("touch back")
+        self.arrowAppearAnimate()
+        self.bombAppearAnimate()
     }
     
+    
     @IBAction func bombButtonTouch(sender: AnyObject) {
+        bombAppearAnimate()
+        
+    }
+    
+    @IBAction func pushButtonTouch(sender: AnyObject) {
+        bombAppearAnimate()
+    }
+    
+    @IBAction func badButtonTouch(sender: AnyObject) {
+        bombAppearAnimate()
+    }
+   
+    
+    @IBAction func arrowButtonTouch(sender: AnyObject) {
+        arrowAppearAnimate()
+    }
+    
+    
+    
+    //animate func
+    func bombAppearAnimate() {
         let width = self.view.bounds.width
-        if self.bombButtonshow {
+        if self.bombButtonShow {
             //close button
-            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.pushRightConst.constant -= width
-                self.replyRightConst.constant -= width
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.pushUpButton.alpha = 0
+                self.pushDownButton.alpha = 0
+                self.pushUpConst.constant -= 60
+                self.pushDownConst.constant += 60
+                self.bombButton.setImage(UIImage(named: "bomb-fire-vec"), forState: UIControlState.Normal)
                 self.view.layoutIfNeeded()
-                self.bombButtonshow = false
-            }, completion: nil)
+                self.bombButtonShow = false
+                }, completion: nil)
         }else {
             //open button
-            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.pushRightConst.constant += width
-                self.replyRightConst.constant += width
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.pushUpButton.alpha = 1
+                self.pushDownButton.alpha = 1
+                self.pushUpConst.constant += 60
+                self.pushDownConst.constant -= 60
+                self.bombButton.setImage(UIImage(named: "pen-60-vec"), forState: UIControlState.Normal)
                 self.view.layoutIfNeeded()
-                self.bombButtonshow = true
+                self.bombButtonShow = true
                 }, completion: nil)
         }
     }
     
-    @IBAction func pushButtonTouch(sender: AnyObject) {
+    func arrowAppearAnimate() {
+        let width = self.view.bounds.width
+        if self.arrowButtonShow {
+            //close button
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.upButton.alpha = 0
+                self.downButton.alpha = 0
+                self.goUpConst.constant -= 60
+                self.goDownConst.constant += 60
+                self.arrowButton.setImage(UIImage(named: "arrow-couple-vec"), forState: UIControlState.Normal)
+                self.view.layoutIfNeeded()
+                self.arrowButtonShow = false
+                }, completion: nil)
+        }else {
+            //open button
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.upButton.alpha = 1
+                self.downButton.alpha = 1
+                self.goUpConst.constant += 60
+                self.goDownConst.constant -= 60
+                self.arrowButton.setImage(UIImage(named: "arrow-back-vec"), forState: UIControlState.Normal)
+                self.view.layoutIfNeeded()
+                self.arrowButtonShow = true
+                }, completion: nil)
+        }
     }
     
-    @IBAction func badButtonTouch(sender: AnyObject) {
+    
+    
+    func inputBoxAppearAnimate() {
+        
     }
-   
-    @IBAction func replyButtonTouch(sender: AnyObject) {
-    }
-    
-    
-    
-    
-    
     
     
 }
