@@ -1,24 +1,34 @@
 //
-//  Test1TableViewController.swift
+//  MainViewController.swift
 //  Knock_0319
 //
-//  Created by 陳冠宇 on 2015/5/19.
+//  Created by 陳冠宇 on 2015/5/21.
 //  Copyright (c) 2015年 Morpheus. All rights reserved.
 //
 
 import UIKit
 
-class Main1TableViewController: UITableViewController {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var containerView: UIView!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    //test
     var titles: Array<titletest> = []
     var test1 = titletest()
     var test2 = titletest()
     var test3 = titletest()
     var test4 = titletest()
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("start")
+        //setup tableview
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        //test
         test2.title = "test for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for stringtest for string"
         test3.picture = nil
         test4.picture = UIImagePNGRepresentation(UIImage(named: "color1.jpg"))
@@ -36,33 +46,33 @@ class Main1TableViewController: UITableViewController {
         titles.append(test4)
         tableView.reloadData()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
         
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        // Do any additional setup after loading the view.
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return self.titles.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("mainCell", forIndexPath: indexPath) as! MainTableViewCell
         let title = self.titles[indexPath.row]
         cell.nameLabel.text = title.account
@@ -122,7 +132,7 @@ class Main1TableViewController: UITableViewController {
     }
     
     //setup cell height
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         //basic              top - icon -- label --pic-- label2 --  bar
         var height: CGFloat = 15 + 50 + 20 + 0 + 10 + 10 + 16 + 10 + 40
         let title = titles[indexPath.row]
@@ -161,7 +171,7 @@ class Main1TableViewController: UITableViewController {
         label.sizeToFit()
         return label.frame.height
     }
-
+    
     //setup colors avator
     func setupAvatorImage(hash: Int) -> UIImage {
         
@@ -181,7 +191,18 @@ class Main1TableViewController: UITableViewController {
     
     
     
-    //button setup
+    
+    
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+    
     //icon image touch
     func iconViewTouch(sender: UITapGestureRecognizer) {
         if sender.state == .Ended {
@@ -205,7 +226,7 @@ class Main1TableViewController: UITableViewController {
                 //delete favor at CoreData
                 
                 //send to server
-                
+                self.tableView.reloadData()
                 return
             }else {
                 //return true
@@ -213,7 +234,7 @@ class Main1TableViewController: UITableViewController {
                 //add favor at CoreData
                 
                 //send to server
-                
+                self.tableView.reloadData()
             }
             
             //animate
@@ -221,9 +242,9 @@ class Main1TableViewController: UITableViewController {
                 //animate
                 
                 let snapshot = cell.snapshotViewAfterScreenUpdates(true)
-                let cellFrame = cell.frame
-                snapshot.frame = cellFrame
-                let smallFrame = CGRectInset(cellFrame, cellFrame.size.width / 3, cellFrame.size.height / 3)
+                let cellBounds = cell.bounds
+                snapshot.frame = cellBounds
+                let smallFrame = CGRectInset(cellBounds, cellBounds.size.width / 3, cellBounds.size.height / 3)
                 let finalFrame = CGRectOffset(smallFrame, self.view.bounds.size.width / 2, self.view.bounds.size.height)
                 view.addSubview(snapshot)
                 UIView.animateKeyframesWithDuration(1.0, delay: 0.0, options: UIViewKeyframeAnimationOptions.CalculationModeCubic, animations: { () -> Void in
@@ -233,6 +254,7 @@ class Main1TableViewController: UITableViewController {
                     UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
                         snapshot.frame = finalFrame
                     })
+                    self.view.layoutIfNeeded()
                     }) { (Bool) -> Void in
                         snapshot.removeFromSuperview()
                 }
@@ -255,11 +277,15 @@ class Main1TableViewController: UITableViewController {
         }
     }
     
-    //select row
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println(indexPath.description)
+    
+    
+    //segue
+    //segue
+    
+    
+    //back from detail
+    @IBAction func returnViewController(segue:UIStoryboardSegue) {
+        
     }
-    
-    
-    
+
 }

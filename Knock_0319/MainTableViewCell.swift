@@ -32,7 +32,7 @@ class MainTableViewCell: UITableViewCell {
     
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
-    
+    var isFavor = false
     
     
     

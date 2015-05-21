@@ -29,6 +29,7 @@ struct titletest {
     var pushNumber: String!
     var type: String!
     var time: NSDate!
+    var isFavor: Bool!
     init() {
         self.account = "jo5566"
         self.title = "有生魚片煮了卻不好吃的八卦嗎？"
@@ -36,6 +37,7 @@ struct titletest {
         self.time = NSDate()
         self.board = "八卦版"
         self.pushNumber = "12"
+        self.isFavor = false
         //self.icon = UIImagePNGRepresentation(UIImage(named: "head.jpg"))
         self.picture = UIImagePNGRepresentation(UIImage(named: "fish.jpg"))
     }

@@ -41,6 +41,7 @@
 		ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */; };
 		ACE363DB1B0B93B00072AA11 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */; };
 		ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */; };
+		ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,7 @@
 		ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTitleViewController.swift; sourceTree = "<group>"; };
 		ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 				AC12C59D1B0729520090573D /* MainTabBarViewController.swift */,
 				AC86526C1B00F95B0075C00C /* MainFlowTableViewController.swift */,
 				ACE363DA1B0B93B00072AA11 /* MainTableViewController.swift */,
+				ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */,
 				ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */,
 				ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */,
 				AC86526A1B00F7DD0075C00C /* TitleTableViewCell.swift */,
@@ -408,6 +411,7 @@
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
 				AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */,
 				AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */,
+				ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
