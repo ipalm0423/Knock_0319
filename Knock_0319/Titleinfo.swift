@@ -18,6 +18,7 @@ class Titleinfo: NSManagedObject {
     @NSManaged var time:NSDate!
     @NSManaged var board:String!
     @NSManaged var type:String?
+    @NSManaged var articleID: NSValueTransformer?
     
 }
 struct titletest {

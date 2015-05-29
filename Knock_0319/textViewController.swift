@@ -47,10 +47,16 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         }
         //Load Message
         self.setupPreviousMessage(0, number: 5, limit: 20)
-        
+        self.navigationController?.hidesBarsOnSwipe = false
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         //setup message in-room notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteNotificationGotMessage:", name: "NotificationNewMessage", object: nil)
+        
+        
+        var tapgesture = UITapGestureRecognizer(target: self, action: "returnKeyBoard:")
+        tapgesture.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(tapgesture)
         
     }
     
@@ -72,8 +78,10 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
 
     
     //setup keyboard
-    @IBAction func closeKeyboard(sender: AnyObject) {
-        self.inputToolbar.resignFirstResponder()
+    func returnKeyBoard(sender: UITapGestureRecognizer) {
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("hideKeyBoard", object: nil)
+        
     }
     
     
@@ -232,6 +240,12 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         // Pass the selected object to the new view controller.
     }
     */
+    //select row
+    override func collectionView(collectionView: JSQMessagesCollectionView!, didTapCellAtIndexPath indexPath: NSIndexPath!, touchLocation: CGPoint) {
+        println("test1")
+        NSNotificationCenter.defaultCenter().postNotificationName("hideKeyBoard", object: nil)
+    }
+    
     
     //setup message function
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
@@ -349,6 +363,7 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         return
 
     }
+    
     func setupRoomName(roomid: String) {
         var roomTemp: [Roominfo] = []
         var fetchRequest = NSFetchRequest(entityName: "Roominfo")

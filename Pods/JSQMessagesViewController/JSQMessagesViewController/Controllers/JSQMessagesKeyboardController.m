@@ -178,11 +178,35 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
                                              selector:@selector(jsq_didReceiveKeyboardDidHideNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsq_hideKeyboardNotification:) name:@"hideKeyBoard" object:nil];
 }
 
 - (void)jsq_unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)jsq_hideKeyboardNotification:(NSNotification *)notification
+{
+    
+    CGRect newKeyboardViewFrame = self.keyboardView.frame;
+    CGFloat contextViewWindowHeight = CGRectGetHeight(self.contextView.window.frame);
+    newKeyboardViewFrame.origin.y = contextViewWindowHeight;
+    BOOL shouldHide = true;
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.keyboardView.frame = newKeyboardViewFrame;
+                     }
+                     completion:^(BOOL finished) {
+                         self.keyboardView.userInteractionEnabled = !shouldHide;
+                         
+                         if (shouldHide) {
+                             [self jsq_resetKeyboardAndTextView];
+                         }
+                     }];
+    
 }
 
 - (void)jsq_didReceiveKeyboardDidShowNotification:(NSNotification *)notification
@@ -308,6 +332,7 @@ typedef void (^JSQAnimationCompletionBlock)(BOOL finished);
 }
 
 #pragma mark - Pan gesture recognizer
+
 
 - (void)jsq_handlePanGestureRecognizer:(UIPanGestureRecognizer *)pan
 {

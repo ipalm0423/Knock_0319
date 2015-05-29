@@ -291,10 +291,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    //segue
+    
     //segue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        if segue.identifier == "DetailSeague" {
+            if let indexpath = self.tableView.indexPathForSelectedRow() {
+                if let VC = segue.destinationViewController as? DetailTitleViewController {
+                    VC.titleinfo = self.titles[indexpath.row]
+                }
+            }
+        }
     }
     
     //back from detail
