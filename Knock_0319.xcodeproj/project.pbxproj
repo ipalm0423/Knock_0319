@@ -14,6 +14,7 @@
 		AC05DA441B11B08300E71C8F /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA431B11B08300E71C8F /* ContentTableViewCell.swift */; };
 		AC05DA461B11B8B000E71C8F /* PushTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA451B11B8B000E71C8F /* PushTableViewCell.swift */; };
 		AC05DA481B18713F00E71C8F /* ArticlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA471B18713E00E71C8F /* ArticlePageViewController.swift */; };
+		AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA4C1B19CC5E00E71C8F /* HeaderTableViewCell.swift */; };
 		AC086F831ADAC7700057E104 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC086F821ADAC7700057E104 /* AudioToolbox.framework */; };
 		AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */; };
 		AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */; };
@@ -68,6 +69,7 @@
 		AC05DA431B11B08300E71C8F /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		AC05DA451B11B8B000E71C8F /* PushTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTableViewCell.swift; sourceTree = "<group>"; };
 		AC05DA471B18713E00E71C8F /* ArticlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlePageViewController.swift; sourceTree = "<group>"; };
+		AC05DA4C1B19CC5E00E71C8F /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
 		AC086F821ADAC7700057E104 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardPageViewController.swift; sourceTree = "<group>"; };
 		AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavorPageViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				AC05DA471B18713E00E71C8F /* ArticlePageViewController.swift */,
 				AC05DA3F1B11A0D100E71C8F /* TopTableViewCell.swift */,
 				AC05DA451B11B8B000E71C8F /* PushTableViewCell.swift */,
+				AC05DA4C1B19CC5E00E71C8F /* HeaderTableViewCell.swift */,
 				AC05DA431B11B08300E71C8F /* ContentTableViewCell.swift */,
 				AC05DA411B11B02900E71C8F /* LastTableViewCell.swift */,
 			);
@@ -433,6 +436,7 @@
 				AC05DA401B11A0D100E71C8F /* TopTableViewCell.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
+				AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
 				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,

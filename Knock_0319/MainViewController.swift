@@ -63,6 +63,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.hidesBarsOnSwipe = false
     }
     
     // MARK: - Table view data source

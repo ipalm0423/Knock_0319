@@ -10,25 +10,17 @@ import UIKit
 
 class DetailTitleViewController: UIViewController, UIPageViewControllerDataSource{
     
-    @IBOutlet weak var pushRightConst: NSLayoutConstraint!
+    @IBOutlet weak var downButtonConst: NSLayoutConstraint!
     
-    @IBOutlet weak var pushUpConst: NSLayoutConstraint!
-   
-    @IBOutlet weak var pushDownConst: NSLayoutConstraint!
+    @IBOutlet weak var upButtonConst: NSLayoutConstraint!
     
-    @IBOutlet weak var goUpConst: NSLayoutConstraint!
+    @IBOutlet weak var inputViewBottomConst: NSLayoutConstraint!
     
-    @IBOutlet weak var goDownConst: NSLayoutConstraint!
+    @IBOutlet weak var segmentRightConst: NSLayoutConstraint!
     
     @IBOutlet weak var upButton: UIButton!
     
     @IBOutlet weak var downButton: UIButton!
-    
-    @IBOutlet weak var arrowButton: UIButton!
-    
-    @IBOutlet weak var pushDownButton: UIButton!
-    
-    @IBOutlet weak var pushUpButton: UIButton!
     
     @IBOutlet weak var bombButton: UIButton!
     
@@ -36,6 +28,9 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     @IBOutlet weak var idLabel: UILabel!
     
+    @IBOutlet weak var pushTypeSegment: UISegmentedControl!
+    
+    @IBOutlet weak var inputField: UITextField!
     
     
     
@@ -44,9 +39,12 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     var arrowButtonShow = false
     var inputFieldShow = false
     var hasKeyboardShow = false
+    var inputBoxShow = false
     
     //page view controller
     var pageViewController: UIPageViewController!
+    
+    @IBOutlet weak var toolView: UIView!
     
     
     //article data
@@ -64,23 +62,24 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         
         //setup button, navigator
         let viewWidth = self.view.bounds.width
-        self.pushUpConst.constant -= 60
-        self.pushDownConst.constant += 60
-        self.goUpConst.constant -= 60
-        self.goDownConst.constant += 60
-        self.upButton.alpha = 0
-        self.downButton.alpha = 0
-        self.pushUpButton.alpha = 0
-        self.pushDownButton.alpha = 0
+        self.segmentRightConst.constant -= 170
+        self.pushTypeSegment.selectedSegmentIndex = 2
         self.navigationController?.hidesBarsOnSwipe = true
-        
-        
         var tapBackGroundGesture = UITapGestureRecognizer(target: self, action: "touchBackground:")
         self.view.addGestureRecognizer(tapBackGroundGesture)
         setupPageViewControl()
         
+        //setup keyboard listner
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -156,13 +155,12 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         
         //bring button to front
         self.view.bringSubviewToFront(self.pageControl)
-        self.view.bringSubviewToFront(self.bombButton)
-        self.view.bringSubviewToFront(self.arrowButton)
         self.view.bringSubviewToFront(self.upButton)
         self.view.bringSubviewToFront(self.downButton)
-        self.view.bringSubviewToFront(self.pushUpButton)
-        self.view.bringSubviewToFront(self.pushDownButton)
         self.view.bringSubviewToFront(self.idLabel)
+        self.view.bringSubviewToFront(self.inputField)
+        self.view.bringSubviewToFront(self.toolView)
+        self.view.bringSubviewToFront(self.pushTypeSegment)
         
     }
     
@@ -182,6 +180,31 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     */
     
     
+    //keyboard return
+    @IBAction func keyboardReturn(sender: AnyObject) {
+        sender.resignFirstResponder()
+        
+    }
+    
+    
+    //keyboard animation
+    func keyboardWillShow(notification: NSNotification) {
+        var info = notification.userInfo!
+        var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.inputViewBottomConst.constant = keyboardFrame.size.height
+            self.bombAppearAnimate()
+        })
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.inputViewBottomConst.constant = 0
+            self.bombAppearAnimate()
+        })
+        
+    }
     
     
     //button action
@@ -189,20 +212,9 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     func touchBackground(sender: UITapGestureRecognizer) {
         println("touch back")
         //return keyboard
-        if let VC = self.pageViewController.viewControllers[0] as? ArticlePageViewController {
-            if let cell = VC.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? LastTableViewCell {
-                cell.pushField.resignFirstResponder()
-            }
-        }
+        self.inputField.resignFirstResponder()
+        
         //get back to all bomb button
-        if self.arrowButtonShow == false && self.bombButtonShow == false {
-            self.arrowAppearAnimate()
-            self.bombAppearAnimate()
-            return
-        }
-        if self.arrowButtonShow == true {
-            self.arrowAppearAnimate()
-        }
         if self.bombButtonShow == true {
             self.bombAppearAnimate()
         }
@@ -211,39 +223,60 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     
     @IBAction func bombButtonTouch(sender: AnyObject) {
-        bombAppearAnimate()
+        //send message
         
     }
     
-    @IBAction func pushButtonTouch(sender: AnyObject) {
-        bombAppearAnimate()
-    }
     
-    @IBAction func badButtonTouch(sender: AnyObject) {
-        bombAppearAnimate()
-    }
-   
     
     @IBAction func arrowButtonTouch(sender: AnyObject) {
         //unwind to main
         if self.arrowButtonShow == true {
             self.performSegueWithIdentifier("returnMainViewSegue", sender: self)
         }else{
-            arrowAppearAnimate()
+            
         }
         
+        if self.bombButtonShow == true {
+            self.bombAppearAnimate()
+        }
         
     }
     
     @IBAction func arrowUpTouch(sender: AnyObject) {
-        arrowAppearAnimate()
+        
+        if let VC = self.pageViewController.viewControllers[0] as? ArticlePageViewController {
+            VC.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        }
+        if self.bombButtonShow == true {
+            self.bombAppearAnimate()
+        }
     }
     
     @IBAction func arrowDown(sender: AnyObject) {
-        arrowAppearAnimate()
+        
+        if let VC = self.pageViewController.viewControllers[0] as? ArticlePageViewController {
+            VC.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
+        if self.bombButtonShow == true {
+            self.bombAppearAnimate()
+        }
     }
     
     
+    @IBAction func segmentTouch(sender: AnyObject) {
+        println("touch")
+        let selected = self.pushTypeSegment.selectedSegmentIndex
+        println(selected)
+        switch selected {
+        case 0 :
+            self.toolView.backgroundColor = UIColor.greenColor()
+        case 1 :
+            self.toolView.backgroundColor = UIColor.redColor()
+        default :
+            self.toolView.backgroundColor = UIColor.grayColor()
+        }
+    }
     
     
     
@@ -254,60 +287,24 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         if self.bombButtonShow {
             //close button
             UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.pushUpButton.alpha = 0
-                self.pushDownButton.alpha = 0
-                self.pushUpConst.constant -= 60
-                self.pushDownConst.constant += 60
-                self.bombButton.setImage(UIImage(named: "bomb-fire-vec"), forState: UIControlState.Normal)
+                self.segmentRightConst.constant -= 170
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = false
                 }, completion: nil)
         }else {
             //open button
             UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.pushUpButton.alpha = 1
-                self.pushDownButton.alpha = 1
-                self.pushUpConst.constant += 60
-                self.pushDownConst.constant -= 60
-                self.bombButton.setImage(UIImage(named: "pen-60-vec"), forState: UIControlState.Normal)
+                self.segmentRightConst.constant += 170
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = true
                 }, completion: nil)
         }
     }
     
-    func arrowAppearAnimate() {
-        let width = self.view.bounds.width
-        if self.arrowButtonShow {
-            //close button
-            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.upButton.alpha = 0
-                self.downButton.alpha = 0
-                self.goUpConst.constant -= 60
-                self.goDownConst.constant += 60
-                self.arrowButton.setImage(UIImage(named: "arrow-couple-vec"), forState: UIControlState.Normal)
-                self.view.layoutIfNeeded()
-                self.arrowButtonShow = false
-                }, completion: nil)
-        }else {
-            //open button
-            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.upButton.alpha = 1
-                self.downButton.alpha = 1
-                self.goUpConst.constant += 60
-                self.goDownConst.constant -= 60
-                self.arrowButton.setImage(UIImage(named: "arrow-back-vec"), forState: UIControlState.Normal)
-                self.view.layoutIfNeeded()
-                self.arrowButtonShow = true
-                }, completion: nil)
-        }
-    }
     
     
     
-    func inputBoxAppearAnimate() {
-        
-    }
+    
     
     
 }

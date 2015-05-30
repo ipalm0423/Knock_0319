@@ -47,11 +47,6 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     
-    //keyboard return
-    @IBAction func returnKeyBoard(sender: AnyObject) {
-        sender.resignFirstResponder()
-    }
-    
 
     //table delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -112,6 +107,7 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
             default:
                 cell.contentLabel.textColor = UIColor.blackColor()
             }
+            
             return cell
         }else if section == 0 {
             //top cell
@@ -138,22 +134,26 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
         
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        
-        case 1:
-            return "content"
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 2 {
+            let  headerCell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! HeaderTableViewCell
             
-        case 2:
-            return "文章評論"
-        default:
-            return ""
+                return headerCell
+        }
+        return nil
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 2 {
+            return 60
+        }else {
+            return 0
         }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 3 {
-            return 100
+            return 150
         }
         return UITableViewAutomaticDimension
     }
