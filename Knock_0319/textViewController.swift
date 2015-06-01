@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import JSQMessagesViewController
 
 class textViewController: JSQMessagesViewController, NSFetchedResultsControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -31,7 +32,7 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.senderId = SingletonC.sharedInstance.user[0].uid
+        self.senderId = SingletonC.sharedInstance.user[0].account
         self.senderDisplayName = "Jack"
         self.tabBarController?.tabBar.hidden = true
         self.dateFormatter.dateFormat = "YYYY-MM-dd 'at' h:mm a"
@@ -50,7 +51,7 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
         self.navigationController?.hidesBarsOnSwipe = false
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         //setup message in-room notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "getMessage", object: nil)
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteNotificationGotMessage:", name: "NotificationNewMessage", object: nil)
         
         
@@ -61,12 +62,12 @@ class textViewController: JSQMessagesViewController, NSFetchedResultsControllerD
     }
     
     override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "NotificationGetedMessage", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "getMessage", object: nil)
         SingletonC.sharedInstance.openedRoomID = nil
     }
     /*
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "NotificationGetedMessage", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "GetedNewMessage:", name: "getMessage", object: nil)
     }
     */
     

@@ -9,7 +9,7 @@
 import UIKit
 import CoreFoundation
 import CoreData
-
+import TWMessageBarManager
 
 class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate {
     
@@ -328,7 +328,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
                             
                             self.userInformation = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
                                 inManagedObjectContext: managedObjectContext) as! Userinfo
-                            self.userInformation.uid = userID
+                            self.userInformation.account = userID
                             self.userInformation.sid = serverID
                             self.userInformation.picture = UIImagePNGRepresentation(userPicture!)
                             //roominformation.isTimeup = 0
@@ -451,7 +451,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     
     func createNewRoom(roomName: String) -> Bool {
         //待修改房間名稱
-        let uid = user[0].uid
+        let uid = user[0].account
         var message = "{\"method\": \"newroom\", \"uid\": \(uid), \"roomname\": \"myFirstRoom\", \"alivetime\": 1000}"
         
         return send(message)
@@ -459,7 +459,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     }
     
     func joinRoom(roomNumber: String) -> Bool {
-        let uid = user[0].uid
+        let uid = user[0].account
         let message = "{\"method\": \"join\", \"uid\": \(uid), \"roomid\": \(roomNumber)}"
         
         return send(message)
@@ -475,13 +475,13 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     }
     
     func onlineID() -> Bool {
-        let uid = user[0].uid
+        let uid = user[0].account
         let message = "{\"method\": \"online\", \"uid\": \(uid)}"
         return send(message)
     }
     
     func sendText(roomID:String, text: String) -> Bool {
-        let uid = user[0].uid
+        let uid = user[0].account
         let message = "{\"method\": \"chat\", \"roomid\": \(roomID), \"uid\": \(uid), \"mtype\": \"text\", \"content\": \"\(text)\"}"
         
         return send(message)
@@ -489,7 +489,7 @@ class SingletonC: NSObject, NSStreamDelegate, NSFetchedResultsControllerDelegate
     }
     
     func sendToken(token: NSData) -> Bool {
-        let uid = user[0].uid
+        let uid = user[0].account
         let toke = token
         var characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
         

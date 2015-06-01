@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
-
+import JSQMessagesViewController
 
 class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControllerDelegate {
     
@@ -31,7 +31,7 @@ class ChatRoomViewController: JSQMessagesViewController, NSFetchedResultsControl
     //chat information
     var roomID: String!
     var roomName: String!
-    var userID = SingletonC.sharedInstance.user[0].uid
+    var userID = SingletonC.sharedInstance.user[0].account
     var messageinformation: Messageinfo!
     //var unRead: Int!
     

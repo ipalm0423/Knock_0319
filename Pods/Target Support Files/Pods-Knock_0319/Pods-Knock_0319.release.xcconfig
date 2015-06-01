@@ -1,6 +1,9 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_FRAMEWORK_BUILD_PATH"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/JSQMessagesViewController" "${PODS_ROOT}/Headers/Public/JSQSystemSoundPlayer" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/TWMessageBarManager" "${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/JSQMessagesViewController" -isystem "${PODS_ROOT}/Headers/Public/JSQSystemSoundPlayer" -isystem "${PODS_ROOT}/Headers/Public/MBProgressHUD" -isystem "${PODS_ROOT}/Headers/Public/TWMessageBarManager" -isystem "${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-Knock_0319-JSQMessagesViewController" -l"Pods-Knock_0319-JSQSystemSoundPlayer" -l"Pods-Knock_0319-MBProgressHUD" -l"Pods-Knock_0319-TWMessageBarManager" -l"Pods-Knock_0319-UITableView+FDTemplateLayoutCell" -framework "AudioToolbox" -framework "CoreGraphics" -framework "CoreLocation" -framework "Foundation" -framework "MapKit" -framework "QuartzCore" -framework "UIKit"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_FRAMEWORK_BUILD_PATH/JSQMessagesViewController.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/JSQSystemSoundPlayer.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/MBProgressHUD.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Socket_IO_Client_Swift.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/TWMessageBarManager.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/UITableView_FDTemplateLayoutCell.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -ObjC -framework "JSQMessagesViewController" -framework "JSQSystemSoundPlayer" -framework "MBProgressHUD" -framework "Socket_IO_Client_Swift" -framework "TWMessageBarManager" -framework "UITableView_FDTemplateLayoutCell"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-Knock_0319
 PODS_ROOT = ${SRCROOT}/Pods

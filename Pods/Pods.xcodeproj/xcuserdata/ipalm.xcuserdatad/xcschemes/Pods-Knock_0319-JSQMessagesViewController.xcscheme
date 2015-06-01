@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0640"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "761CFD79F1F3A6614602D71A"
-               BuildableName = "libPods-Knock_0319-JSQMessagesViewController.a"
+               BlueprintIdentifier = "F4308B789596BFA8C00DA759"
+               BuildableName = "JSQMessagesViewController.framework"
                BlueprintName = "Pods-Knock_0319-JSQMessagesViewController"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

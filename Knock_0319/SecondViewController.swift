@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import CoreFoundation
+import MBProgressHUD
+
 
 
 class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -197,8 +199,8 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
         //check uid is already have
         
         if SingletonC.sharedInstance.loadUserInfo() {
-            let userid = SingletonC.sharedInstance.user[0].uid
-            let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid, preferredStyle: .Alert)
+            let userid = SingletonC.sharedInstance.user[0].account
+            let alertController = UIAlertController(title: "已有帳號", message: "已經擁有帳號：" + userid!, preferredStyle: .Alert)
             let doneAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alertController.addAction(doneAction)
             
@@ -225,7 +227,7 @@ class SecondViewController: UIViewController, NSStreamDelegate, UIImagePickerCon
                     //after 10 secs -> return & please try again
                 }
                 //success and send UI
-                if let userID = SingletonC.sharedInstance.user[0].uid {
+                if let userID = SingletonC.sharedInstance.user[0].account {
                     dispatch_async(dispatch_get_main_queue(), {
                         MBProgressHUD.hideHUDForView(self.view, animated: true)
                         SingletonC.sharedInstance.getedUserID = false

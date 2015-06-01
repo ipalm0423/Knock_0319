@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import JSQMessagesViewController
 
 class Buble {
     

@@ -3,6 +3,7 @@ PODS:
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - MBProgressHUD (0.9.1)
+  - Socket.IO-Client-Swift (2.3.2)
   - TWMessageBarManager (1.7.2)
   - UITableView+FDTemplateLayoutCell (1.2)
 
@@ -10,6 +11,7 @@ DEPENDENCIES:
   - JSQMessagesViewController
   - JSQSystemSoundPlayer
   - MBProgressHUD
+  - Socket.IO-Client-Swift
   - TWMessageBarManager
   - UITableView+FDTemplateLayoutCell (~> 1.1-beta)
 
@@ -17,7 +19,8 @@ SPEC CHECKSUMS:
   JSQMessagesViewController: 9fd7e9ac96e9fc91f2deca86928e2cc916aeebaa
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  Socket.IO-Client-Swift: 8b5de9b5042c26e9ae9d8a6b23d108f07319cd60
   TWMessageBarManager: e7adc066ee425174f5dee79473fce913b1cd1662
   UITableView+FDTemplateLayoutCell: 355e1c52461bf51e2338f443ee358faca9628878
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.2

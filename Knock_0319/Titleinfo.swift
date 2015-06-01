@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class Titleinfo: NSManagedObject {
     @NSManaged var account:String!

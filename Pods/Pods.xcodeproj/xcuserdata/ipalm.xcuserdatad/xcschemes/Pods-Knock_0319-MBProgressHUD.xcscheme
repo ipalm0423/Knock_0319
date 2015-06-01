@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0640"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F93CCF251C234D8EB7D7561A"
-               BuildableName = "libPods-Knock_0319-MBProgressHUD.a"
+               BlueprintIdentifier = "D1037F577318882C27DA81C6"
+               BuildableName = "MBProgressHUD.framework"
                BlueprintName = "Pods-Knock_0319-MBProgressHUD"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

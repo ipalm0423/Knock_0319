@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Knock_0319-Socket.IO-Client-Swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Knock_0319-TWMessageBarManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>42CE44F86B4A396469979E64</key>
+		<key>059BD7171FE86E1CD1872D62</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>761CFD79F1F3A6614602D71A</key>
+		<key>522B3F3FB30B8785E7E9DC4C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D364D906D758491DAA2845A</key>
+		<key>55171EEE636FC6189F45D474</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2A63F547F58896D38D4DBBD</key>
+		<key>5957E0B0B42A750A583FCE0C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B360E374850559F0D7AB71E6</key>
+		<key>A56DDA3255D96DE6DE8B0BA6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F93CCF251C234D8EB7D7561A</key>
+		<key>D1037F577318882C27DA81C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F4308B789596BFA8C00DA759</key>
 		<dict>
 			<key>primary</key>
 			<true/>

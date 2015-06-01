@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A11C2A7408010423E3DA09F /* libPods-Knock_0319.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 628AB42E7261A4341496886C /* libPods-Knock_0319.a */; };
+		635FC6E1625E411B80821419 /* Pods_Knock_0319.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485816C9EFA823F8200BF4C3 /* Pods_Knock_0319.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AC02C1031B1B2E8C002D08A7 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC02C1021B1B2E8C002D08A7 /* Singleton.swift */; };
 		AC05DA3D1B1112AF00E71C8F /* Articleinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA3C1B1112AF00E71C8F /* Articleinfo.swift */; };
 		AC05DA401B11A0D100E71C8F /* TopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA3F1B11A0D100E71C8F /* TopTableViewCell.swift */; };
 		AC05DA421B11B02900E71C8F /* LastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA411B11B02900E71C8F /* LastTableViewCell.swift */; };
@@ -61,8 +62,9 @@
 
 /* Begin PBXFileReference section */
 		08027CB4A6221590764672F7 /* Pods-Knock_0319.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knock_0319.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knock_0319/Pods-Knock_0319.debug.xcconfig"; sourceTree = "<group>"; };
-		628AB42E7261A4341496886C /* libPods-Knock_0319.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knock_0319.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		485816C9EFA823F8200BF4C3 /* Pods_Knock_0319.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Knock_0319.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4CB16A76A8E69F34D1DF629 /* Pods-Knock_0319.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knock_0319.release.xcconfig"; path = "Pods/Target Support Files/Pods-Knock_0319/Pods-Knock_0319.release.xcconfig"; sourceTree = "<group>"; };
+		AC02C1021B1B2E8C002D08A7 /* Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		AC05DA3C1B1112AF00E71C8F /* Articleinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Articleinfo.swift; sourceTree = "<group>"; };
 		AC05DA3F1B11A0D100E71C8F /* TopTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopTableViewCell.swift; sourceTree = "<group>"; };
 		AC05DA411B11B02900E71C8F /* LastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastTableViewCell.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC086F831ADAC7700057E104 /* AudioToolbox.framework in Frameworks */,
-				6A11C2A7408010423E3DA09F /* libPods-Knock_0319.a in Frameworks */,
+				635FC6E1625E411B80821419 /* Pods_Knock_0319.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +144,7 @@
 		6C65DADB8E3E496C580E8FF9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				628AB42E7261A4341496886C /* libPods-Knock_0319.a */,
+				485816C9EFA823F8200BF4C3 /* Pods_Knock_0319.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,6 +220,7 @@
 				AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */,
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
 				AC6A351B1ABC883000AD1CC7 /* Bridge-Knock.h */,
+				AC02C1021B1B2E8C002D08A7 /* Singleton.swift */,
 				AC2327A01AD3B84500B06354 /* Buble.swift */,
 				AC6A35231ABC955200AD1CC7 /* Network.swift */,
 				AC6A34861ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld */,
@@ -284,6 +287,7 @@
 				AC6A34561ABC3BDA00AD1CC7 /* Frameworks */,
 				AC6A34571ABC3BDA00AD1CC7 /* Resources */,
 				D4ACA544899C19459A021A52 /* Copy Pods Resources */,
+				87502A8AEF5D7FE44CEE8179 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -400,6 +404,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		87502A8AEF5D7FE44CEE8179 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Knock_0319/Pods-Knock_0319-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D4ACA544899C19459A021A52 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,6 +449,7 @@
 				AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
 				AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */,
+				AC02C1031B1B2E8C002D08A7 /* Singleton.swift in Sources */,
 				AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */,
 				ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */,
 				AC05DA3D1B1112AF00E71C8F /* Articleinfo.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TWMessageBarManager
 
 class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     
@@ -25,6 +26,7 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
             let account = currentVC.accountField.text
             let passwd = currentVC.passwdField.text
             let name = currentVC.nameField.text
+            let picture = currentVC.pictureViewImage.image
             //show name field
             if currentVC.nameField.alpha == 0 {
                 UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
@@ -43,15 +45,10 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
                 err += "匿名名稱不能為空白"
             }
             if err != "" {
-                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法登入", description: err, type: TWMessageBarMessageType.Error)
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法建立帳號", description: err, type: TWMessageBarMessageType.Error)
             }else {
                 //create new account
-                
-                
-                //wait set up ......
-                /*
-                NSNotificationCenter.defaultCenter().postNotificationName("LoginAccount", object: nil)
-                */
+                Singleton.sharedInstance.signUp(account, passwd: passwd, picture: picture, isPTT: false)
             }
             
         }else {
@@ -115,11 +112,13 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         reset()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: "LoginAccount", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: "LoginSegue", object: nil)
         // Do any additional setup after loading the view.
     }
     
-    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "LoginSegue", object: nil)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
