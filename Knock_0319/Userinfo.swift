@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 class Userinfo: NSManagedObject{
-    @NSManaged var account:String?
+    @NSManaged var account:String!
     @NSManaged var sid:String?
-    @NSManaged var passwd:String?
+    @NSManaged var passwd:String!
     //@NSManaged var roomID:String?
     //@NSManaged var time:NSDate?
     //@NSManaged var isTimeup:NSNumber?

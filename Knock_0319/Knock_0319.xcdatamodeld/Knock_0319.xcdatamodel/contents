@@ -2,6 +2,8 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14C2055" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Messageinfo" representedClassName="Knock_0319.Messageinfo" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="mediaId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="roomID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderId" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,7 +22,7 @@
         <attribute name="sid" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="120"/>
+        <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="Userinformation" positionX="-63" positionY="0" width="128" height="105"/>
     </elements>

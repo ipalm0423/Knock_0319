@@ -18,9 +18,9 @@ class Messageinfo: NSManagedObject{
     @NSManaged var senderId:String!
     @NSManaged var senderDisplayName:String!
     @NSManaged var roomID:String?
-    //@NSManaged var media:String?
+    @NSManaged var mediaId:String?
     @NSManaged var date:NSDate!
-    //@NSManaged var image:NSData?
+    @NSManaged var image:NSData?
     //@NSManaged var userID:String?
     
     
