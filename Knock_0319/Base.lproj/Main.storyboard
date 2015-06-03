@@ -276,7 +276,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kd-pW-5Dt">
-                                <rect key="frame" x="525" y="170" width="55" height="20"/>
+                                <rect key="frame" x="535" y="170" width="55" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="9jK-V7-4KY"/>
                                     <constraint firstAttribute="height" constant="20" id="pRY-ci-FJU"/>
@@ -287,6 +287,13 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gfs-uQ-bBM" userLabel="blurview">
+                                <rect key="frame" x="535" y="165" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="4ec-aP-WGT"/>
+                                    <constraint firstAttribute="height" constant="30" id="Nfy-Qn-CWz"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -294,15 +301,17 @@
                             <constraint firstAttribute="centerX" secondItem="Gas-aw-no7" secondAttribute="centerX" id="5b8-tw-oqN"/>
                             <constraint firstItem="LHu-R3-00U" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-16" id="8zt-xc-ndF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LHu-R3-00U" secondAttribute="trailing" constant="-16" id="BAb-p0-M22"/>
-                            <constraint firstAttribute="trailing" secondItem="4kd-pW-5Dt" secondAttribute="trailing" constant="20" id="Em8-tJ-i1w"/>
+                            <constraint firstAttribute="trailing" secondItem="4kd-pW-5Dt" secondAttribute="trailing" constant="10" id="Em8-tJ-i1w"/>
                             <constraint firstItem="LHu-R3-00U" firstAttribute="top" secondItem="4kd-pW-5Dt" secondAttribute="bottom" constant="10" id="Irm-TZ-Evz"/>
                             <constraint firstItem="LHu-R3-00U" firstAttribute="top" secondItem="nFK-WK-8BR" secondAttribute="bottom" constant="20" id="L6c-hb-SWf"/>
                             <constraint firstAttribute="centerX" secondItem="nFK-WK-8BR" secondAttribute="centerX" id="OhR-EN-S2z"/>
                             <constraint firstItem="srq-LB-oa1" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="QZL-Ej-YGL"/>
                             <constraint firstItem="srq-LB-oa1" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="bJb-Le-zcX"/>
                             <constraint firstAttribute="centerX" secondItem="tqM-yz-2y9" secondAttribute="centerX" id="dCO-i3-Pc9"/>
+                            <constraint firstItem="LHu-R3-00U" firstAttribute="top" secondItem="gfs-uQ-bBM" secondAttribute="bottom" constant="5" id="dwe-br-D34"/>
                             <constraint firstAttribute="trailing" secondItem="srq-LB-oa1" secondAttribute="trailing" id="qZX-2p-S0o"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="LHu-R3-00U" secondAttribute="bottom" id="r7X-I8-6GW"/>
+                            <constraint firstAttribute="trailing" secondItem="gfs-uQ-bBM" secondAttribute="trailing" constant="5" id="sXY-mb-AeQ"/>
                             <constraint firstItem="Gas-aw-no7" firstAttribute="top" secondItem="tqM-yz-2y9" secondAttribute="bottom" constant="20" id="tj3-ud-2Rp"/>
                             <constraint firstItem="nFK-WK-8BR" firstAttribute="top" secondItem="Gas-aw-no7" secondAttribute="bottom" constant="10" id="vWp-0h-Cia"/>
                         </constraints>
@@ -311,6 +320,7 @@
                     <connections>
                         <outlet property="AccountLabel" destination="Gas-aw-no7" id="bl1-Tf-fml"/>
                         <outlet property="backGroundImage" destination="srq-LB-oa1" id="KHr-mY-btO"/>
+                        <outlet property="blurImage" destination="gfs-uQ-bBM" id="pf1-KE-48e"/>
                         <outlet property="descriptionLabel" destination="nFK-WK-8BR" id="f9j-hz-2pc"/>
                         <outlet property="iconImage" destination="tqM-yz-2y9" id="NTE-DF-mLD"/>
                         <outlet property="profileSetButton" destination="4kd-pW-5Dt" id="9Zi-qs-ia8"/>

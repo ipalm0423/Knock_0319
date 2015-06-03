@@ -21,6 +21,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var profileSetButton: UIButton!
     
+    @IBOutlet weak var blurImage: UIImageView!
     
     
     
@@ -35,11 +36,11 @@ class ProfileViewController: UIViewController {
         //blurr
         let blureffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
         var blurView = UIVisualEffectView(effect: blureffect)
-        blurView.frame = CGRect(x: self.view.frame.width - 75, y: 165, width: 65, height: 30)
+        blurView.frame = self.blurImage.bounds
         
         blurView.layer.cornerRadius = 3
         blurView.clipsToBounds = true
-        self.view.addSubview(blurView)
+        self.blurImage.addSubview(blurView)
         //self.view.bringSubviewToFront(blurView)
         self.view.bringSubviewToFront(self.profileSetButton)
         
