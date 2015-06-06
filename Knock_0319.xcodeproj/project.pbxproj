@@ -46,6 +46,10 @@
 		AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652761B0266B30075C00C /* StartPageViewController.swift */; };
 		ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */; };
 		ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */; };
+		ACE4D6111B22AA7E00871CFA /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */; };
+		ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6121B22AAB200871CFA /* SearchViewController.swift */; };
+		ACE4D6151B22AC4800871CFA /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */; };
+		ACE4D6171B22B2D000871CFA /* Boardinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6161B22B2D000871CFA /* Boardinfo.swift */; };
 		ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -108,6 +112,10 @@
 		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
 		ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTitleViewController.swift; sourceTree = "<group>"; };
 		ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6121B22AAB200871CFA /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6161B22B2D000871CFA /* Boardinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boardinfo.swift; sourceTree = "<group>"; };
 		ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +205,7 @@
 		AC6A345B1ABC3BDA00AD1CC7 /* Knock_0319 */ = {
 			isa = PBXGroup;
 			children = (
+				ACE4D60F1B22AA4500871CFA /* searchCollection */,
 				AC12C5941B03985B0090573D /* Intro Page */,
 				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
@@ -230,6 +239,7 @@
 				AC86526E1B00FA6C0075C00C /* Titleinfo.swift */,
 				AC05DA3C1B1112AF00E71C8F /* Articleinfo.swift */,
 				ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */,
+				ACE4D6161B22B2D000871CFA /* Boardinfo.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -262,6 +272,16 @@
 				AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */,
 			);
 			name = "Profile Page";
+			sourceTree = "<group>";
+		};
+		ACE4D60F1B22AA4500871CFA /* searchCollection */ = {
+			isa = PBXGroup;
+			children = (
+				ACE4D6121B22AAB200871CFA /* SearchViewController.swift */,
+				ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */,
+				ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */,
+			);
+			name = searchCollection;
 			sourceTree = "<group>";
 		};
 		ACF5AEEA1B08C72C0000EF62 /* Mainflow */ = {
@@ -458,6 +478,7 @@
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
+				ACE4D6151B22AC4800871CFA /* CollectionTableViewCell.swift in Sources */,
 				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
 				AC12C59A1B04477B0090573D /* LoginViewController.swift in Sources */,
@@ -467,13 +488,16 @@
 				ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */,
 				AC6A34611ABC3BDA00AD1CC7 /* FirstViewController.swift in Sources */,
 				AC12C5981B0398A60090573D /* IntroPageViewController.swift in Sources */,
+				ACE4D6171B22B2D000871CFA /* Boardinfo.swift in Sources */,
 				ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */,
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
+				ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */,
 				AC05DA421B11B02900E71C8F /* LastTableViewCell.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
 				AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */,
+				ACE4D6111B22AA7E00871CFA /* TitleCollectionViewCell.swift in Sources */,
 				AC2327A11AD3B84500B06354 /* Buble.swift in Sources */,
 				AC05DA481B18713F00E71C8F /* ArticlePageViewController.swift in Sources */,
 			);
