@@ -28,6 +28,10 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     @IBOutlet weak var fingerButton: UIButton!
     
+    @IBOutlet weak var fingerButtonYConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var fingerButtonXConst: NSLayoutConstraint!
+    
     
     //toggle
     var bombButtonShow = false
@@ -65,6 +69,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         self.navigationController?.hidesBarsOnSwipe = true
         var tapBackGroundGesture = UITapGestureRecognizer(target: self, action: "touchBackground:")
         self.view.addGestureRecognizer(tapBackGroundGesture)
+        setupFingerButtonPosition()
         setupPageViewControl()
         
         //setup keyboard listner
@@ -236,7 +241,10 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     
     @IBAction func fingerButtonTouch(sender: AnyObject) {
-        println("finger touch")
+        println(sender.description)
+        if let button = sender as? UIButton {
+            button
+        }
     }
     
     @IBAction func arrowButtonTouch(sender: AnyObject) {
@@ -303,31 +311,31 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
                 
                 if pan.state == UIGestureRecognizerState.Ended {
                     var velocity = pan.velocityInView(self.view)
-                    
-                    //rolling the table
-                    self.rollingTable(velocity.y)
                     if velocity.x < -500 {
                         //go back previous VC
                         self.backButtonTrigger()
                     }
                     //back to oringinal point
-                    UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                        view!.center = self.firstFingerPoint
-                    }, completion: nil)
-                    
+                    if abs(velocity.y) > 500 {
+                        //rolling the table
+                        self.rollingTable(velocity.y)
+                        //back to oringinal point
+                        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                            view!.center = self.firstFingerPoint
+                            }, completion: nil)
+                    }else if abs(velocity.x) < 500 && abs(velocity.y) < 500 {
+                        Singleton.sharedInstance.fingerOffsetPoint.x += view!.center.x - firstFingerPoint.x
+                        Singleton.sharedInstance.fingerOffsetPoint.y += view!.center.y - firstFingerPoint.y
+                        
+                    }
                 }
             }
             
             sender.setTranslation(CGPointZero, inView: self.view)
             
+            
 
-            if (pan.translationInView(self.view).x < 100) {
-                "trig"
-                //return back && (trans.y > -30) && (trans.y < 30)
-                
-                
-                
-            }
+            
         }
     }
     
@@ -371,7 +379,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
             }
         }
     }
-    
+    //rolling table
     func rollingTable(velocity: CGFloat) {
         if velocity > 500 {
             self.scrollToDown(true)
@@ -380,5 +388,14 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         }
     }
     
-    
+    //setup finger button position
+    func setupFingerButtonPosition() {
+        let offset = Singleton.sharedInstance.fingerOffsetPoint
+        if offset != CGPoint(x: 0, y: 0) {
+            self.fingerButtonXConst.constant -= offset.x
+            self.fingerButtonYConst.constant -= offset.y
+            println(self.fingerButtonXConst)
+            println(self.fingerButtonYConst)
+        }
+    }
 }

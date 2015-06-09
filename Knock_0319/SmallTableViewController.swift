@@ -22,7 +22,7 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
+        self.navigationController?.hidesBarsOnSwipe = false
         // Do any additional setup after loading the view.
         
         

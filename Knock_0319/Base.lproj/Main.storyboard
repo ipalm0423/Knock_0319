@@ -1191,22 +1191,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nhw-ZJ-GVz">
-                                <rect key="frame" x="445" y="458" width="150" height="29"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="VzJ-yf-uSS"/>
-                                    <constraint firstAttribute="height" constant="28" id="yqg-RV-dZM"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="推"/>
-                                    <segment title="噓"/>
-                                    <segment title="留言"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentTouch:" destination="qbc-lr-xNf" eventType="valueChanged" id="bgf-1P-CpB"/>
-                                </connections>
-                            </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5L-hO-oQB" userLabel="toolView">
                                 <rect key="frame" x="0.0" y="496" width="600" height="40"/>
                                 <subviews>
@@ -1246,7 +1230,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wn2-Ym-nlU" userLabel="mouseButton">
-                                <rect key="frame" x="540" y="363" width="50" height="50"/>
+                                <rect key="frame" x="540" y="362" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cF1-XI-7UW"/>
                                     <constraint firstAttribute="width" constant="50" id="x49-ix-t46"/>
@@ -1259,6 +1243,22 @@
                                     <outletCollection property="gestureRecognizers" destination="tmi-mO-fip" appends="YES" id="uqp-TJ-m8d"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nhw-ZJ-GVz">
+                                <rect key="frame" x="445" y="458" width="150" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="VzJ-yf-uSS"/>
+                                    <constraint firstAttribute="height" constant="28" id="yqg-RV-dZM"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="推"/>
+                                    <segment title="噓"/>
+                                    <segment title="留言"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentTouch:" destination="qbc-lr-xNf" eventType="valueChanged" id="bgf-1P-CpB"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -1269,7 +1269,7 @@
                             <constraint firstAttribute="bottom" secondItem="K5L-hO-oQB" secondAttribute="bottom" id="KB7-vf-ye3"/>
                             <constraint firstAttribute="trailing" secondItem="VZt-Wu-ys1" secondAttribute="trailing" constant="10" id="M5X-0X-f0d"/>
                             <constraint firstItem="1JY-Yu-y7u" firstAttribute="leading" secondItem="cjX-hJ-JO8" secondAttribute="leading" constant="13" id="O8W-Xq-c3a"/>
-                            <constraint firstItem="Nhw-ZJ-GVz" firstAttribute="top" secondItem="Wn2-Ym-nlU" secondAttribute="bottom" constant="45" id="SaC-4H-UmS"/>
+                            <constraint firstItem="F2l-rb-AeZ" firstAttribute="top" secondItem="Wn2-Ym-nlU" secondAttribute="bottom" constant="75" id="PsB-qH-1cM"/>
                             <constraint firstItem="VZt-Wu-ys1" firstAttribute="top" secondItem="47l-KV-CMh" secondAttribute="bottom" constant="-5" id="U4O-VI-wVr"/>
                             <constraint firstAttribute="trailing" secondItem="Nhw-ZJ-GVz" secondAttribute="trailing" constant="5" id="eAO-IG-eLr"/>
                             <constraint firstItem="1JY-Yu-y7u" firstAttribute="top" secondItem="47l-KV-CMh" secondAttribute="bottom" constant="5" id="fMh-Nj-Osc"/>
@@ -1281,6 +1281,8 @@
                     <connections>
                         <outlet property="bombButton" destination="wD6-Xs-ZHF" id="Os7-6l-1Js"/>
                         <outlet property="fingerButton" destination="Wn2-Ym-nlU" id="giP-jD-0E9"/>
+                        <outlet property="fingerButtonXConst" destination="JQq-v8-4A7" id="Szm-Gy-gvy"/>
+                        <outlet property="fingerButtonYConst" destination="PsB-qH-1cM" id="o4a-Yh-sCP"/>
                         <outlet property="idLabel" destination="1JY-Yu-y7u" id="w1U-Rz-xpZ"/>
                         <outlet property="inputField" destination="Ipv-5v-79W" id="PI7-bK-kGJ"/>
                         <outlet property="inputViewBottomConst" destination="KB7-vf-ye3" id="5sU-K7-dH1"/>

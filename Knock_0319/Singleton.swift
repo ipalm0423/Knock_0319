@@ -42,7 +42,13 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     let dateFormatterTWString = "yyyy年 MM月dd日 HH:mm"
     let locale = NSLocale(localeIdentifier: "zh_Hant_TW")
     var dateFormater = NSDateFormatter()
-    
+    //finger button
+    var fingerOffsetPoint = CGPoint(x: 0, y: 0) {
+        didSet {
+            //save to Core Data
+            
+        }
+    }
     
     func connectToServer() {
         socket.on("connect", callback: { (data, ack) -> Void in
