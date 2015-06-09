@@ -112,5 +112,12 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
+    //back from detail
+    @IBAction func returnToSmallViewController(segue:UIStoryboardSegue) {
+        if let detiailVC = segue.sourceViewController as? SmallTableViewController {
+            println("return to small main view")
+            //data feedback
+        }
+    }
 
 }

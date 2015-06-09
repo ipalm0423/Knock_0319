@@ -10,17 +10,11 @@ import UIKit
 
 class DetailTitleViewController: UIViewController, UIPageViewControllerDataSource{
     
-    @IBOutlet weak var downButtonConst: NSLayoutConstraint!
-    
-    @IBOutlet weak var upButtonConst: NSLayoutConstraint!
     
     @IBOutlet weak var inputViewBottomConst: NSLayoutConstraint!
     
     @IBOutlet weak var segmentRightConst: NSLayoutConstraint!
     
-    @IBOutlet weak var upButton: UIButton!
-    
-    @IBOutlet weak var downButton: UIButton!
     
     @IBOutlet weak var bombButton: UIButton!
     
@@ -32,6 +26,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     @IBOutlet weak var inputField: UITextField!
     
+    @IBOutlet weak var fingerButton: UIButton!
     
     
     //toggle
@@ -43,7 +38,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     //page view controller
     var pageViewController: UIPageViewController!
-    
+    var parentViewName = ""
     @IBOutlet weak var toolView: UIView!
     
     
@@ -51,6 +46,9 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     var jsonRaw :JSON?
     var titleinfo: titletest!
     var articleID = [String]()
+    
+    //finger button
+    var firstFingerPoint = CGPoint(x: 0, y: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +70,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         //setup keyboard listner
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
-
+        
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -155,12 +153,11 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         
         //bring button to front
         self.view.bringSubviewToFront(self.pageControl)
-        self.view.bringSubviewToFront(self.upButton)
-        self.view.bringSubviewToFront(self.downButton)
         self.view.bringSubviewToFront(self.idLabel)
         self.view.bringSubviewToFront(self.inputField)
         self.view.bringSubviewToFront(self.toolView)
         self.view.bringSubviewToFront(self.pushTypeSegment)
+        self.view.bringSubviewToFront(self.fingerButton)
         
     }
     
@@ -185,22 +182,32 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         sender.resignFirstResponder()
         
     }
-    
-    
     //keyboard animation
     func keyboardWillShow(notification: NSNotification) {
         var info = notification.userInfo!
-        var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        var keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let keyboardHeight = keyboardFrame.size.height
         
+        //animate keyboard
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.inputViewBottomConst.constant = keyboardFrame.size.height
             self.bombAppearAnimate()
         })
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - keyboardHeight)
+            }) { (Bool) -> Void in
+                //scroll to down
+                self.scrollToDown(true)
+        }
     }
+    
+    
+    
     
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             self.inputViewBottomConst.constant = 0
+            self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
             self.bombAppearAnimate()
         })
         
@@ -228,6 +235,9 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     }
     
     
+    @IBAction func fingerButtonTouch(sender: AnyObject) {
+        println("finger touch")
+    }
     
     @IBAction func arrowButtonTouch(sender: AnyObject) {
         //unwind to main
@@ -278,7 +288,48 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         }
     }
     
-    
+    @IBAction func panFingerButton(sender: AnyObject) {
+        if let pan = sender as? UIPanGestureRecognizer {
+            var translatePoint = pan.translationInView(self.view)
+            if pan.state == UIGestureRecognizerState.Began {
+                firstFingerPoint = sender.view!!.center
+            }
+            
+            if let view = sender.view {
+                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    view!.center = CGPoint(x:view!.center.x + translatePoint.x,
+                        y:view!.center.y + translatePoint.y)
+                }, completion: nil)
+                
+                if pan.state == UIGestureRecognizerState.Ended {
+                    var velocity = pan.velocityInView(self.view)
+                    
+                    //rolling the table
+                    self.rollingTable(velocity.y)
+                    if velocity.x < -500 {
+                        //go back previous VC
+                        self.backButtonTrigger()
+                    }
+                    //back to oringinal point
+                    UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                        view!.center = self.firstFingerPoint
+                    }, completion: nil)
+                    
+                }
+            }
+            
+            sender.setTranslation(CGPointZero, inView: self.view)
+            
+
+            if (pan.translationInView(self.view).x < 100) {
+                "trig"
+                //return back && (trans.y > -30) && (trans.y < 30)
+                
+                
+                
+            }
+        }
+    }
     
     
     //animate func
@@ -290,6 +341,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
                 self.segmentRightConst.constant -= 170
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = false
+                self.fingerButton.hidden = false
                 }, completion: nil)
         }else {
             //open button
@@ -297,14 +349,36 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
                 self.segmentRightConst.constant += 170
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = true
+                self.fingerButton.hidden = true
                 }, completion: nil)
         }
     }
     
     
+    //back to oringinal page
+    func backButtonTrigger() {
+        self.performSegueWithIdentifier("returnMainViewSegue", sender: self)
+        self.performSegueWithIdentifier("returnToSmallViewController", sender: self)
+    }
     
+    //scroll to down
+    func scrollToDown(bool: Bool) {
+        if let VC = self.pageViewController.viewControllers[0] as? ArticlePageViewController {
+            if bool == true {
+                VC.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }else if bool == false {
+                VC.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        }
+    }
     
-    
+    func rollingTable(velocity: CGFloat) {
+        if velocity > 500 {
+            self.scrollToDown(true)
+        }else if velocity < -500 {
+            self.scrollToDown(false)
+        }
+    }
     
     
 }

@@ -1207,19 +1207,6 @@
                                     <action selector="segmentTouch:" destination="qbc-lr-xNf" eventType="valueChanged" id="bgf-1P-CpB"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ty-Wf-wxM" userLabel="downButton">
-                                <rect key="frame" x="70" y="446" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="hTb-YH-OQw"/>
-                                    <constraint firstAttribute="height" constant="40" id="yQu-Xk-vJ1"/>
-                                </constraints>
-                                <state key="normal" image="arrow-down-vec">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="arrowDown:" destination="qbc-lr-xNf" eventType="touchUpInside" id="Per-LU-4h7"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5L-hO-oQB" userLabel="toolView">
                                 <rect key="frame" x="0.0" y="496" width="600" height="40"/>
                                 <subviews>
@@ -1258,34 +1245,34 @@
                                     <constraint firstItem="wD6-Xs-ZHF" firstAttribute="top" secondItem="K5L-hO-oQB" secondAttribute="top" id="scb-g1-HN4"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPh-7J-8A1" userLabel="upButton">
-                                <rect key="frame" x="10" y="446" width="40" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wn2-Ym-nlU" userLabel="mouseButton">
+                                <rect key="frame" x="540" y="363" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="5lV-I3-hMJ"/>
-                                    <constraint firstAttribute="width" constant="40" id="hCf-Am-Hag"/>
+                                    <constraint firstAttribute="height" constant="50" id="cF1-XI-7UW"/>
+                                    <constraint firstAttribute="width" constant="50" id="x49-ix-t46"/>
                                 </constraints>
-                                <state key="normal" image="arrow-up-vec">
+                                <state key="normal" image="finger-40-vec">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="arrowUpTouch:" destination="qbc-lr-xNf" eventType="touchUpInside" id="cn6-ib-GlC"/>
+                                    <action selector="fingerButtonTouch:" destination="qbc-lr-xNf" eventType="touchUpInside" id="xJ6-Hn-Frd"/>
+                                    <outletCollection property="gestureRecognizers" destination="tmi-mO-fip" appends="YES" id="uqp-TJ-m8d"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="0ty-Wf-wxM" firstAttribute="leading" secondItem="KPh-7J-8A1" secondAttribute="trailing" constant="20" id="5Eg-8Y-18j"/>
                             <constraint firstItem="K5L-hO-oQB" firstAttribute="leading" secondItem="cjX-hJ-JO8" secondAttribute="leading" id="8dU-DB-7OC"/>
                             <constraint firstItem="K5L-hO-oQB" firstAttribute="top" secondItem="Nhw-ZJ-GVz" secondAttribute="bottom" constant="10" id="9uq-Dl-GHf"/>
-                            <constraint firstItem="K5L-hO-oQB" firstAttribute="top" secondItem="0ty-Wf-wxM" secondAttribute="bottom" constant="10" id="JRe-7P-ieh"/>
+                            <constraint firstAttribute="trailing" secondItem="Wn2-Ym-nlU" secondAttribute="trailing" constant="10" id="JQq-v8-4A7"/>
                             <constraint firstAttribute="bottom" secondItem="K5L-hO-oQB" secondAttribute="bottom" id="KB7-vf-ye3"/>
                             <constraint firstAttribute="trailing" secondItem="VZt-Wu-ys1" secondAttribute="trailing" constant="10" id="M5X-0X-f0d"/>
                             <constraint firstItem="1JY-Yu-y7u" firstAttribute="leading" secondItem="cjX-hJ-JO8" secondAttribute="leading" constant="13" id="O8W-Xq-c3a"/>
-                            <constraint firstItem="K5L-hO-oQB" firstAttribute="top" secondItem="KPh-7J-8A1" secondAttribute="bottom" constant="10" id="QJJ-9p-f6O"/>
+                            <constraint firstItem="Nhw-ZJ-GVz" firstAttribute="top" secondItem="Wn2-Ym-nlU" secondAttribute="bottom" constant="45" id="SaC-4H-UmS"/>
                             <constraint firstItem="VZt-Wu-ys1" firstAttribute="top" secondItem="47l-KV-CMh" secondAttribute="bottom" constant="-5" id="U4O-VI-wVr"/>
                             <constraint firstAttribute="trailing" secondItem="Nhw-ZJ-GVz" secondAttribute="trailing" constant="5" id="eAO-IG-eLr"/>
                             <constraint firstItem="1JY-Yu-y7u" firstAttribute="top" secondItem="47l-KV-CMh" secondAttribute="bottom" constant="5" id="fMh-Nj-Osc"/>
-                            <constraint firstItem="KPh-7J-8A1" firstAttribute="leading" secondItem="cjX-hJ-JO8" secondAttribute="leading" constant="10" id="rJs-mi-yuc"/>
                             <constraint firstAttribute="trailing" secondItem="K5L-hO-oQB" secondAttribute="trailing" id="rPI-lQ-p9r"/>
                         </constraints>
                     </view>
@@ -1293,8 +1280,7 @@
                     <navigationItem key="navigationItem" id="duR-8z-k5x"/>
                     <connections>
                         <outlet property="bombButton" destination="wD6-Xs-ZHF" id="Os7-6l-1Js"/>
-                        <outlet property="downButton" destination="0ty-Wf-wxM" id="gag-tX-hj8"/>
-                        <outlet property="downButtonConst" destination="JRe-7P-ieh" id="HvI-ux-c3V"/>
+                        <outlet property="fingerButton" destination="Wn2-Ym-nlU" id="giP-jD-0E9"/>
                         <outlet property="idLabel" destination="1JY-Yu-y7u" id="w1U-Rz-xpZ"/>
                         <outlet property="inputField" destination="Ipv-5v-79W" id="PI7-bK-kGJ"/>
                         <outlet property="inputViewBottomConst" destination="KB7-vf-ye3" id="5sU-K7-dH1"/>
@@ -1302,13 +1288,17 @@
                         <outlet property="pushTypeSegment" destination="Nhw-ZJ-GVz" id="4sO-9V-bpn"/>
                         <outlet property="segmentRightConst" destination="eAO-IG-eLr" id="sfH-oY-Bch"/>
                         <outlet property="toolView" destination="K5L-hO-oQB" id="WLv-xe-5S5"/>
-                        <outlet property="upButton" destination="KPh-7J-8A1" id="XJ7-WY-8YP"/>
-                        <outlet property="upButtonConst" destination="QJJ-9p-f6O" id="PST-vL-I7U"/>
                         <segue destination="ehP-Zd-HMu" kind="unwind" identifier="returnMainViewSegue" unwindAction="returnViewController:" id="PRO-pN-G3C"/>
+                        <segue destination="ehP-Zd-HMu" kind="unwind" identifier="returnToSmallViewController" unwindAction="returnToSmallViewController:" id="HFm-TB-PSQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Z6-Lw-T9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="ehP-Zd-HMu" userLabel="Exit" sceneMemberID="exit"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="tmi-mO-fip">
+                    <connections>
+                        <action selector="panFingerButton:" destination="qbc-lr-xNf" id="vpd-5y-fDb"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1673" y="1454"/>
         </scene>
@@ -1617,7 +1607,7 @@
         <!--Item-->
         <scene sceneID="2GZ-1l-rcv">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nMa-1B-G4u" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="nMa-1B-G4u" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Item" image="pen-vec" id="5xR-jB-J3K"/>
                     <toolbarItems/>
@@ -1638,7 +1628,7 @@
         <!--Item-->
         <scene sceneID="38m-zN-hso">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8dd-aq-rxo" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="8dd-aq-rxo" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Item" image="search-30-vec" id="gfI-25-u7I"/>
                     <toolbarItems/>
@@ -1659,12 +1649,11 @@
     </scenes>
     <resources>
         <image name="account-vec" width="30" height="30"/>
-        <image name="arrow-down-vec" width="30" height="30"/>
-        <image name="arrow-up-vec" width="30" height="30"/>
         <image name="book-vec" width="30" height="30"/>
         <image name="bulb-vec" width="30" height="30"/>
         <image name="chat-vec" width="30" height="30"/>
         <image name="clock-vec" width="30" height="30"/>
+        <image name="finger-40-vec" width="40" height="40"/>
         <image name="gear-20-vec" width="20" height="20"/>
         <image name="good-vec" width="30" height="30"/>
         <image name="head" width="300" height="300"/>
