@@ -50,6 +50,8 @@
 		ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6121B22AAB200871CFA /* SearchViewController.swift */; };
 		ACE4D6151B22AC4800871CFA /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */; };
 		ACE4D6171B22B2D000871CFA /* Boardinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6161B22B2D000871CFA /* Boardinfo.swift */; };
+		ACE4D61A1B25825400871CFA /* SmallTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6191B25825400871CFA /* SmallTableViewController.swift */; };
+		ACE4D61C1B259D2C00871CFA /* SmallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */; };
 		ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -116,6 +118,8 @@
 		ACE4D6121B22AAB200871CFA /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
 		ACE4D6161B22B2D000871CFA /* Boardinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boardinfo.swift; sourceTree = "<group>"; };
+		ACE4D6191B25825400871CFA /* SmallTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallTableViewController.swift; sourceTree = "<group>"; };
+		ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallTableViewCell.swift; sourceTree = "<group>"; };
 		ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -277,11 +281,21 @@
 		ACE4D60F1B22AA4500871CFA /* searchCollection */ = {
 			isa = PBXGroup;
 			children = (
+				ACE4D6181B25822F00871CFA /* smallViewTable */,
 				ACE4D6121B22AAB200871CFA /* SearchViewController.swift */,
 				ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */,
 				ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */,
 			);
 			name = searchCollection;
+			sourceTree = "<group>";
+		};
+		ACE4D6181B25822F00871CFA /* smallViewTable */ = {
+			isa = PBXGroup;
+			children = (
+				ACE4D6191B25825400871CFA /* SmallTableViewController.swift */,
+				ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */,
+			);
+			name = smallViewTable;
 			sourceTree = "<group>";
 		};
 		ACF5AEEA1B08C72C0000EF62 /* Mainflow */ = {
@@ -463,6 +477,7 @@
 			files = (
 				AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */,
 				AC6A352F1ABE20D300AD1CC7 /* SwiftyJSON.swift in Sources */,
+				ACE4D61C1B259D2C00871CFA /* SmallTableViewCell.swift in Sources */,
 				AC12C59E1B0729520090573D /* MainTabBarViewController.swift in Sources */,
 				AC05DA461B11B8B000E71C8F /* PushTableViewCell.swift in Sources */,
 				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
@@ -494,6 +509,7 @@
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
 				ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */,
 				AC05DA421B11B02900E71C8F /* LastTableViewCell.swift in Sources */,
+				ACE4D61A1B25825400871CFA /* SmallTableViewController.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
 				AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */,

@@ -14,5 +14,7 @@ class TitleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var collectionLabel: UILabel!
     
+    var boardID = ""
+    var boardName = ""
     
 }

@@ -14,6 +14,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
     
     var boardinfo: Array<boardInfo> = []
     
+    @IBOutlet weak var boardTitle: UILabel!
     
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -32,6 +33,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
             cell.collectionImage.image = UIImage(data: data)
         }
         cell.collectionLabel.text = board.name
+        cell.boardID = board.id!
+        cell.boardName = board.name!
         
         return cell
     }
