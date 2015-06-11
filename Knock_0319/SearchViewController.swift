@@ -13,8 +13,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     //table para
-    var sections = ["最熱門", "我的最愛", "逗趣搞笑", "男女類別", "運動類別"]
-    var boardinfos = [String: Array<boardInfo>]()
+    var sections = Singleton.sharedInstance.sections
+    var boardinfos = Singleton.sharedInstance.boardinfos
     var boards = boardInfo()
     var currentSelected: [Bool] = [true, true, false, false, false]
     
@@ -91,11 +91,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SmallTableSegue" {
             if let cell = sender as? TitleCollectionViewCell {
-                println("selected board: " + cell.boardID)
+                println("selected board: " + cell.board.id!)
                 if let VC = segue.destinationViewController as? SmallTableViewController {
-                    VC.navigationBar.title = cell.boardName
-                    
-                    
+                    VC.boardinfo = cell.board
                 }
                 
             }

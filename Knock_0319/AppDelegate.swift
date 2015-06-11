@@ -26,7 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         Singleton.sharedInstance.connectToServer()
         
-        
+        //setup keyboard show
+        //setup keyboard listner
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
         
         
         SingletonC.sharedInstance.setupNotification()
@@ -224,6 +227,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                 abort()
             }
         }
+    }
+    
+    //keyboard animation
+    func keyboardWillShow(notification: NSNotification) {
+        Singleton.sharedInstance.keyboardIsShow = true
+    }
+    
+    
+    
+    func keyboardWillHide(notification: NSNotification) {
+        Singleton.sharedInstance.keyboardIsShow = false
     }
 
 

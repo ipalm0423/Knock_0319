@@ -99,6 +99,7 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
             cell.contentLabel.text = self.pushArray[indexPath.row]
             cell.idLabel.text = self.accountPushArray[indexPath.row]
             cell.replyLabel.text = "1則回覆"
+            cell.tag = indexPath.row
             switch pushType {
             case "1" :
                 cell.contentLabel.textColor = UIColor.greenColor()
@@ -107,6 +108,9 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
             default:
                 cell.contentLabel.textColor = UIColor.blackColor()
             }
+            //add tap gesture for cell
+            var tapCellGesture = UITapGestureRecognizer(target: self, action: "touchCellGesture:")
+            cell.addGestureRecognizer(tapCellGesture)
             
             return cell
         }else if section == 0 {
@@ -159,6 +163,37 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     
+    
+    //set table cell edit style
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+        //設置share左邊按鈕
+        var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Add", handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            
+            let addMenu = UIAlertController(title: "Extend the Time of Room", message: nil, preferredStyle: .ActionSheet)
+            let foreverAction = UIAlertAction(title: "Forever", style: UIAlertActionStyle.Default, handler: nil)
+            let adayAction = UIAlertAction(title: "A Day", style: UIAlertActionStyle.Default, handler: nil)
+            let aweekAction = UIAlertAction(title: "A Week", style: UIAlertActionStyle.Default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            addMenu.addAction(foreverAction)
+            addMenu.addAction(adayAction)
+            addMenu.addAction(aweekAction)
+            addMenu.addAction(cancelAction)
+            
+            self.presentViewController(addMenu, animated: true, completion: nil)
+            }
+        )
+        
+        shareAction.backgroundColor = UIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
+        
+        return [shareAction]
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -168,5 +203,19 @@ class ArticlePageViewController: UIViewController, UITableViewDataSource, UITabl
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    //tap gesture
+    func touchCellGesture(sender: UITapGestureRecognizer) {
+        //if keyboard show return keyboard
+        if Singleton.sharedInstance.keyboardIsShow == true {
+            NSNotificationCenter.defaultCenter().postNotificationName("hideKeyBoard", object: nil)
+        }else {
+            if let cell = sender.view as? PushTableViewCell {
+                println("touch cell: " + cell.tag.description)
+            }
+        }
+        
+    }
 
 }

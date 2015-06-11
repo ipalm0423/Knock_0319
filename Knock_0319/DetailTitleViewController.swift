@@ -37,7 +37,6 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     var bombButtonShow = false
     var arrowButtonShow = false
     var inputFieldShow = false
-    var hasKeyboardShow = false
     var inputBoxShow = false
     
     //page view controller
@@ -67,6 +66,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         self.segmentRightConst.constant -= 170
         self.pushTypeSegment.selectedSegmentIndex = 2
         self.navigationController?.hidesBarsOnSwipe = true
+        //add gesture touch background for return KB
         var tapBackGroundGesture = UITapGestureRecognizer(target: self, action: "touchBackground:")
         self.view.addGestureRecognizer(tapBackGroundGesture)
         setupFingerButtonPosition()
@@ -75,6 +75,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         //setup keyboard listner
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("hideKeyboardAction:"), name: "hideKeyBoard", object: nil)
         
     }
 
@@ -187,7 +188,12 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         sender.resignFirstResponder()
         
     }
+    
+    
     //keyboard animation
+    func hideKeyboardAction(notification: NSNotification) {
+        self.inputField.resignFirstResponder()
+    }
     func keyboardWillShow(notification: NSNotification) {
         var info = notification.userInfo!
         var keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
@@ -208,14 +214,12 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     
     
-    
     func keyboardWillHide(notification: NSNotification) {
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             self.inputViewBottomConst.constant = 0
             self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
             self.bombAppearAnimate()
         })
-        
     }
     
     
@@ -225,12 +229,6 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         println("touch back")
         //return keyboard
         self.inputField.resignFirstResponder()
-        
-        //get back to all bomb button
-        if self.bombButtonShow == true {
-            self.bombAppearAnimate()
-        }
-        
     }
     
     
@@ -288,9 +286,9 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
         println(selected)
         switch selected {
         case 0 :
-            self.toolView.backgroundColor = UIColor.greenColor()
-        case 1 :
             self.toolView.backgroundColor = UIColor.redColor()
+        case 1 :
+            self.toolView.backgroundColor = UIColor.greenColor()
         default :
             self.toolView.backgroundColor = UIColor.grayColor()
         }
@@ -350,6 +348,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = false
                 self.fingerButton.hidden = false
+                self.toolView.alpha = 0.7
                 }, completion: nil)
         }else {
             //open button
@@ -358,6 +357,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
                 self.view.layoutIfNeeded()
                 self.bombButtonShow = true
                 self.fingerButton.hidden = true
+                self.toolView.alpha = 1
                 }, completion: nil)
         }
     }

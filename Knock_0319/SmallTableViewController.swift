@@ -22,9 +22,9 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.navigationController?.hidesBarsOnSwipe = false
-        // Do any additional setup after loading the view.
         
+        // Do any additional setup after loading the view.
+        self.navigationBar.title = self.boardinfo.name
         
         //test
         var titlet = titletest()
@@ -53,6 +53,12 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.hidesBarsOnSwipe = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        //back to main vc notify
+        
+    }
     
     func menuButtonTouch(sender: AnyObject) {
         self.performSegueWithIdentifier("UnwindToBoardMenu", sender: self)
@@ -119,5 +125,7 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
             //data feedback
         }
     }
+    
+    
 
 }

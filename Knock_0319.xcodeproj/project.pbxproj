@@ -52,6 +52,9 @@
 		ACE4D6171B22B2D000871CFA /* Boardinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6161B22B2D000871CFA /* Boardinfo.swift */; };
 		ACE4D61A1B25825400871CFA /* SmallTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6191B25825400871CFA /* SmallTableViewController.swift */; };
 		ACE4D61C1B259D2C00871CFA /* SmallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */; };
+		ACE4D61F1B292CCE00871CFA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */; };
+		ACE4D6211B2933AC00871CFA /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */; };
+		ACE4D6231B2933F700871CFA /* SimpleSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */; };
 		ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -120,6 +123,9 @@
 		ACE4D6161B22B2D000871CFA /* Boardinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boardinfo.swift; sourceTree = "<group>"; };
 		ACE4D6191B25825400871CFA /* SmallTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallTableViewController.swift; sourceTree = "<group>"; };
 		ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallTableViewCell.swift; sourceTree = "<group>"; };
+		ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
+		ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSectionTableViewCell.swift; sourceTree = "<group>"; };
 		ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -214,12 +220,11 @@
 				AC8652781B0266F60075C00C /* Profile Page */,
 				ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */,
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
-				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
+				ACE4D61D1B280F7000871CFA /* message */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
 				ACF5AEEA1B08C72C0000EF62 /* Mainflow */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
-				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
 				AC6A34691ABC3BDA00AD1CC7 /* LaunchScreen.xib */,
 				AC6A345C1ABC3BDA00AD1CC7 /* Supporting Files */,
 			);
@@ -229,6 +234,9 @@
 		AC6A345C1ABC3BDA00AD1CC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */,
+				ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */,
+				ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */,
 				AC6A352E1ABE20D300AD1CC7 /* SwiftyJSON.swift */,
 				AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */,
 				AC6A345D1ABC3BDA00AD1CC7 /* Info.plist */,
@@ -296,6 +304,15 @@
 				ACE4D61B1B259D2C00871CFA /* SmallTableViewCell.swift */,
 			);
 			name = smallViewTable;
+			sourceTree = "<group>";
+		};
+		ACE4D61D1B280F7000871CFA /* message */ = {
+			isa = PBXGroup;
+			children = (
+				AC6A34601ABC3BDA00AD1CC7 /* FirstViewController.swift */,
+				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
+			);
+			name = message;
 			sourceTree = "<group>";
 		};
 		ACF5AEEA1B08C72C0000EF62 /* Mainflow */ = {
@@ -489,6 +506,7 @@
 				ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */,
 				AC05DA3D1B1112AF00E71C8F /* Articleinfo.swift in Sources */,
 				AC05DA401B11A0D100E71C8F /* TopTableViewCell.swift in Sources */,
+				ACE4D6231B2933F700871CFA /* SimpleSectionTableViewCell.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */,
@@ -508,12 +526,14 @@
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
 				ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */,
+				ACE4D6211B2933AC00871CFA /* SimpleTableViewCell.swift in Sources */,
 				AC05DA421B11B02900E71C8F /* LastTableViewCell.swift in Sources */,
 				ACE4D61A1B25825400871CFA /* SmallTableViewController.swift in Sources */,
 				AC623B8A1ACBDDF200221DB7 /* Messageinfo.swift in Sources */,
 				AC6A34881ABC460C00AD1CC7 /* Knock_0319.xcdatamodeld in Sources */,
 				AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */,
 				ACE4D6111B22AA7E00871CFA /* TitleCollectionViewCell.swift in Sources */,
+				ACE4D61F1B292CCE00871CFA /* SimpleTableViewController.swift in Sources */,
 				AC2327A11AD3B84500B06354 /* Buble.swift in Sources */,
 				AC05DA481B18713F00E71C8F /* ArticlePageViewController.swift in Sources */,
 			);

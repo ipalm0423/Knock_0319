@@ -16,6 +16,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet var viewself: UIView!
     
+    //simple table VC
+    var simpleTableVC: SimpleTableViewController!
+    var simpleTableIsShow = false
+    
+    
+    
     //test
     var titles: Array<titletest> = []
     var test1 = titletest()
@@ -197,7 +203,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return image
     }
     
-    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        if self.simpleTableIsShow {
+            self.removeSimpleTable()
+        }
+    }
     
     
     
@@ -290,6 +300,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    //open simple board view 
+    //or close simple board view
+    @IBAction func boardsButtonTouch(sender: AnyObject) {
+        if self.simpleTableIsShow {
+            self.removeSimpleTable()
+        }else {
+            self.setupSimpleTable()
+        }
+    }
     
     
     
@@ -303,6 +322,28 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    
+    //add simple Table to View
+    func setupSimpleTable() {
+        //input VC
+        self.simpleTableVC = self.storyboard?.instantiateViewControllerWithIdentifier("SimpleTableViewController") as! SimpleTableViewController
+        self.simpleTableVC.view.frame = CGRectMake(10, 20, self.view.frame.width / 2, self.view.frame.height - 50)
+        self.simpleTableVC.view.layer.cornerRadius = 10
+        self.simpleTableVC.view.clipsToBounds = true
+        self.addChildViewController(simpleTableVC)
+        self.view.addSubview(simpleTableVC.view)
+        self.simpleTableVC.didMoveToParentViewController(self)
+        self.simpleTableIsShow = true
+    }
+    
+    //remove simple table
+    func removeSimpleTable() {
+        
+        self.simpleTableVC.view.removeFromSuperview()
+        self.simpleTableVC.removeFromParentViewController()
+        self.simpleTableIsShow = false
+    }
+    
     
     //back from detail
     @IBAction func returnViewController(segue:UIStoryboardSegue) {

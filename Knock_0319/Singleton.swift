@@ -26,6 +26,10 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     
     
     //parameter
+    
+    
+    //keyboard parameter
+    var keyboardIsShow = false
     //user
     var userinfo: Userinfo!
     var userinfotemp = userInfoTemp()
@@ -49,6 +53,11 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             
         }
     }
+    
+    //section parameter
+    var sections = ["最熱門", "我的最愛", "逗趣搞笑", "男女類別", "運動類別"]
+    //                [sections: [boards]]
+    var boardinfos = [String: Array<boardInfo>]()
     
     func connectToServer() {
         socket.on("connect", callback: { (data, ack) -> Void in

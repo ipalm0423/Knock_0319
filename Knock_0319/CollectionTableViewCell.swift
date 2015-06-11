@@ -33,8 +33,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
             cell.collectionImage.image = UIImage(data: data)
         }
         cell.collectionLabel.text = board.name
-        cell.boardID = board.id!
-        cell.boardName = board.name!
+        cell.board = board
         
         return cell
     }
@@ -49,5 +48,6 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource, UICo
 
         // Configure the view for the selected state
     }
-
+    
+    
 }
