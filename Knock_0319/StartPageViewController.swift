@@ -11,15 +11,9 @@ import UIKit
 class StartPageViewController: UIViewController, UIPageViewControllerDataSource {
     
     var pageViewController: UIPageViewController!
-    var identifiers = ["BoardPageViewController", "FavorPageViewController", "FollowingPageViewController", "FollowerPageViewController"]
+    var identifiers = ["FavorPageViewController", "MyTitlePageViewController", "FollowingPageViewController"]
     
-    @IBOutlet weak var favorButton: UIBarButtonItem!
     
-    @IBOutlet weak var starButton: UIBarButtonItem!
-    
-    @IBOutlet weak var goodButton: UIBarButtonItem!
-    
-    @IBOutlet weak var penButton: UIBarButtonItem!
     
     
     override func viewDidLoad() {
@@ -35,73 +29,76 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
     }
     
     //bar button setup
-    @IBAction func boardButton(sender: AnyObject) {
-        let pageContentViewController = self.viewControllerAtIndex(0)
+    @IBAction func favorButton(sender: AnyObject) {
+        
         if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
             if var index = find(self.identifiers, identifier!) {
                 if (index == 0) {
                     //stay
+                    return
                 }else {
                     //backward
-                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
+                    if let pageContentViewController = self.viewControllerAtIndex(0) {
+                        self.pageViewController.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
+                        return
+                    }
                 }
             }
         }
         
     }
     
-    @IBAction func favorButton(sender: AnyObject) {
-        let pageContentViewController = self.viewControllerAtIndex(1)
+    @IBAction func chatButton(sender: AnyObject) {
+        
         if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
             if var index = find(self.identifiers, identifier!) {
                 if (index == 1) {
                     //stay
                 }else if index > 1{
+                    let pageContentViewController = self.viewControllerAtIndex(1)
                     //backward
                     self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
                 }else {
-                    //forward
-                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                    if let pageContentViewController = self.viewControllerAtIndex(1) {
+                        //forward
+                        self.pageViewController.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                    }
                 }
             }
         }
     }
     
-    @IBAction func followingButton(sender: AnyObject) {
-        let pageContentViewController = self.viewControllerAtIndex(2)
+    
+    
+    @IBAction func followingButtonTouch(sender: AnyObject) {
         if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
-            if var index = find(self.identifiers, identifier!) {
-                if (index == 2) {
-                    //stay
-                }else if index > 2{
-                    //backward
-                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: true, completion: nil)
-                }else {
-                    //forward
-                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+            if let index = find(self.identifiers, identifier!) {
+                if index == 2 {
+                    return
+                }else{
+                    if let pageContentViewController = self.viewControllerAtIndex(2) {
+                        self.pageViewController.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                    }
                 }
             }
         }
     }
     
-    @IBAction func follower(sender: AnyObject) {
-        let pageContentViewController = self.viewControllerAtIndex(3)
-        if let identifier = self.pageViewController.viewControllers[0].restorationIdentifier {
-            if var index = find(self.identifiers, identifier!) {
-                if (index == 3) {
-                    //stay
-                }else {
-                    //backward
-                    self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-                }
-            }
-        }
-    }
+    
     
 
     //setup page view data source
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        
+        if let VC = viewController as? FollowingPageViewController {
+            return nil
+        }
+        if let VC = viewController as? FavorPageViewController {
+            var index = VC.pageControl
+            index = index + 1
+            //increment the index to get the viewController after the current index
+            return self.viewControllerAtIndex(index)
+        }
+        /*
         if let identifier = viewController.restorationIdentifier {
             if var index = find(self.identifiers, identifier) {
                 index = index + 1
@@ -113,12 +110,27 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
                 //increment the index to get the viewController after the current index
                 return self.viewControllerAtIndex(index)
             }
-        }
+        }*/
         return nil
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        if let identifier = viewController.restorationIdentifier {
+        if let VC = viewController as? FavorPageViewController {
+            var index = VC.pageControl
+            //if the index is the end of the array, return nil since we dont want a view controller after the last one
+            if (index == 0) {
+                return nil
+            }
+            index = index - 1
+            //increment the index to get the viewController after the current index
+            return self.viewControllerAtIndex(index)
+            
+        }
+        if let VC = viewController as? FollowingPageViewController {
+            return self.viewControllerAtIndex(2)
+        }
+        /*
+        if let VC = viewController.restorationIdentifier {
             if var index = find(self.identifiers, identifier) {
                 //if the index is the end of the array, return nil since we dont want a view controller after the last one
                 if (index == 0) {
@@ -128,7 +140,7 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
                 //increment the index to get the viewController after the current index
                 return self.viewControllerAtIndex(index)
             }
-        }
+        }*/
         return nil
     }
     
@@ -136,27 +148,25 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
         
         //first
         if index == 0 {
-            
-            return self.storyboard?.instantiateViewControllerWithIdentifier("BoardPageViewController") as! BoardPageViewController
+            let VC = self.storyboard?.instantiateViewControllerWithIdentifier("FavorPageViewController") as! FavorPageViewController
+            VC.pageControl = 0
+            return VC
             
         }
         
         //second view controller
         if index == 1 {
-            
-            return self.storyboard?.instantiateViewControllerWithIdentifier("FavorPageViewController") as! FavorPageViewController
+            let VC = self.storyboard?.instantiateViewControllerWithIdentifier("FavorPageViewController") as! FavorPageViewController
+            VC.pageControl = 1
+            return VC
         }
         //third
         if index == 2 {
+            let VC = self.storyboard?.instantiateViewControllerWithIdentifier("FollowingPageViewController") as! FollowingPageViewController
             
-            return self.storyboard?.instantiateViewControllerWithIdentifier("FollowingPageViewController") as! FollowingPageViewController
+            return VC
         }
         
-        //four
-        if index == 3 {
-            
-            return self.storyboard?.instantiateViewControllerWithIdentifier("FollowerPageViewController") as! FollowerPageViewController
-        }
     //else
     return nil
     }
@@ -178,7 +188,7 @@ class StartPageViewController: UIViewController, UIPageViewControllerDataSource 
         self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
         
         /* We are substracting 20 because we have a start bar button whose height is 20*/
-        self.pageViewController.view.frame = CGRectMake(0, 30, self.view.frame.width, self.view.frame.height - 30)
+        self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height + 40)
         self.addChildViewController(pageViewController)
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMoveToParentViewController(self)

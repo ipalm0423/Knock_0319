@@ -114,6 +114,7 @@ class SmallTableViewController: UIViewController, UITableViewDelegate, UITableVi
             if let indexpath = self.tableView.indexPathForSelectedRow() {
                 if let VC = segue.destinationViewController as? DetailTitleViewController {
                     VC.titleinfo = self.titles[indexpath.row]
+                    VC.sourceViewController = "SmallTableViewController"
                 }
             }
         }

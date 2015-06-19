@@ -17,13 +17,21 @@
     </entity>
     <entity name="Userinformation" representedClassName="Knock_0319.Userinfo" syncable="YES">
         <attribute name="account" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="follower" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="greenPush" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="isRegistKnockUser" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isUser" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="passwd" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="redPush" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="sid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalTitle" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="105"/>
+        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="225"/>
     </elements>
 </model>

@@ -20,6 +20,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var simpleTableVC: SimpleTableViewController!
     var simpleTableIsShow = false
     
+    //simple profile
+    var simpleProfileIsOpen = false
     
     
     //test
@@ -72,6 +74,21 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.hidesBarsOnSwipe = false
     }
     
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeSimpleProfile:", name: "closeSimpleProfile", object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "closeSimpleProfile", object: nil)
+    }
+    
+    func closeSimpleProfile(notify: NSNotification) {
+        self.simpleProfileIsOpen = false
+    }
+    
+    
+    
+    
     // MARK: - Table view data source
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -100,7 +117,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.iconImage.image = UIImage(data: icon)
         }else {
             //setup random color avator
-            cell.iconImage.image = setupAvatorImage(cell.nameLabel.text!.hash)
+            cell.iconImage.image = Singleton.sharedInstance.setupAvatorImage(cell.nameLabel.text!.hash)
         }
         //setup picture & height
         if let data = titles[indexPath.row].picture {
@@ -187,21 +204,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return label.frame.height
     }
     
-    //setup colors avator
-    func setupAvatorImage(hash: Int) -> UIImage {
-        
-        let r = CGFloat(Float((hash & 0xFF0000) >> 16)/255.0)
-        let g = CGFloat(Float((hash & 0xFF00) >> 8)/255.0)
-        let b = CGFloat(Float(hash & 0xFF)/255.0)
-        let color = UIColor(red: r, green: g, blue: b, alpha: 0.3)
-        var rect = CGRectMake(0, 0, 50, 50)
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(50, 50), false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-    }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         if self.simpleTableIsShow {
@@ -228,7 +230,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             //tap on icon image
             if let row = sender.view?.tag {
                 println("tap on icon at row: " + row.description)
-                
+                if self.simpleProfileIsOpen == false {
+                    println(self.parentViewController?.description)
+                    Singleton.sharedInstance.ShowProfileView(self.titles[row].account)
+                    self.simpleProfileIsOpen = true
+                }else {
+                    return
+                }
                 
             }
         }
@@ -318,6 +326,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let indexpath = self.tableView.indexPathForSelectedRow() {
                 if let VC = segue.destinationViewController as? DetailTitleViewController {
                     VC.titleinfo = self.titles[indexpath.row]
+                    VC.sourceViewController = "MainViewController"
                 }
             }
         }

@@ -24,6 +24,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        //check user profile
+        if Singleton.sharedInstance.loadUserInfo() {
+            println("have user, skip intro")
+            
+            //aready create profile
+            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            
+            var storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            var initialViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarViewController") as! MainTabBarViewController
+            initialViewController.selectedIndex = 2
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        }
+        
+        //connect to server
         Singleton.sharedInstance.connectToServer()
         
         //setup keyboard show
@@ -52,7 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         }
         
         
-    
     
         return true
     }

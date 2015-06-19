@@ -1,5 +1,5 @@
 //
-//  FollowerPageViewController.swift
+//  NotifyPageViewController.swift
 //  Knock_0319
 //
 //  Created by 陳冠宇 on 2015/5/13.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FollowerPageViewController: UIViewController {
+class MyTitlePageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

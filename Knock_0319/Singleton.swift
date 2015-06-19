@@ -31,12 +31,15 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     //keyboard parameter
     var keyboardIsShow = false
     //user
+    let UUID = UIDevice.currentDevice().identifierForVendor.UUIDString
     var userinfo: Userinfo!
     var userinfotemp = userInfoTemp()
+    var userIsRegist = false
     //var getedUserID: Bool = false
     //var userPicture: UIImage?
     var fetchResultController:NSFetchedResultsController!
     var user:[Userinfo] = []
+    var followers: [Userinfo] = []
     //var chattext: String = ""
     
     //message parameter
@@ -68,6 +71,7 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
                 self.signIn()
             }else {
                 //尚未申請帳號, emi mobile
+                
                 self.mobile()
             }
         })
@@ -77,48 +81,42 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             TWMessageBarManager.sharedInstance().showMessageWithTitle("失去連線", description: "請確認網路連線", type: TWMessageBarMessageType.Error, duration: 0.5)
         })
         
-        socket.on("mobile", callback: { (data, ack) -> Void in
-            println("event mobile")
-            let cur = JSON(data!)
-            let res = cur[0]["res"].stringValue
-            if res == "0" {
-                let sid = cur[0]["sid"].stringValue
-                let account = cur[0]["account"].stringValue
-                let passwd = cur[0]["passwd"].stringValue
-                
-                //save profile
-                self.newProfile(account, passwd: passwd, sid: sid)
-                //reload profile
-                if self.loadUserInfo() {
-                    println("mobile success, account: " + self.user[0].account)
-                }
-            }else {
-                println("unknow res from mobile")
-            }
-        })
         
         socket.on("signup", callback: { (data, ack) -> Void in
             println("event signup")
             let cur = JSON(data!)
             let res = cur[0]["res"].stringValue
             if res == "0" {
-                let sid = cur[0]["sid"].stringValue
-                println("sign up success, sid: " + sid)
+                let sid = cur[0]["sid"].string
+                let account = cur[0]["account"].string
+                let passwd = cur[0]["password"].string
+                println("sign up success")
                 //save user to core data
                 self.userinfotemp.sid = sid
+                self.userinfotemp.account = account
+                self.userinfotemp.passwd = passwd
+                if account == nil {
+                    self.userinfotemp.isRegistKnockUser = true
+                }
                 self.updateProfile()
                 //reload
                 if self.loadUserInfo() {
-                    println("signup success, account: " + self.user[0].account)
+                    if self.user[0].isRegistKnockUser.boolValue == true {
+                        NSNotificationCenter.defaultCenter().postNotificationName("LoginSegue", object: nil)
+                        TWMessageBarManager.sharedInstance().showMessageWithTitle("註冊成功", description: "歡迎加入", type: TWMessageBarMessageType.Success)
+                    }else {
+                        TWMessageBarManager.sharedInstance().showMessageWithTitle("歡迎加入", description: "註冊帳號可以享有更多功能", type: TWMessageBarMessageType.Success)
+                    }
+                    
                 }
-                NSNotificationCenter.defaultCenter().postNotificationName("LoginSegue", object: nil)
-                TWMessageBarManager.sharedInstance().showMessageWithTitle("註冊成功", description: "歡迎加入", type: TWMessageBarMessageType.Success)
+                
+                
             }else if res == "1" {
                 TWMessageBarManager.sharedInstance().showMessageWithTitle("帳號已經有人使用", description: "請重新命名", type: TWMessageBarMessageType.Error)
             }else if res == "2" {
                 TWMessageBarManager.sharedInstance().showMessageWithTitle("帳號或密碼格式不符", description: "帳號需大於9個字並小於20個字元, 密碼最少需要8個字元", type: TWMessageBarMessageType.Error)
             }else {
-                println("unknow res from signup")
+                println("unknow res from signup: " + res)
             }
             
         })
@@ -181,12 +179,66 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             }
         })
         
+        socket.on("boardcast", callback: { (data, ack) -> Void in
+            let cur = JSON(data!)
+            let mes = cur[0]["boardcast"].stringValue
+            if mes != "" {
+                TWMessageBarManager.sharedInstance().showMessageWithTitle("重要資訊", description: mes, type: TWMessageBarMessageType.Info)
+            }
+        })
+        
         
         socket.connect()
         
     }
     
     //core data for userinfo
+    func userInfoToUserTemp(user: Userinfo?) -> userInfoTemp? {
+        
+        if let user = user {
+            var usertemp = userInfoTemp()
+            
+            if let account = user.account {
+                usertemp.account = account
+            }
+            if let name = user.name {
+                usertemp.name = name
+            }
+            if let passwd = user.passwd {
+                usertemp.passwd = passwd
+            }
+            if let picture = user.picture {
+                usertemp.picture = picture
+            }
+            if let sid = user.sid {
+                usertemp.sid = sid
+            }
+            if let email = user.email {
+                usertemp.email = email
+            }
+            if let bool = user.isRegistKnockUser {
+                usertemp.isRegistKnockUser = bool.boolValue
+            }
+            if let bool = user.isUser {
+                usertemp.isUser = bool.boolValue
+            }
+            if let follower = user.follower {
+                usertemp.follower = follower.integerValue
+            }
+            if let greenPush = user.greenPush {
+                usertemp.greenPush = greenPush.integerValue
+            }
+            if let redPush = user.redPush {
+                usertemp.redPush = redPush.integerValue
+            }
+            if let totalTitle = user.totalTitle {
+                usertemp.totalTitle = totalTitle.integerValue
+            }
+            return usertemp
+        }
+        
+        return nil
+    }
     //load user information from CoreData to Singleton
     func loadUserInfo() -> Bool {
         if user != [] {
@@ -194,7 +246,10 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
         }
         var fetchRequest = NSFetchRequest(entityName: "Userinformation")
         let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+        let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: true))
+        fetchRequest.predicate = isUserPredicate
         fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.fetchBatchSize = 1
         if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
@@ -209,73 +264,255 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             
         }
         if user != [] {
-            println("have profile" + user[0].account!)
+            println("user have profile: " + user[0].account!)
             return true
         }else {
             println("no user profile")
-            //emit mobil for new account
-            
             return false
         }
     }
     
-    //add new user (for mobile)
-    func newProfile(account: String, passwd: String, sid:String) {
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
-            
-            self.userinfo = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
-                inManagedObjectContext: managedObjectContext) as! Userinfo
-            self.userinfo.account = account
-            self.userinfo.passwd = passwd
-            self.userinfo.sid = sid
-            
-            var e: NSError?
-            if managedObjectContext.save(&e) != true {
-                println("insert error: \(e!.localizedDescription)")
-                
-            }else {
-                println("new profile success")
-            }
-        }
-    }
+    
     //update exsit user
     func updateProfile() {
-        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
-        let sortDescription = NSSortDescriptor(key: "account", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescription]
-        if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            var e:NSError?
-            var result = fetchResultController.performFetch(&e)
-            user = fetchResultController.fetchedObjects as! [Userinfo]
-            if result != true {
-                println(e?.localizedDescription)
-            }else {
-                println("fetch user success")
-            }
-            if let account = self.userinfotemp.account {
-                user[0].account = account
-            }
-            if let passwd = self.userinfotemp.passwd {
-                user[0].passwd = passwd
-            }
-            if let picture = self.userinfotemp.picture {
-                user[0].picture = picture
-            }
-            if let sid = self.userinfotemp.sid {
-                user[0].sid = sid
-            }
-            
-            if manageObjectContext.save(&e) != true {
-                println("insert error: \(e!.localizedDescription)")
-            }else {
-                println("update user success")
+        if self.loadUserInfo() {
+            //have profile already, update
+            var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+            let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: true))
+            let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+            fetchRequest.predicate = isUserPredicate
+            fetchRequest.sortDescriptors = [sortDescription]
+            fetchRequest.fetchBatchSize = 1
+            if let manageObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: manageObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+                fetchResultController.delegate = self
+                var e:NSError?
+                var result = fetchResultController.performFetch(&e)
+                user = fetchResultController.fetchedObjects as! [Userinfo]
+                if result != true {
+                    println(e?.localizedDescription)
+                }
+                
+                if let account = self.userinfotemp.account {
+                    user[0].account = account
+                }
+                if let passwd = self.userinfotemp.passwd {
+                    user[0].passwd = passwd
+                }
+                if let picture = self.userinfotemp.picture {
+                    user[0].picture = picture
+                }
+                if let sid = self.userinfotemp.sid {
+                    user[0].sid = sid
+                }
+                if let email = self.userinfotemp.email {
+                    user[0].email = email
+                }
+                if let bool = self.userinfotemp.isRegistKnockUser {
+                    user[0].isRegistKnockUser = NSNumber(bool: bool)
+                }else {
+                    user[0].isRegistKnockUser = NSNumber(bool: false)
+                }
+                
+                user[0].isUser = NSNumber(bool: true)
+                
+                
+                if manageObjectContext.save(&e) != true {
+                    println("insert error: \(e!.localizedDescription)")
+                    return
+                }
+                println("update user success, account: " + user[0].account)
                 //clear temp
                 self.userinfotemp = userInfoTemp()
             }
+            
+            
+        }else {
+            //no profile, new create
+            if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+                
+                self.userinfo = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
+                    inManagedObjectContext: managedObjectContext) as! Userinfo
+                if let account = self.userinfotemp.account {
+                    self.userinfo.account = account
+                }
+                if let passwd = self.userinfotemp.passwd {
+                    self.userinfo.passwd = passwd
+                }
+                if let sid = self.userinfotemp.sid {
+                    self.userinfo.sid = sid
+                }
+                if let picture = self.userinfotemp.picture {
+                    self.userinfo.picture = picture
+                }
+                if let email = self.userinfotemp.email {
+                    self.userinfo.email = email
+                }
+                if let bool = self.userinfotemp.isRegistKnockUser {
+                    self.userinfo.isRegistKnockUser = NSNumber(bool: bool)
+                }else {
+                    self.userinfo.isRegistKnockUser = NSNumber(bool: false)
+                }
+                self.userinfo.isUser = NSNumber(bool: true)
+                
+                
+                var e: NSError?
+                if managedObjectContext.save(&e) != true {
+                    println("insert error: \(e!.localizedDescription)")
+                    return
+                }
+                
+                println("new create profile success, account: " + self.userinfo.account!)
+                //clear temp
+                self.userinfotemp = userInfoTemp()
+            }
+            
         }
+        
     }
+    
+    //search follower
+    func searchFollower(account: String) -> userInfoTemp? {
+        //fetch request
+        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+        let accountPredicate = NSPredicate(format: "account == %@", account)
+        var compoundPredicate = NSCompoundPredicate.andPredicateWithSubpredicates([accountPredicate])
+        let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+        fetchRequest.predicate = compoundPredicate
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.fetchBatchSize = 1
+        
+        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
+            self.fetchResultController.delegate = self
+            var e: NSError?
+            if !fetchResultController.performFetch(&e) {
+                println(e?.localizedDescription)
+            }
+            let followers = fetchResultController.fetchedObjects as! [Userinfo]
+            if let follower = followers.first {
+                println("search follower " + account + " success, have one: " + account)
+                return self.userInfoToUserTemp(follower)
+            }else {
+                println("search follower " + account + " success, but empty.")
+                return nil
+            }
+        }
+        println("search follower fail: " + account)
+        return nil
+    }
+    
+    //save follower
+    func saveFollower(user: userInfoTemp) -> Userinfo? {
+        //fetch request
+        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+        let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
+        let accountPredicate = NSPredicate(format: "account == %@", user.account!)
+        var compoundPredicate = NSCompoundPredicate.andPredicateWithSubpredicates([isUserPredicate, accountPredicate])
+        let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+        fetchRequest.predicate = compoundPredicate
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.fetchBatchSize = 1
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            //fetch user with account
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            self.fetchResultController.delegate = self
+            var e: NSError?
+            var result = self.fetchResultController.performFetch(&e)
+            self.followers = fetchResultController.fetchedObjects as! [Userinfo]
+            if result != true {
+                println(e?.localizedDescription)
+            }
+            
+            //check if user exist
+            if self.followers.count > 0 {
+                //update it
+                if let picture = user.picture {
+                    self.followers[0].picture = picture
+                }
+                if let redPush = user.redPush {
+                    self.followers[0].redPush = redPush
+                }
+                if let greenPush = user.greenPush {
+                    self.followers[0].greenPush = greenPush
+                }
+                if let follower = user.follower {
+                    self.followers[0].follower = follower
+                }
+                if let totalTitle = user.totalTitle {
+                    self.followers[0].totalTitle = totalTitle
+                }
+                if let name = user.name {
+                    self.followers[0].name = name
+                }
+                self.followers[0].isRegistKnockUser = NSNumber(bool: false)
+                if managedObjectContext.save(&e) != true {
+                    println("update follower error: \(e!.localizedDescription)")
+                    return nil
+                }
+                println("update follower success, account: " + self.followers[0].account)
+                return self.followers[0]
+            }else {
+                //save user
+                self.userinfo = NSEntityDescription.insertNewObjectForEntityForName("Userinformation",
+                    inManagedObjectContext: managedObjectContext) as! Userinfo
+                self.userinfo.account = user.account
+                self.userinfo.redPush = user.redPush
+                self.userinfo.greenPush = user.greenPush
+                self.userinfo.follower = user.follower
+                self.userinfo.totalTitle = user.totalTitle
+                self.userinfo.isRegistKnockUser = NSNumber(bool: false)
+                self.userinfo.isUser = NSNumber(bool: false)
+                self.userinfo.name = user.name
+                self.userinfo.picture = user.picture
+                
+                var e: NSError?
+                if managedObjectContext.save(&e) != true {
+                    println("save follower error: \(e!.localizedDescription)")
+                    return nil
+                }
+                println("add follower success, account: " + self.userinfo.account!)
+                return self.userinfo
+            }
+        }
+        println("core data error: can't read")
+        return nil
+    }
+    
+    //delete follower
+    func deleteFollower(account: String) -> Bool {
+        //fetch request
+        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+        let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
+        let accountPredicate = NSPredicate(format: "account == %@", account)
+        var compoundPredicate = NSCompoundPredicate.andPredicateWithSubpredicates([isUserPredicate, accountPredicate])
+        let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+        fetchRequest.predicate = compoundPredicate
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.fetchBatchSize = 1
+        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
+            self.fetchResultController.delegate = self
+            var e: NSError?
+            if !self.fetchResultController.performFetch(&e) {
+                println(e?.localizedDescription)
+            }
+            
+            let followers = self.fetchResultController.fetchedObjects as! [Userinfo]
+            if let follower = followers.first {
+                MOC.deleteObject(follower)
+            }
+            if MOC.save(&e) != true {
+                println("delete follower error: \(e!.localizedDescription)")
+                return false
+            }
+            println("delete follower success: " + account)
+            return true
+        }
+        return false
+    }
+    
     
     //coreData for messageinfo
     //text func
@@ -314,19 +551,19 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     //emit func
     //emit mobile for new account
     func mobile() {
-        //wait server update
+        println("emit mobile")
+        self.socket.emit("signup", [])
         
     }
     
     //emit sign up for regist account
     func signUp(account: String, passwd: String, picture: UIImage?, isPTT: Bool) {
-        //perpare for user save in core data
-        var accountmodify = account
-        if isPTT {
-            accountmodify += "@ptt.cc"
-        }
+        //wait setup email
+        
+        
+        
         //input temp user, wait for save
-        self.userinfotemp.account = accountmodify
+        self.userinfotemp.account = account
         self.userinfotemp.passwd = passwd
         if let image = picture {
             self.userinfotemp.picture = UIImagePNGRepresentation(image)
@@ -377,6 +614,89 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
         
     }
     
+    //setup colors avator
+    func setupAvatorImage(hash: Int) -> UIImage {
+        
+        let r = CGFloat(Float((hash & 0xFF0000) >> 16)/255.0)
+        let g = CGFloat(Float((hash & 0xFF00) >> 8)/255.0)
+        let b = CGFloat(Float(hash & 0xFF)/255.0)
+        let color = UIColor(red: r, green: g, blue: b, alpha: 0.3)
+        var rect = CGRectMake(0, 0, 50, 50)
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(50, 50), false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
     
+    
+    
+    
+    
+    //view func
+    //jump up profile view
+    func ShowProfileView(account: String) {
+        if let window = UIApplication.sharedApplication().keyWindow {
+            if let rootVC = window.rootViewController {
+                let profileVC = rootVC.storyboard?.instantiateViewControllerWithIdentifier("SimpleProfileViewController") as! SimpleProfileViewController
+                let center = rootVC.view.center
+                profileVC.view.frame = CGRect(x: (center.x - 100), y: -300 , width: 200, height: 300)
+                //setup parameter
+                profileVC.account = account
+                
+                
+                rootVC.addChildViewController(profileVC)
+                rootVC.view.addSubview(profileVC.view)
+                profileVC.didMoveToParentViewController(rootVC)
+                
+                //query user from server
+                
+                
+                
+                //test
+                
+                var usertest = userInfoTemp()
+                usertest.account = account
+                usertest.name = "五六無敵"
+                usertest.redPush = 100
+                usertest.greenPush = 30
+                usertest.follower = 5
+                usertest.totalTitle = 24
+                profileVC.user = usertest
+                
+                
+                //animate
+                UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    profileVC.view.frame.offset(dx: 0, dy: 150 + center.y)
+                    }, completion: nil)
+                println("open simple profile: " + account)
+            }
+        }
+    }
+    
+    //jump to log in view
+    func ShowLoginView(isRegist: Bool) {
+        if let window = UIApplication.sharedApplication().keyWindow {
+            let frame = window.frame
+            if let rootVC = window.rootViewController {
+                let loginVC = rootVC.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+                loginVC.view.frame = CGRect(x: 40, y: -frame.height, width: frame.width - 80, height: frame.height - 80)
+                loginVC.view.layer.cornerRadius = 5
+                loginVC.view.clipsToBounds = true
+                
+                //set up
+                loginVC.isRegist = isRegist
+                rootVC.addChildViewController(loginVC)
+                rootVC.view.addSubview(loginVC.view)
+                loginVC.didMoveToParentViewController(rootVC)
+                UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    loginVC.view.frame.offset(dx: 0.0, dy: frame.height + 40)
+                    }, completion: nil)
+                println("open log in view")
+            }
+            
+        }
+    }
     
 }

@@ -40,6 +40,7 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     var inputBoxShow = false
     
     //page view controller
+    var sourceViewController = ""
     var pageViewController: UIPageViewController!
     var parentViewName = ""
     @IBOutlet weak var toolView: UIView!
@@ -365,8 +366,11 @@ class DetailTitleViewController: UIViewController, UIPageViewControllerDataSourc
     
     //back to oringinal page
     func backButtonTrigger() {
-        self.performSegueWithIdentifier("returnMainViewSegue", sender: self)
-        self.performSegueWithIdentifier("returnToSmallViewController", sender: self)
+        if self.sourceViewController == "SmallTableViewController" {
+            self.performSegueWithIdentifier("returnToSmallViewController", sender: self)
+        }else if self.sourceViewController == "MainViewController" {
+            self.performSegueWithIdentifier("returnMainViewSegue", sender: self)
+        }
     }
     
     //scroll to down

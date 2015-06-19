@@ -1,14 +1,14 @@
 //
-//  NotifyPageViewController.swift
+//  ProfilePageViewController.swift
 //  Knock_0319
 //
-//  Created by 陳冠宇 on 2015/5/13.
+//  Created by 陳冠宇 on 2015/6/14.
 //  Copyright (c) 2015年 Morpheus. All rights reserved.
 //
 
 import UIKit
 
-class BoardPageViewController: UIViewController {
+class ProfilePageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +21,7 @@ class BoardPageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
 
     /*
     // MARK: - Navigation

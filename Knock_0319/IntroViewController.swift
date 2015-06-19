@@ -19,89 +19,19 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     
     @IBOutlet weak var pageControl: UIPageControl!
     
+    @IBOutlet weak var createButton: UIButton!
+    
+    @IBOutlet weak var logInButton: UIButton!
+    
+    @IBOutlet weak var skipButton: UIButton!
     
     
     @IBAction func createButtonTouch(sender: AnyObject) {
-        if let currentVC = pageViewController.viewControllers[0] as? LoginViewController {
-            let account = currentVC.accountField.text
-            let passwd = currentVC.passwdField.text
-            let name = currentVC.nameField.text
-            let picture = currentVC.pictureViewImage.image
-            //show name field
-            if currentVC.nameField.alpha == 0 {
-                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                    currentVC.nameField.alpha = 1
-                    currentVC.nameIcon.alpha = 1
-                    }, completion: nil)
-                return
-            }
-            //check information erro
-            var err = ""
-            if account == "" {
-                err += "帳號不能為空白"
-            }else if passwd == "" {
-                err += "密碼不能為空白"
-            }else if name == "" {
-                err += "匿名名稱不能為空白"
-            }
-            if err != "" {
-                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法建立帳號", description: err, type: TWMessageBarMessageType.Error)
-            }else {
-                //create new account
-                Singleton.sharedInstance.signUp(account, passwd: passwd, picture: picture, isPTT: false)
-            }
-            
-        }else {
-            //jump into page 3
-            let pageContentViewController = self.viewControllerAtIndex(3)
-            self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-            self.pageControl.currentPage = 3
-        }
+        Singleton.sharedInstance.ShowLoginView(true)
     }
     
     @IBAction func loginButton(sender: AnyObject) {
-        if let currentVC = pageViewController.viewControllers[0] as? LoginViewController {
-            let account = currentVC.accountField.text
-            let passwd = currentVC.passwdField.text
-            if currentVC.nameField.alpha == 1 {
-                UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                    currentVC.nameField.alpha = 0
-                    currentVC.nameIcon.alpha = 0
-                    }, completion: nil)
-                return
-            }
-            //check information erro
-            var err = ""
-            if account == "" {
-                err += "帳號不能為空白"
-            }else if passwd == "" {
-                err += "密碼不能為空白"
-            }
-            if err != "" {
-                TWMessageBarManager.sharedInstance().showMessageWithTitle("無法登入", description: err, type: TWMessageBarMessageType.Error)
-            }else {
-                //login old account
-                
-                
-                //wait set up ......
-                /*
-                NSNotificationCenter.defaultCenter().postNotificationName("LoginAccount", object: nil)
-                */
-            }
-        }else {
-            //jump into page 3
-            let pageContentViewController = self.viewControllerAtIndex(3)
-            self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-            
-            //hide name field & icon
-            if let currentVC = self.pageViewController.viewControllers[0] as? LoginViewController {
-                currentVC.nameField.alpha = 0
-                currentVC.nameIcon.alpha = 0
-                
-            }
-            //set up page number
-            self.pageControl.currentPage = 3
-        }
+        Singleton.sharedInstance.ShowLoginView(false)
     }
     
     
@@ -111,9 +41,22 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //load intro page view controller
         reset()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: "LoginSegue", object: nil)
+        //view setup
+        self.skipButton.layer.cornerRadius = 5
+        self.skipButton.clipsToBounds = true
+        self.logInButton.layer.cornerRadius = 5
+        self.logInButton.clipsToBounds = true
+        self.createButton.layer.cornerRadius = 5
+        self.createButton.clipsToBounds = true
+        
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess:", name: "LoginSegue", object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -129,61 +72,39 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
     
     //set up page view controller's delegate
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        //check last one
-        if let identifier = viewController.restorationIdentifier {
-            //if the index is the end, return nil since we dont want a view controller after the last one
-            if identifier == "LoginViewController" {
-                self.pageControl.currentPage = 3
-                println("last")
+        if var index = (viewController as! IntroPageViewController).pageIndex {
+            self.pageControl.currentPage = index
+            if index == 2 {
                 return nil
-            }else {
-                if var index = (viewController as! IntroPageViewController).pageIndex {
-                    self.pageControl.currentPage = index
-                    println(index)
-                    //increment the index to get the viewController after the current index
-                    
-                    index = index + 1
-                    
-                    return self.viewControllerAtIndex(index)
-                }
             }
+            //increment the index to get the viewController after the current index
+            
+            index = index + 1
+            
+            return self.viewControllerAtIndex(index)
         }
-        
         return nil
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        if let identifier = viewController.restorationIdentifier {
-            //if the index is the end, return nil since we dont want a view controller after the last one
-            if identifier == "LoginViewController" {
-                println("last")
-                self.pageControl.currentPage = 3
-                return self.viewControllerAtIndex(2)
-            }else {
-                if var index = (viewController as! IntroPageViewController).pageIndex {
-                    self.pageControl.currentPage = index
-                    println(index)
-                    //if the index is the end of the array, return nil since we dont want a view controller after the last one
-                    if index == 0 {
-                        return nil
-                    }
-                    //increment the index to get the viewController after the current index
-                    index = index - 1
-                    return self.viewControllerAtIndex(index)
-                }
+        if var index = (viewController as! IntroPageViewController).pageIndex {
+            self.pageControl.currentPage = index
+            //if the index is the end of the array, return nil since we dont want a view controller after the last one
+            if index == 0 {
+                return nil
             }
+            //increment the index to get the viewController after the current index
+            index = index - 1
+            return self.viewControllerAtIndex(index)
         }
         return nil
     }
     
     func viewControllerAtIndex(index : Int) -> UIViewController? {
-        if index >= 4 {
+        if index >= 3 {
             return nil
         }
-        if index == 3 {
-            let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-            return loginViewController
-        }
+        
         let contentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("IntroPageViewController") as! IntroPageViewController
         contentViewController.titleText = self.introText[index]
         contentViewController.subTitleText = self.subText[index]
@@ -209,11 +130,13 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
         self.pageViewController.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
         
         /* We are substracting 20 because we have a start bar button whose height is 20*/
-        self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 105)
+        self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         self.addChildViewController(pageViewController)
         self.view.addSubview(pageViewController.view)
         self.pageViewController.didMoveToParentViewController(self)
-        self.view.bringSubviewToFront(self.pageControl)
+        self.view.sendSubviewToBack(self.pageViewController.view)
+        
+        
         
     }
     
@@ -227,6 +150,15 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
 
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "skipLoginSegue" {
+            
+            if let VC = segue.destinationViewController as? MainTabBarViewController {
+                println("skip regist/ login segue, send for mobile")
+                VC.selectedIndex = 2
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation

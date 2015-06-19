@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import TWMessageBarManager
 
-class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class LoginViewController: UIViewController {
     
     @IBOutlet weak var accountField: UITextField!
     
@@ -16,36 +17,33 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     
     @IBOutlet weak var nameField: UITextField!
     
-    @IBOutlet weak var accountIcon: UIImageView!
-    
-    @IBOutlet weak var passwdIcon: UIImageView!
-    
-    @IBOutlet weak var nameIcon: UIImageView!
-    
-    
-    @IBOutlet weak var passwdCont: NSLayoutConstraint!
-    
-    @IBOutlet weak var accountCont: NSLayoutConstraint!
+    @IBOutlet weak var nameFieldConst: NSLayoutConstraint!
     
     @IBOutlet weak var accountFieldConst: NSLayoutConstraint!
     
-    @IBOutlet weak var passwdFieldConst: NSLayoutConstraint!
+    @IBOutlet weak var passFieldConst: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var registButton: UIButton!
+    
+    
+    @IBOutlet weak var changeButton: UIButton!
     
     @IBOutlet weak var pttButtonConst: NSLayoutConstraint!
     
-    @IBOutlet weak var pttLabelConst: NSLayoutConstraint!
     
     @IBOutlet weak var pttLabel: UILabel!
     
     @IBOutlet weak var pttButton: UIButton!
     
-    @IBOutlet weak var pictureViewImage: UIImageView!
+    //switch parameter
+    var isRegist = false
+    var isPtt = false
     
     
     
-    
+    /*
     var imagePicker = UIImagePickerController()
-    var isPTT = false
     func imageViewTouch(sender: UITapGestureRecognizer) {
         if sender.state == .Ended {
             
@@ -103,50 +101,63 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
         
     }
     
-    @IBAction func pttButtonTouch(sender: AnyObject) {
-        if isPTT {
-            //返回沒有ptt
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10.0, options: nil, animations: { () -> Void in
-                
-                self.accountCont.constant += 10
-                self.passwdCont.constant += 10
-                self.pttButtonConst.constant += 10
-                
-                self.view.layoutIfNeeded()
-                }) { (Bool) -> Void in
-                    self.pttLabel.text = "你可以直接登入PTT帳號，享受所有的服務"
-                    self.pttButton.setTitle("你有PTT帳號嗎？", forState: UIControlState.Normal)
-                    self.pttButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
-                    self.accountField.placeholder = "輸入你的帳號"
-                    self.passwdField.placeholder = "輸入你的密碼"
-                    self.isPTT = false
-                    self.accountCont.constant = 20
-                    self.passwdCont.constant = 20
-                    self.pttButtonConst.constant -= 10
-                    
-            }
-            
-        }else {
-            //進入有ptt
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10.0, options: nil, animations: { () -> Void in
-                self.accountCont.constant += 10
-                self.passwdCont.constant += 10
-                self.pttButtonConst.constant += 10
-                
-                self.view.layoutIfNeeded()
-                }) {(Bool) -> Void in
-                    self.pttLabel.text = "你可以建立新的Bomb的帳號，享受所有的服務"
-                    self.pttButton.setTitle("沒有PTT帳號嗎?", forState: UIControlState.Normal)
-                    self.pttButton.setTitleColor(UIColor.brownColor(), forState: UIControlState.Normal)
-                    self.accountField.placeholder = "輸入你的PTT帳號"
-                    self.passwdField.placeholder = "輸入你的PTT密碼"
-                    self.isPTT = true
-                    self.accountCont.constant = 20
-                    self.passwdCont.constant = 20
-                    self.pttButtonConst.constant -= 10
-                    
+    */
+    @IBAction func registedButtonTouch(sender: AnyObject) {
+    }
+    
+    
+    
+    @IBAction func RegistButtonTouch(sender: AnyObject) {
+        
+        //check if empty
+        var err = ""
+        if self.accountField.text == "" {
+            err += "帳號不能為空白"
+        }else if self.passwdField.text == "" {
+            err += "密碼不能為空白"
+        }
+        
+        if self.isRegist == true {
+            if self.nameField.text == "" {
+                err += "暱稱不能為空白"
             }
         }
+        
+        if err != "" {
+            TWMessageBarManager.sharedInstance().showMessageWithTitle("無法建立帳號", description: err, type: TWMessageBarMessageType.Error)
+            return
+        }
+        
+        //待調整，account = name Field
+        let account = self.nameField.text
+        let passwd = self.passwdField.text
+        let email = self.accountField.text
+        Singleton.sharedInstance.userinfotemp.account = account
+        Singleton.sharedInstance.userinfotemp.passwd = passwd
+        //待調整，email = account field
+        Singleton.sharedInstance.userinfotemp.email = email
+        
+        if self.isRegist == true {
+            //create new account
+            Singleton.sharedInstance.signUp(account, passwd: passwd, picture: nil, isPTT: false)
+        }else {
+            if self.isPtt == false {
+                //login with ptt
+                
+            }else {
+                //login with knock
+                
+            }
+        }
+    }
+    
+    @IBAction func switchButtonTouch(sender: AnyObject) {
+        self.switchAnimate()
+    }
+    
+    
+    @IBAction func pttButtonTouch(sender: AnyObject) {
+        self.pttAnimate()
     }
     
     //keyboard call back
@@ -162,25 +173,129 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     }
     
     
+    //close
+    @IBAction func closeButtonTouch(sender: AnyObject) {
+        UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.view.frame.offset(dx: 0, dy: 500)
+            }) { (Bool) -> Void in
+                self.view.removeFromSuperview()
+                self.removeFromParentViewController()
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setup camera
-        imagePicker.delegate = self
-        //setup picture gesture
-        let tapPicture = UITapGestureRecognizer(target: self, action: "imageViewTouch:")
-        self.pictureViewImage.addGestureRecognizer(tapPicture)
+        
+        //setup view
+        self.registButton.layer.cornerRadius = 5
+        self.registButton.clipsToBounds = true
+        self.pttButton.layer.cornerRadius = 5
+        self.pttButton.clipsToBounds = true
+        
+        
+        
+        
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(animated: Bool) {
+        //setup oringinal view
+        if self.isRegist == true {
+            self.changeButton.setTitle("登入現有帳號", forState: UIControlState.Normal)
+            self.registButton.setTitle("註冊", forState: UIControlState.Normal)
+            self.pttButtonConst.constant += self.view.frame.width
+            self.pttLabel.hidden = true
+        }else {
+            self.changeButton.setTitle("註冊新帳號", forState: UIControlState.Normal)
+            self.registButton.setTitle("登入", forState: UIControlState.Normal)
+            self.nameFieldConst.constant += self.view.frame.width
+            
+        }
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func switchAnimate() {
+        let frame = self.view.frame
+        if self.isRegist == true {
+            //open to log in
+            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.nameFieldConst.constant += frame.width
+                self.pttButtonConst.constant = 20
+                self.pttLabel.hidden = false
+                self.view.layoutIfNeeded()
+                }, completion: { (Bool) -> Void in
+                    self.registButton.setTitle("登入", forState: UIControlState.Normal)
+                    self.changeButton.setTitle("註冊新帳號", forState: UIControlState.Normal)
+            })
+            self.isRegist = false
+        }else {
+            //open to regist
+            
+            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.nameFieldConst.constant = 20
+                self.pttButtonConst.constant += frame.width
+                self.pttLabel.hidden = true
+                self.view.layoutIfNeeded()
+                }, completion: { (Bool) -> Void in
+                    self.registButton.setTitle("註冊", forState: UIControlState.Normal)
+                    self.changeButton.setTitle("登入現有帳號", forState: UIControlState.Normal)
+            })
+            self.isRegist = true
+        }
+    }
     
     
     
+    
+    func pttAnimate() {
+        let frame = self.view.frame
+        if self.isPtt == false {
+            //open to ptt log in
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.accountFieldConst.constant += frame.width
+                self.passFieldConst.constant += frame.width
+                self.view.layoutIfNeeded()
+                }, completion: { (Bool) -> Void in
+                    self.registButton.setTitle("PTT登入", forState: UIControlState.Normal)
+                    self.accountField.placeholder = "PTT帳號"
+                    self.passwdField.placeholder = "PTT密碼"
+                    self.pttLabel.text = "沒有PTT？ 那就註冊新帳號吧！"
+                    self.pttButton.setTitle("我沒有PTT帳號", forState: UIControlState.Normal)
+            })
+            UIView.animateWithDuration(0.3, delay: 0.3, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.accountFieldConst.constant = 20
+                self.passFieldConst.constant = 20
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+            self.isPtt = true
+        }else {
+            //open to normal log in
+            UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                
+                self.accountFieldConst.constant += frame.width
+                self.passFieldConst.constant += frame.width
+                self.view.layoutIfNeeded()
+                }, completion: { (Bool) -> Void in
+                    self.registButton.setTitle("登入", forState: UIControlState.Normal)
+                    self.accountField.placeholder = "帳號"
+                    self.passwdField.placeholder = "密碼"
+                    self.pttLabel.text = "你可以使用PTT帳號直接登入！"
+                    self.pttButton.setTitle("PTT帳號登入", forState: UIControlState.Normal)
+            })
+            UIView.animateWithDuration(0.3, delay: 0.3, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.accountFieldConst.constant = 20
+                self.passFieldConst.constant = 20
+                self.view.layoutIfNeeded()
+                }, completion: nil)
+            self.isPtt = false
+        }
+    }
     
     /*
     // MARK: - Navigation

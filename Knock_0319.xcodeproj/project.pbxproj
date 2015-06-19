@@ -17,9 +17,8 @@
 		AC05DA481B18713F00E71C8F /* ArticlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA471B18713E00E71C8F /* ArticlePageViewController.swift */; };
 		AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05DA4C1B19CC5E00E71C8F /* HeaderTableViewCell.swift */; };
 		AC086F831ADAC7700057E104 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC086F821ADAC7700057E104 /* AudioToolbox.framework */; };
-		AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */; };
+		AC12C58B1B02EFBF0090573D /* MyTitlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58A1B02EFBF0090573D /* MyTitlePageViewController.swift */; };
 		AC12C58D1B02EFDB0090573D /* FavorPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */; };
-		AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */; };
 		AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */; };
 		AC12C5931B0316BA0090573D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5921B0316BA0090573D /* ProfileViewController.swift */; };
 		AC12C5961B03987D0090573D /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12C5951B03987D0090573D /* IntroViewController.swift */; };
@@ -44,6 +43,28 @@
 		AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6A8C8A1ACBCEF1006EACA3 /* ChatRoomViewController.swift */; };
 		AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC86526E1B00FA6C0075C00C /* Titleinfo.swift */; };
 		AC8652771B0266B30075C00C /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8652761B0266B30075C00C /* StartPageViewController.swift */; };
+		ACD298AF1B2E77960015B263 /* SimpleProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD298AE1B2E77960015B263 /* SimpleProfileViewController.swift */; };
+		ACD298C61B2FF9EA0015B263 /* FaktPro-Blond.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B11B2FF9EA0015B263 /* FaktPro-Blond.eot */; };
+		ACD298C71B2FF9EA0015B263 /* FaktPro-Blond.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B21B2FF9EA0015B263 /* FaktPro-Blond.ttf */; };
+		ACD298C81B2FF9EA0015B263 /* FaktPro-Blond.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B31B2FF9EA0015B263 /* FaktPro-Blond.woff */; };
+		ACD298C91B2FF9EA0015B263 /* FaktPro-Hair.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B41B2FF9EA0015B263 /* FaktPro-Hair.eot */; };
+		ACD298CA1B2FF9EA0015B263 /* FaktPro-Hair.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B51B2FF9EA0015B263 /* FaktPro-Hair.ttf */; };
+		ACD298CB1B2FF9EA0015B263 /* FaktPro-Hair.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B61B2FF9EA0015B263 /* FaktPro-Hair.woff */; };
+		ACD298CC1B2FF9EA0015B263 /* FaktPro-Light.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B71B2FF9EA0015B263 /* FaktPro-Light.eot */; };
+		ACD298CD1B2FF9EA0015B263 /* FaktPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B81B2FF9EA0015B263 /* FaktPro-Light.ttf */; };
+		ACD298CE1B2FF9EA0015B263 /* FaktPro-Light.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298B91B2FF9EA0015B263 /* FaktPro-Light.woff */; };
+		ACD298CF1B2FF9EA0015B263 /* FaktPro-Medium.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BA1B2FF9EA0015B263 /* FaktPro-Medium.eot */; };
+		ACD298D01B2FF9EA0015B263 /* FaktPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BB1B2FF9EA0015B263 /* FaktPro-Medium.ttf */; };
+		ACD298D11B2FF9EA0015B263 /* FaktPro-Medium.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BC1B2FF9EA0015B263 /* FaktPro-Medium.woff */; };
+		ACD298D21B2FF9EA0015B263 /* FaktPro-Normal.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BD1B2FF9EA0015B263 /* FaktPro-Normal.eot */; };
+		ACD298D31B2FF9EA0015B263 /* FaktPro-Normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BE1B2FF9EA0015B263 /* FaktPro-Normal.ttf */; };
+		ACD298D41B2FF9EA0015B263 /* FaktPro-Normal.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298BF1B2FF9EA0015B263 /* FaktPro-Normal.woff */; };
+		ACD298D51B2FF9EA0015B263 /* FaktPro-SemiBold.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C01B2FF9EA0015B263 /* FaktPro-SemiBold.eot */; };
+		ACD298D61B2FF9EA0015B263 /* FaktPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C11B2FF9EA0015B263 /* FaktPro-SemiBold.ttf */; };
+		ACD298D71B2FF9EA0015B263 /* FaktPro-SemiBold.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C21B2FF9EA0015B263 /* FaktPro-SemiBold.woff */; };
+		ACD298D81B2FF9EA0015B263 /* FaktPro-Thin.eot in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C31B2FF9EA0015B263 /* FaktPro-Thin.eot */; };
+		ACD298D91B2FF9EA0015B263 /* FaktPro-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C41B2FF9EA0015B263 /* FaktPro-Thin.ttf */; };
+		ACD298DA1B2FF9EA0015B263 /* FaktPro-Thin.woff in Resources */ = {isa = PBXBuildFile; fileRef = ACD298C51B2FF9EA0015B263 /* FaktPro-Thin.woff */; };
 		ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */; };
 		ACE363DD1B0B93F50072AA11 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */; };
 		ACE4D6111B22AA7E00871CFA /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */; };
@@ -55,6 +76,10 @@
 		ACE4D61F1B292CCE00871CFA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */; };
 		ACE4D6211B2933AC00871CFA /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */; };
 		ACE4D6231B2933F700871CFA /* SimpleSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */; };
+		ACE4D6251B2BC92400871CFA /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6241B2BC92400871CFA /* ProfileCollectionViewCell.swift */; };
+		ACE4D6271B2BD76200871CFA /* ProfileHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D6261B2BD76200871CFA /* ProfileHeaderCollectionReusableView.swift */; };
+		ACE4D62B1B2DA6A600871CFA /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D62A1B2DA6A600871CFA /* ProfilePageViewController.swift */; };
+		ACE4D62E1B2DB1C700871CFA /* FollowingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4D62D1B2DB1C700871CFA /* FollowingTableViewCell.swift */; };
 		ACE6BE261B0DCEFB0059FCE4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */; };
 		ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */; };
 /* End PBXBuildFile section */
@@ -82,9 +107,8 @@
 		AC05DA471B18713E00E71C8F /* ArticlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticlePageViewController.swift; sourceTree = "<group>"; };
 		AC05DA4C1B19CC5E00E71C8F /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
 		AC086F821ADAC7700057E104 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardPageViewController.swift; sourceTree = "<group>"; };
+		AC12C58A1B02EFBF0090573D /* MyTitlePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTitlePageViewController.swift; sourceTree = "<group>"; };
 		AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavorPageViewController.swift; sourceTree = "<group>"; };
-		AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowerPageViewController.swift; sourceTree = "<group>"; };
 		AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingPageViewController.swift; sourceTree = "<group>"; };
 		AC12C5921B0316BA0090573D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AC12C5951B03987D0090573D /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +139,28 @@
 		AC86526E1B00FA6C0075C00C /* Titleinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Titleinfo.swift; sourceTree = "<group>"; };
 		AC8652761B0266B30075C00C /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		ACB9C5E01AEC11BC007BD33F /* Knock_0319.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Knock_0319.entitlements; sourceTree = "<group>"; };
+		ACD298AE1B2E77960015B263 /* SimpleProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleProfileViewController.swift; sourceTree = "<group>"; };
+		ACD298B11B2FF9EA0015B263 /* FaktPro-Blond.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Blond.eot"; sourceTree = "<group>"; };
+		ACD298B21B2FF9EA0015B263 /* FaktPro-Blond.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Blond.ttf"; sourceTree = "<group>"; };
+		ACD298B31B2FF9EA0015B263 /* FaktPro-Blond.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Blond.woff"; sourceTree = "<group>"; };
+		ACD298B41B2FF9EA0015B263 /* FaktPro-Hair.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Hair.eot"; sourceTree = "<group>"; };
+		ACD298B51B2FF9EA0015B263 /* FaktPro-Hair.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Hair.ttf"; sourceTree = "<group>"; };
+		ACD298B61B2FF9EA0015B263 /* FaktPro-Hair.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Hair.woff"; sourceTree = "<group>"; };
+		ACD298B71B2FF9EA0015B263 /* FaktPro-Light.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Light.eot"; sourceTree = "<group>"; };
+		ACD298B81B2FF9EA0015B263 /* FaktPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Light.ttf"; sourceTree = "<group>"; };
+		ACD298B91B2FF9EA0015B263 /* FaktPro-Light.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Light.woff"; sourceTree = "<group>"; };
+		ACD298BA1B2FF9EA0015B263 /* FaktPro-Medium.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Medium.eot"; sourceTree = "<group>"; };
+		ACD298BB1B2FF9EA0015B263 /* FaktPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Medium.ttf"; sourceTree = "<group>"; };
+		ACD298BC1B2FF9EA0015B263 /* FaktPro-Medium.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Medium.woff"; sourceTree = "<group>"; };
+		ACD298BD1B2FF9EA0015B263 /* FaktPro-Normal.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Normal.eot"; sourceTree = "<group>"; };
+		ACD298BE1B2FF9EA0015B263 /* FaktPro-Normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Normal.ttf"; sourceTree = "<group>"; };
+		ACD298BF1B2FF9EA0015B263 /* FaktPro-Normal.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Normal.woff"; sourceTree = "<group>"; };
+		ACD298C01B2FF9EA0015B263 /* FaktPro-SemiBold.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-SemiBold.eot"; sourceTree = "<group>"; };
+		ACD298C11B2FF9EA0015B263 /* FaktPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-SemiBold.ttf"; sourceTree = "<group>"; };
+		ACD298C21B2FF9EA0015B263 /* FaktPro-SemiBold.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-SemiBold.woff"; sourceTree = "<group>"; };
+		ACD298C31B2FF9EA0015B263 /* FaktPro-Thin.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Thin.eot"; sourceTree = "<group>"; };
+		ACD298C41B2FF9EA0015B263 /* FaktPro-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Thin.ttf"; sourceTree = "<group>"; };
+		ACD298C51B2FF9EA0015B263 /* FaktPro-Thin.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaktPro-Thin.woff"; sourceTree = "<group>"; };
 		ACE363D41B0A0B610072AA11 /* DetailTitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTitleViewController.swift; sourceTree = "<group>"; };
 		ACE363DC1B0B93F50072AA11 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -126,6 +172,10 @@
 		ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewCell.swift; sourceTree = "<group>"; };
 		ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSectionTableViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6241B2BC92400871CFA /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		ACE4D6261B2BD76200871CFA /* ProfileHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		ACE4D62A1B2DA6A600871CFA /* ProfilePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
+		ACE4D62D1B2DB1C700871CFA /* FollowingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingTableViewCell.swift; sourceTree = "<group>"; };
 		ACE6BE251B0DCEFB0059FCE4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACF8D0BC1AC6A803003C93D2 /* Userinfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Userinfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -222,6 +272,7 @@
 				AC6A345E1ABC3BDA00AD1CC7 /* AppDelegate.swift */,
 				ACE4D61D1B280F7000871CFA /* message */,
 				AC6A34621ABC3BDA00AD1CC7 /* SecondViewController.swift */,
+				ACE4D6181B25822F00871CFA /* smallViewTable */,
 				ACF5AEEA1B08C72C0000EF62 /* Mainflow */,
 				AC6A34641ABC3BDA00AD1CC7 /* Main.storyboard */,
 				AC6A34671ABC3BDA00AD1CC7 /* Images.xcassets */,
@@ -234,6 +285,7 @@
 		AC6A345C1ABC3BDA00AD1CC7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ACD298B01B2FF9EA0015B263 /* fonts */,
 				ACE4D61E1B292CCE00871CFA /* SimpleTableViewController.swift */,
 				ACE4D6201B2933AC00871CFA /* SimpleTableViewCell.swift */,
 				ACE4D6221B2933F700871CFA /* SimpleSectionTableViewCell.swift */,
@@ -278,18 +330,46 @@
 			children = (
 				AC12C5921B0316BA0090573D /* ProfileViewController.swift */,
 				AC8652761B0266B30075C00C /* StartPageViewController.swift */,
-				AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */,
-				AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */,
-				AC12C58A1B02EFBF0090573D /* BoardPageViewController.swift */,
-				AC12C58E1B02F27C0090573D /* FollowerPageViewController.swift */,
+				ACD298AE1B2E77960015B263 /* SimpleProfileViewController.swift */,
+				ACE4D62A1B2DA6A600871CFA /* ProfilePageViewController.swift */,
+				ACE4D62F1B2DB65B00871CFA /* Favor and Personal */,
+				ACE4D62C1B2DB18C00871CFA /* Following */,
+				AC12C58A1B02EFBF0090573D /* MyTitlePageViewController.swift */,
 			);
 			name = "Profile Page";
+			sourceTree = "<group>";
+		};
+		ACD298B01B2FF9EA0015B263 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				ACD298B11B2FF9EA0015B263 /* FaktPro-Blond.eot */,
+				ACD298B21B2FF9EA0015B263 /* FaktPro-Blond.ttf */,
+				ACD298B31B2FF9EA0015B263 /* FaktPro-Blond.woff */,
+				ACD298B41B2FF9EA0015B263 /* FaktPro-Hair.eot */,
+				ACD298B51B2FF9EA0015B263 /* FaktPro-Hair.ttf */,
+				ACD298B61B2FF9EA0015B263 /* FaktPro-Hair.woff */,
+				ACD298B71B2FF9EA0015B263 /* FaktPro-Light.eot */,
+				ACD298B81B2FF9EA0015B263 /* FaktPro-Light.ttf */,
+				ACD298B91B2FF9EA0015B263 /* FaktPro-Light.woff */,
+				ACD298BA1B2FF9EA0015B263 /* FaktPro-Medium.eot */,
+				ACD298BB1B2FF9EA0015B263 /* FaktPro-Medium.ttf */,
+				ACD298BC1B2FF9EA0015B263 /* FaktPro-Medium.woff */,
+				ACD298BD1B2FF9EA0015B263 /* FaktPro-Normal.eot */,
+				ACD298BE1B2FF9EA0015B263 /* FaktPro-Normal.ttf */,
+				ACD298BF1B2FF9EA0015B263 /* FaktPro-Normal.woff */,
+				ACD298C01B2FF9EA0015B263 /* FaktPro-SemiBold.eot */,
+				ACD298C11B2FF9EA0015B263 /* FaktPro-SemiBold.ttf */,
+				ACD298C21B2FF9EA0015B263 /* FaktPro-SemiBold.woff */,
+				ACD298C31B2FF9EA0015B263 /* FaktPro-Thin.eot */,
+				ACD298C41B2FF9EA0015B263 /* FaktPro-Thin.ttf */,
+				ACD298C51B2FF9EA0015B263 /* FaktPro-Thin.woff */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		ACE4D60F1B22AA4500871CFA /* searchCollection */ = {
 			isa = PBXGroup;
 			children = (
-				ACE4D6181B25822F00871CFA /* smallViewTable */,
 				ACE4D6121B22AAB200871CFA /* SearchViewController.swift */,
 				ACE4D6141B22AC4800871CFA /* CollectionTableViewCell.swift */,
 				ACE4D6101B22AA7E00871CFA /* TitleCollectionViewCell.swift */,
@@ -313,6 +393,25 @@
 				AC5018F71ADF7B7500CBAF14 /* textViewController.swift */,
 			);
 			name = message;
+			sourceTree = "<group>";
+		};
+		ACE4D62C1B2DB18C00871CFA /* Following */ = {
+			isa = PBXGroup;
+			children = (
+				AC12C5901B02F2D90090573D /* FollowingPageViewController.swift */,
+				ACE4D62D1B2DB1C700871CFA /* FollowingTableViewCell.swift */,
+			);
+			name = Following;
+			sourceTree = "<group>";
+		};
+		ACE4D62F1B2DB65B00871CFA /* Favor and Personal */ = {
+			isa = PBXGroup;
+			children = (
+				ACE4D6261B2BD76200871CFA /* ProfileHeaderCollectionReusableView.swift */,
+				ACE4D6241B2BC92400871CFA /* ProfileCollectionViewCell.swift */,
+				AC12C58C1B02EFDB0090573D /* FavorPageViewController.swift */,
+			);
+			name = "Favor and Personal";
 			sourceTree = "<group>";
 		};
 		ACF5AEEA1B08C72C0000EF62 /* Mainflow */ = {
@@ -425,8 +524,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC6A34661ABC3BDA00AD1CC7 /* Main.storyboard in Resources */,
+				ACD298C81B2FF9EA0015B263 /* FaktPro-Blond.woff in Resources */,
+				ACD298D71B2FF9EA0015B263 /* FaktPro-SemiBold.woff in Resources */,
+				ACD298D81B2FF9EA0015B263 /* FaktPro-Thin.eot in Resources */,
+				ACD298C91B2FF9EA0015B263 /* FaktPro-Hair.eot in Resources */,
+				ACD298D11B2FF9EA0015B263 /* FaktPro-Medium.woff in Resources */,
 				AC6A346B1ABC3BDA00AD1CC7 /* LaunchScreen.xib in Resources */,
+				ACD298D21B2FF9EA0015B263 /* FaktPro-Normal.eot in Resources */,
+				ACD298D41B2FF9EA0015B263 /* FaktPro-Normal.woff in Resources */,
+				ACD298CA1B2FF9EA0015B263 /* FaktPro-Hair.ttf in Resources */,
+				ACD298CC1B2FF9EA0015B263 /* FaktPro-Light.eot in Resources */,
+				ACD298C61B2FF9EA0015B263 /* FaktPro-Blond.eot in Resources */,
+				ACD298CB1B2FF9EA0015B263 /* FaktPro-Hair.woff in Resources */,
 				AC6A34681ABC3BDA00AD1CC7 /* Images.xcassets in Resources */,
+				ACD298D01B2FF9EA0015B263 /* FaktPro-Medium.ttf in Resources */,
+				ACD298CF1B2FF9EA0015B263 /* FaktPro-Medium.eot in Resources */,
+				ACD298DA1B2FF9EA0015B263 /* FaktPro-Thin.woff in Resources */,
+				ACD298D31B2FF9EA0015B263 /* FaktPro-Normal.ttf in Resources */,
+				ACD298D61B2FF9EA0015B263 /* FaktPro-SemiBold.ttf in Resources */,
+				ACD298CD1B2FF9EA0015B263 /* FaktPro-Light.ttf in Resources */,
+				ACD298CE1B2FF9EA0015B263 /* FaktPro-Light.woff in Resources */,
+				ACD298C71B2FF9EA0015B263 /* FaktPro-Blond.ttf in Resources */,
+				ACD298D51B2FF9EA0015B263 /* FaktPro-SemiBold.eot in Resources */,
+				ACD298D91B2FF9EA0015B263 /* FaktPro-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,8 +617,8 @@
 				ACE4D61C1B259D2C00871CFA /* SmallTableViewCell.swift in Sources */,
 				AC12C59E1B0729520090573D /* MainTabBarViewController.swift in Sources */,
 				AC05DA461B11B8B000E71C8F /* PushTableViewCell.swift in Sources */,
+				ACE4D62E1B2DB1C700871CFA /* FollowingTableViewCell.swift in Sources */,
 				AC5018F81ADF7B7500CBAF14 /* textViewController.swift in Sources */,
-				AC12C58F1B02F27C0090573D /* FollowerPageViewController.swift in Sources */,
 				AC6A35241ABC955200AD1CC7 /* Network.swift in Sources */,
 				AC12C5911B02F2D90090573D /* FollowingPageViewController.swift in Sources */,
 				AC02C1031B1B2E8C002D08A7 /* Singleton.swift in Sources */,
@@ -507,12 +627,14 @@
 				AC05DA3D1B1112AF00E71C8F /* Articleinfo.swift in Sources */,
 				AC05DA401B11A0D100E71C8F /* TopTableViewCell.swift in Sources */,
 				ACE4D6231B2933F700871CFA /* SimpleSectionTableViewCell.swift in Sources */,
+				ACE4D6251B2BC92400871CFA /* ProfileCollectionViewCell.swift in Sources */,
 				AC6A34631ABC3BDA00AD1CC7 /* SecondViewController.swift in Sources */,
 				AC6A345F1ABC3BDA00AD1CC7 /* AppDelegate.swift in Sources */,
 				AC05DA4D1B19CC5E00E71C8F /* HeaderTableViewCell.swift in Sources */,
 				AC6A34851ABC43A100AD1CC7 /* RoomListTableViewCell.swift in Sources */,
 				ACE4D6151B22AC4800871CFA /* CollectionTableViewCell.swift in Sources */,
-				AC12C58B1B02EFBF0090573D /* BoardPageViewController.swift in Sources */,
+				AC12C58B1B02EFBF0090573D /* MyTitlePageViewController.swift in Sources */,
+				ACE4D62B1B2DA6A600871CFA /* ProfilePageViewController.swift in Sources */,
 				AC6A34811ABC42E500AD1CC7 /* Roominfo.swift in Sources */,
 				AC12C59A1B04477B0090573D /* LoginViewController.swift in Sources */,
 				AC86526F1B00FA6C0075C00C /* Titleinfo.swift in Sources */,
@@ -524,6 +646,8 @@
 				ACE4D6171B22B2D000871CFA /* Boardinfo.swift in Sources */,
 				ACE363D51B0A0B610072AA11 /* DetailTitleViewController.swift in Sources */,
 				AC6A8C8B1ACBCEF1006EACA3 /* ChatRoomViewController.swift in Sources */,
+				ACD298AF1B2E77960015B263 /* SimpleProfileViewController.swift in Sources */,
+				ACE4D6271B2BD76200871CFA /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				ACF8D0BD1AC6A803003C93D2 /* Userinfo.swift in Sources */,
 				ACE4D6131B22AAB200871CFA /* SearchViewController.swift in Sources */,
 				ACE4D6211B2933AC00871CFA /* SimpleTableViewCell.swift in Sources */,
