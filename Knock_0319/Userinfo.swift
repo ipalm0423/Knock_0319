@@ -21,7 +21,8 @@ class Userinfo: NSManagedObject{
     @NSManaged var email:String?
     //@NSManaged var userID:String?
     @NSManaged var isUser:NSNumber!
-    @NSManaged var isRegistKnockUser:NSNumber!
+    @NSManaged var isRegistKnockUser:NSNumber?
+    @NSManaged var isFollow:NSNumber?
     //summary
     @NSManaged var follower:NSNumber?
     @NSManaged var greenPush:NSNumber?
@@ -38,6 +39,7 @@ struct userInfoTemp {
     var picture: NSData?
     var isUser: Bool?
     var isRegistKnockUser: Bool?
+    var isFollow: Bool?
     var email: String?
     var follower: Int!
     var greenPush: Int!
@@ -50,6 +52,7 @@ struct userInfoTemp {
         self.picture = nil
         self.email = nil
         self.isRegistKnockUser = nil
+        self.isFollow = nil
         self.isUser = nil
         self.name = nil
         self.follower = 0

@@ -20,6 +20,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="follower" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="greenPush" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="isFollow" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isRegistKnockUser" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isUser" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,6 +33,6 @@
     <elements>
         <element name="Messageinfo" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="Roominfo" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="225"/>
+        <element name="Userinformation" positionX="-63" positionY="0" width="128" height="240"/>
     </elements>
 </model>

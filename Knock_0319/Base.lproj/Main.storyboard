@@ -143,34 +143,45 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="followingCell" rowHeight="153" id="C0B-Hj-Tbq" customClass="FollowingTableViewCell" customModule="Knock_0319" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="followingCell" rowHeight="100" id="C0B-Hj-Tbq" customClass="FollowingTableViewCell" customModule="Knock_0319" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C0B-Hj-Tbq" id="mwK-VQ-ubR">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hUt-eP-Zzh">
-                                                    <rect key="frame" x="10" y="56" width="40" height="40"/>
+                                                    <rect key="frame" x="10" y="30" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="aWD-at-LgK"/>
                                                         <constraint firstAttribute="width" constant="40" id="pjp-nB-LAv"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3Z-M6-cPY">
-                                                    <rect key="frame" x="70" y="65" width="432" height="21"/>
+                                                    <rect key="frame" x="70" y="39" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZY-xr-ggc">
-                                                    <rect key="frame" x="522" y="61" width="60" height="30"/>
-                                                    <color key="backgroundColor" red="1" green="0.98952757413302372" blue="0.49611918794446563" alpha="1" colorSpace="calibratedRGB"/>
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZY-xr-ggc">
+                                                    <rect key="frame" x="486" y="36" width="96" height="28"/>
+                                                    <color key="backgroundColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="anA-1H-a7U"/>
+                                                        <constraint firstAttribute="width" constant="100" id="dkk-Pk-eiG"/>
                                                     </constraints>
-                                                    <state key="normal" title="追隨中">
-                                                        <color key="titleColor" red="1" green="0.055564177692276173" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" red="0.46035819610392187" green="0.5" blue="0.054719301312578239" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                    <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                    <state key="normal" title="已追隨" image="dart-28-vec">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="anA-1H-a7U"/>
+                                                            <exclude reference="dkk-Pk-eiG"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="followButtonTouch:" destination="C0B-Hj-Tbq" eventType="touchUpInside" id="r02-K4-gFa"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -179,12 +190,14 @@
                                                 <constraint firstItem="z3Z-M6-cPY" firstAttribute="leading" secondItem="hUt-eP-Zzh" secondAttribute="trailing" constant="20" id="ZpC-JV-2KU"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="VZY-xr-ggc" secondAttribute="trailing" constant="10" id="e2m-eD-8nr"/>
                                                 <constraint firstAttribute="centerY" secondItem="VZY-xr-ggc" secondAttribute="centerY" id="kGH-jK-zME"/>
-                                                <constraint firstItem="VZY-xr-ggc" firstAttribute="leading" secondItem="z3Z-M6-cPY" secondAttribute="trailing" constant="20" id="s2b-en-xaB"/>
+                                                <constraint firstItem="VZY-xr-ggc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="z3Z-M6-cPY" secondAttribute="trailing" constant="20" id="s2b-en-xaB"/>
                                                 <constraint firstAttribute="centerY" secondItem="hUt-eP-Zzh" secondAttribute="centerY" id="vGs-t0-AVU"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="accountLabel" destination="z3Z-M6-cPY" id="y6H-II-KqX"/>
+                                            <outlet property="followButton" destination="VZY-xr-ggc" id="xLb-Ze-qZn"/>
                                             <outlet property="icon" destination="hUt-eP-Zzh" id="lkA-Yl-iSW"/>
                                         </connections>
                                     </tableViewCell>

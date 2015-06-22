@@ -20,10 +20,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var simpleTableVC: SimpleTableViewController!
     var simpleTableIsShow = false
     
-    //simple profile
-    var simpleProfileIsOpen = false
-    
-    
     //test
     var titles: Array<titletest> = []
     var test1 = titletest()
@@ -74,19 +70,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.hidesBarsOnSwipe = false
     }
     
-    override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeSimpleProfile:", name: "closeSimpleProfile", object: nil)
-    }
     
     override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "closeSimpleProfile", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("closeSimpleProfile", object: nil)
+        
     }
-    
-    func closeSimpleProfile(notify: NSNotification) {
-        self.simpleProfileIsOpen = false
-    }
-    
-    
     
     
     // MARK: - Table view data source
@@ -230,10 +218,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             //tap on icon image
             if let row = sender.view?.tag {
                 println("tap on icon at row: " + row.description)
-                if self.simpleProfileIsOpen == false {
+                if Singleton.sharedInstance.isSimpleViewOpen == false {
                     println(self.parentViewController?.description)
                     Singleton.sharedInstance.ShowProfileView(self.titles[row].account)
-                    self.simpleProfileIsOpen = true
                 }else {
                     return
                 }

@@ -24,6 +24,10 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
         return Static.instance!
     }
     
+    //view parameter
+    var isSimpleViewOpen = false
+    
+    
     
     //parameter
     
@@ -97,11 +101,14 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
                 self.userinfotemp.passwd = passwd
                 if account == nil {
                     self.userinfotemp.isRegistKnockUser = true
+                }else {
+                    self.userinfotemp.isRegistKnockUser = false
                 }
+                
                 self.updateProfile()
                 //reload
                 if self.loadUserInfo() {
-                    if self.user[0].isRegistKnockUser.boolValue == true {
+                    if self.user[0].isRegistKnockUser!.boolValue == true {
                         NSNotificationCenter.defaultCenter().postNotificationName("LoginSegue", object: nil)
                         TWMessageBarManager.sharedInstance().showMessageWithTitle("註冊成功", description: "歡迎加入", type: TWMessageBarMessageType.Success)
                     }else {
@@ -222,6 +229,9 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             if let bool = user.isUser {
                 usertemp.isUser = bool.boolValue
             }
+            if let bool = user.isFollow {
+                usertemp.isFollow = bool.boolValue
+            }
             if let follower = user.follower {
                 usertemp.follower = follower.integerValue
             }
@@ -310,8 +320,6 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
                 }
                 if let bool = self.userinfotemp.isRegistKnockUser {
                     user[0].isRegistKnockUser = NSNumber(bool: bool)
-                }else {
-                    user[0].isRegistKnockUser = NSNumber(bool: false)
                 }
                 
                 user[0].isUser = NSNumber(bool: true)
@@ -404,6 +412,9 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     
     //save follower
     func saveFollower(user: userInfoTemp) -> Userinfo? {
+        //send to server
+        
+        
         //fetch request
         var fetchRequest = NSFetchRequest(entityName: "Userinformation")
         let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
@@ -446,7 +457,11 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
                 if let name = user.name {
                     self.followers[0].name = name
                 }
-                self.followers[0].isRegistKnockUser = NSNumber(bool: false)
+                if let isRegistKnockUser = user.isRegistKnockUser {
+                    self.followers[0].isRegistKnockUser = NSNumber(bool: isRegistKnockUser)
+                }
+                self.followers[0].isFollow = NSNumber(bool: true)
+                
                 if managedObjectContext.save(&e) != true {
                     println("update follower error: \(e!.localizedDescription)")
                     return nil
@@ -462,10 +477,11 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
                 self.userinfo.greenPush = user.greenPush
                 self.userinfo.follower = user.follower
                 self.userinfo.totalTitle = user.totalTitle
-                self.userinfo.isRegistKnockUser = NSNumber(bool: false)
+                self.userinfo.isRegistKnockUser = user.isRegistKnockUser
                 self.userinfo.isUser = NSNumber(bool: false)
                 self.userinfo.name = user.name
                 self.userinfo.picture = user.picture
+                self.userinfo.isFollow = NSNumber(bool: true)
                 
                 var e: NSError?
                 if managedObjectContext.save(&e) != true {
@@ -482,6 +498,9 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     
     //delete follower
     func deleteFollower(account: String) -> Bool {
+        //send to server
+        
+        
         //fetch request
         var fetchRequest = NSFetchRequest(entityName: "Userinformation")
         let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
@@ -490,7 +509,7 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
         let sortDescription = NSSortDescriptor(key: "account", ascending: true)
         fetchRequest.predicate = compoundPredicate
         fetchRequest.sortDescriptors = [sortDescription]
-        fetchRequest.fetchBatchSize = 1
+        
         if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             self.fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
             self.fetchResultController.delegate = self
@@ -500,14 +519,55 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
             }
             
             let followers = self.fetchResultController.fetchedObjects as! [Userinfo]
+            
+            /*
             if let follower = followers.first {
                 MOC.deleteObject(follower)
+            }*/
+            if let follower = followers.first {
+                follower.isFollow = NSNumber(bool: false)
             }
+            
             if MOC.save(&e) != true {
                 println("delete follower error: \(e!.localizedDescription)")
                 return false
             }
-            println("delete follower success: " + account)
+            println("unfollower to : " + account)
+            return true
+        }
+        return false
+    }
+    
+    func deleteUnFollower() -> Bool {
+        //fetch request
+        var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+        let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
+        let accountPredicate = NSPredicate(format: "isFollow == %@", NSNumber(bool: false))
+        var compoundPredicate = NSCompoundPredicate.andPredicateWithSubpredicates([isUserPredicate, accountPredicate])
+        let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+        fetchRequest.predicate = compoundPredicate
+        fetchRequest.sortDescriptors = [sortDescription]
+        
+        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
+            self.fetchResultController.delegate = self
+            var e: NSError?
+            if !self.fetchResultController.performFetch(&e) {
+                println(e?.localizedDescription)
+            }
+            
+            let followers = self.fetchResultController.fetchedObjects as! [Userinfo]
+            var followersName = ""
+            for follower in followers {
+                MOC.deleteObject(follower)
+                followersName += follower.account + ", "
+            }
+            
+            if MOC.save(&e) != true {
+                println("delete follower error: \(e!.localizedDescription)")
+                return false
+            }
+            println("delete follower success: " + followersName)
             return true
         }
         return false
@@ -637,6 +697,7 @@ class Singleton: NSObject, NSFetchedResultsControllerDelegate {
     //view func
     //jump up profile view
     func ShowProfileView(account: String) {
+        println("show simple profile: " + account)
         if let window = UIApplication.sharedApplication().keyWindow {
             if let rootVC = window.rootViewController {
                 let profileVC = rootVC.storyboard?.instantiateViewControllerWithIdentifier("SimpleProfileViewController") as! SimpleProfileViewController

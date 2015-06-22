@@ -9,7 +9,7 @@
 import UIKit
 import TWMessageBarManager
 
-class IntroViewController: UIViewController, UIPageViewControllerDataSource {
+class IntroViewController: UIViewController, UIPageViewControllerDataSource, UINavigationControllerDelegate {
     
     var introText = ["好無聊？", "想看的好多？", "默默無名？"]
     var subText = ["快來跟同好一起討論最愛的事情", "各種內容豐富的看板，找到你需要的資訊", "發表你的意見，找到你的小粉絲"]
@@ -156,8 +156,16 @@ class IntroViewController: UIViewController, UIPageViewControllerDataSource {
             if let VC = segue.destinationViewController as? MainTabBarViewController {
                 println("skip regist/ login segue, send for mobile")
                 VC.selectedIndex = 2
+                
+                
             }
         }
+    }
+    
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        //close intro view
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
     }
     
     /*

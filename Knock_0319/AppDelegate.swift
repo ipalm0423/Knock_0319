@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         
         SingletonC.sharedInstance.setupNotification()
-        
+        Singleton.sharedInstance.deleteUnFollower()
         
         application.registerForRemoteNotifications()
         

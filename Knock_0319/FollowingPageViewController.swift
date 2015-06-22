@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FollowingPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -14,20 +15,29 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
     
     @IBOutlet weak var tableView: UITableView!
     
-    var followers = [userInfoTemp]()
-    var simpleProfileIsOpen = false
+    var followers = [Userinfo]()
+    var fetchResultController: NSFetchedResultsController!
+    var fetchRequest = NSFetchRequest(entityName: "Userinformation")
+    let sortDescription = NSSortDescriptor(key: "account", ascending: true)
+    let isUserPredicate = NSPredicate(format: "isUser == %@", NSNumber(bool: false))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        //test
-        var user1 = userInfoTemp()
+        //load from core data
+        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            self.fetchRequest.sortDescriptors = [self.sortDescription]
+            self.fetchRequest.predicate = self.isUserPredicate
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: self.fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
+            var e: NSError?
+            if !self.fetchResultController.performFetch(&e) {
+                println(e?.localizedDescription)
+            }
+            self.followers = self.fetchResultController.fetchedObjects as! [Userinfo]
+        }
         
-        self.followers.append(user1)
-        user1.picture = nil
-        self.followers.append(user1)
         // Do any additional setup after loading the view.
     }
 
@@ -37,16 +47,13 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeSimpleProfile:", name: "closeSimpleProfile", object: nil)
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "closeSimpleProfile", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("closeSimpleProfile", object: nil)
     }
     
-    func closeSimpleProfile(notify: NSNotification) {
-        self.simpleProfileIsOpen = false
-    }
     
     //table view delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -60,14 +67,13 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("followingCell", forIndexPath: indexPath) as! FollowingTableViewCell
         let user = self.followers[indexPath.row]
-        cell.accountLabel.text = user.account
-        if let data = user.picture {
-            cell.icon.image = UIImage(data: data)
-        }else {
-            cell.icon.image = Singleton.sharedInstance.setupAvatorImage(user.account!.hash)
-        }
+        
+        cell.user = user
+        
         cell.icon.layer.cornerRadius = 20
         cell.icon.clipsToBounds = true
+        cell.followButton.layer.cornerRadius = 5
+        cell.followButton.clipsToBounds = true
         
         return cell
     }
@@ -78,11 +84,13 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if self.simpleProfileIsOpen == false {
+        if Singleton.sharedInstance.isSimpleViewOpen == false {
             let account = self.followers[indexPath.row].account
             Singleton.sharedInstance.ShowProfileView(account!)
-            self.simpleProfileIsOpen = true
+            
         }else {
+            NSNotificationCenter.defaultCenter().postNotificationName("closeSimpleProfile", object: nil)
+            tableView.reloadData()
             
             return
         }

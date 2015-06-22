@@ -47,12 +47,13 @@ class SimpleProfileViewController: UIViewController {
     var isFollow = false {
         didSet{
             if isFollow == true {
-                self.followingButton.setTitle("已追蹤", forState: UIControlState.Normal)
-                self.followingButton.backgroundColor = UIColor.grayColor()
-                self.followingButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+                self.followingButton.setTitle("", forState: UIControlState.Normal)
+                self.followingButton.backgroundColor = UIColor.greenColor()
+                self.followingButton.setImage(UIImage(named: "tick-vec"), forState: UIControlState.Normal)
             }else {
                 self.followingButton.setTitle("追蹤", forState: UIControlState.Normal)
                 self.followingButton.backgroundColor = UIColor.orangeColor()
+                self.followingButton.setImage(UIImage(named: "dart-28-vec"), forState: UIControlState.Normal)
                 self.followingButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
             }
         }
@@ -62,8 +63,8 @@ class SimpleProfileViewController: UIViewController {
             if let user = Singleton.sharedInstance.searchFollower(self.account) {
                 self.user = user
                 
-                self.isFollow = true
-                println("already in follow: " + account)
+                self.isFollow = user.isFollow!
+                println("finded in data: " + account)
             }
             //query user from server
             
@@ -82,22 +83,12 @@ class SimpleProfileViewController: UIViewController {
         self.view.clipsToBounds = true
         // Do any additional setup after loading the view.
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeButtonTouch:", name: "closeSimpleProfile", object: nil)
+        Singleton.sharedInstance.isSimpleViewOpen = true
         
-        
-        
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        //search user if is already follow
-        
-        
-        //add observer to get user data
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        //delele observer
-        
-    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -110,8 +101,8 @@ class SimpleProfileViewController: UIViewController {
         }) { (Bool) -> Void in
             self.view.removeFromSuperview()
             self.removeFromParentViewController()
+            Singleton.sharedInstance.isSimpleViewOpen = false
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("closeSimpleProfile", object: nil)
     }
 
     
@@ -123,18 +114,16 @@ class SimpleProfileViewController: UIViewController {
         if self.isFollow == true {
             //unfollow target
             self.isFollow = false
-            TWMessageBarManager.sharedInstance().showMessageWithTitle("取消追蹤", description: self.accountLabel.text, type: TWMessageBarMessageType.Success)
+            TWMessageBarManager.sharedInstance().showMessageWithTitle("取消追蹤", description: self.accountLabel.text, type: TWMessageBarMessageType.Info)
             
-            //send to server
             
             //delete from coredata
             Singleton.sharedInstance.deleteFollower(self.account)
         }else {
             //follow target animate
             self.isFollow = true
-            TWMessageBarManager.sharedInstance().showMessageWithTitle("追蹤使用者", description: self.accountLabel.text, type: TWMessageBarMessageType.Error)
+            TWMessageBarManager.sharedInstance().showMessageWithTitle("追蹤使用者", description: self.accountLabel.text, type: TWMessageBarMessageType.Success)
             
-            //send to server
             
             //add to core data
             Singleton.sharedInstance.saveFollower(user)
