@@ -472,6 +472,7 @@
 		AC6A34511ABC3BDA00AD1CC7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Morpheus;
 				TargetAttributes = {

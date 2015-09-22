@@ -27,16 +27,7 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
         self.tableView.dataSource = self
         
         //load from core data
-        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
-            self.fetchRequest.sortDescriptors = [self.sortDescription]
-            self.fetchRequest.predicate = self.isUserPredicate
-            self.fetchResultController = NSFetchedResultsController(fetchRequest: self.fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
-            var e: NSError?
-            if !self.fetchResultController.performFetch(&e) {
-                println(e?.localizedDescription)
-            }
-            self.followers = self.fetchResultController.fetchedObjects as! [Userinfo]
-        }
+        self.loadFollowerData()
         
         // Do any additional setup after loading the view.
     }
@@ -47,6 +38,7 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     override func viewDidAppear(animated: Bool) {
+        self.loadFollowerData()
         
     }
     
@@ -105,5 +97,18 @@ class FollowingPageViewController: UIViewController, UITableViewDelegate, UITabl
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func loadFollowerData() {
+        if let MOC = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            self.fetchRequest.sortDescriptors = [self.sortDescription]
+            self.fetchRequest.predicate = self.isUserPredicate
+            self.fetchResultController = NSFetchedResultsController(fetchRequest: self.fetchRequest, managedObjectContext: MOC, sectionNameKeyPath: nil, cacheName: nil)
+            var e: NSError?
+            if !self.fetchResultController.performFetch(&e) {
+                println(e?.localizedDescription)
+            }
+            self.followers = self.fetchResultController.fetchedObjects as! [Userinfo]
+        }
+    }
 
 }

@@ -50,6 +50,8 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "*0x10489440f">
+            <Locations>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
